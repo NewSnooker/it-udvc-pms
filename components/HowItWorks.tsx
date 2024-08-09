@@ -53,7 +53,7 @@ export default function HowItWorks() {
   const [activeBtn, setActiveBtn] = useState(buttons[0]);
   const mediaType = activeBtn.media.type;
   return (
-    <div className="text-center ">
+    <div className="text-center dark:text-slate-800">
       <div className="pb-6">
         <SectionHeading title="How it works" />
       </div>
