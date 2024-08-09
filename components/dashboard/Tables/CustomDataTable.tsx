@@ -71,11 +71,11 @@ export default function CustomDataTable({
                   <TableCell className="font-medium">
                     {category.title}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Badge variant="outline">
                       {category.status ? "Active" : "Disabled"}
                     </Badge>
-                  </TableCell>
+                  </TableCell> */}
 
                   <TableCell className="hidden md:table-cell">{date}</TableCell>
                   <TableCell>
