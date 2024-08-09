@@ -17,6 +17,8 @@ import { FAQ } from "@/components/FAQ";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/config/auth";
 import { useSession } from "next-auth/react";
+import { CustomerReviews } from "@/components/frontend/CustomerReviews";
+import Showcase from "@/components/frontend/showcase";
 export default async function Home() {
   // const session = await getServerSession(authOptions);
   // const { data: session } = useSession();
@@ -26,18 +28,19 @@ export default async function Home() {
       <div className="mx-auto max-w-4xl py-16 ">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
           <Announcement
-            title="Introducing email templates"
-            href="/email-templates"
+            title="Download the Starter Kit"
+            href="https://gmukejohnbaptist.gumroad.com/l/next-js-starter-kit"
           />
         </div>
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            UI library for Next JS Developers
+            Build it over the weekend and launch on Monday.
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
-            50+ free and open-source animated components built with React,
-            Typescript, Tailwind CSS, and Framer Motion. Perfect companion for
-            shadcn/ui.
+            This Next Js Boilerplate is a comprehensive and modern starting
+            point, packed with all the features you need to quickly build your
+            SaaS, AI tool, or any web app, helping you make your first earnings
+            online faster.
           </p>
           <CustomLinkButton title="Go to Dashboard" href="/dashboard" />
           <div className="pt-8 pb-4 flex items-center  justify-center gap-8">
@@ -46,7 +49,7 @@ export default async function Home() {
             </div>
             <div className="">
               <StarRating count={5} />
-              <p>785 founders sleep better</p>
+              <p className="dark:text-slate-900">785 founders sleep better</p>
             </div>
           </div>
         </div>
@@ -55,25 +58,30 @@ export default async function Home() {
         <div className="">
           <ComparisonFeatures />
         </div>
-        <div className="pb-8">
-          <Testimonials />
+        <div className="py-16">
+          <div className="relative rounded-lg overflow-hidden">
+            <BorderBeam />
+            <Image
+              src="/dashboard.png"
+              alt="This is the dashbaord Image"
+              width={1775}
+              height={1109}
+              className="w-full h-full rounded-lg object-cover  border"
+            />
+          </div>
         </div>
-        <div className="relative rounded-lg overflow-hidden">
-          <BorderBeam />
-          <Image
-            src="/dashboard.png"
-            alt="This is the dashbaord Image"
-            width={1775}
-            height={1109}
-            className="w-full h-full rounded-lg object-cover  border"
-          />
+        <div className="py-16">
+          <CustomerReviews />
+          {/* <Testimonials /> */}
         </div>
+
         <div className="py-16">
           <HowItWorks />
           <div className="pb-8">
             <Testimonials />
           </div>
         </div>
+
         <div className="py-16 relative">
           <Iframe
             url="https://www.youtube.com/embed/Kxea70yK11I?si=ba72X9z64cEgaCp1"
@@ -83,10 +91,13 @@ export default async function Home() {
             display="block"
             position="relative"
           />
-          <div className="pb-8">
+          {/* <div className="pb-8">
             <Testimonials />
-          </div>
+          </div> */}
         </div>
+      </div>
+      <div className="pb-16">
+        <Showcase />
       </div>
       <div className="max-w-6xl mx-auto">
         <div className="mx-auto max-w-4xl py-16 ">
