@@ -2,11 +2,20 @@
 
 This guide will help you set up the necessary environment variables for this Next.js project. Follow these steps to obtain and configure each required variable.
 
-## Database URL
+## Database URL (MongoDB)
 
-1. Set up your preferred database (e.g., PostgreSQL, MySQL).
-2. Obtain the connection URL from your database provider.
-3. Set `DATABASE_URL` to this connection string.
+1. Sign up for a MongoDB Atlas account at [https://www.mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas) if you haven't already.
+2. Create a new cluster or use an existing one.
+3. In the Atlas dashboard, click on "Connect" for your cluster.
+4. Choose "Connect your application".
+5. Select "Node.js" as your driver and choose the appropriate version.
+6. Copy the connection string provided. It will look something like this:
+   ```
+   mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/<database-name>?retryWrites=true&w=majority
+   ```
+7. Replace `<username>` and `<password>` with your MongoDB Atlas database user credentials.
+8. Replace `<database-name>` with the name of your database.
+9. Set `DATABASE_URL` in your `.env` file to this complete connection string.
 
 ## UploadThing Configuration
 
