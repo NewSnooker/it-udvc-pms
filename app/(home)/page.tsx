@@ -21,9 +21,6 @@ import { CustomerReviews } from "@/components/frontend/CustomerReviews";
 import Showcase from "@/components/frontend/showcase";
 import { getKitUsers } from "@/actions/users";
 export default async function Home() {
-  // const session = await getServerSession(authOptions);
-  // const { data: session } = useSession();
-  // console.log(session?.user);
   const count = (await getKitUsers()) ?? 0;
   return (
     <main className="min-h-screen">

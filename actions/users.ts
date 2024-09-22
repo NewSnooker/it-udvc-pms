@@ -53,12 +53,12 @@ export async function createUser(data: UserProps) {
 export async function getKitUsers() {
   const endpoint = process.env.KIT_API_ENDPOINT as string;
   try {
-    // Make the request to the API endpoint
-    const response = await axios.get(endpoint);
-
-    // Extract the count from the response data
-    const count = response.data.count;
-
+    const res = await fetch(endpoint, {
+      next: { revalidate: 0 }, // Revalidate immediately
+    });
+    const response = await res.json();
+    const count = response.count;
+    console.log(count);
     return count;
   } catch (error) {
     console.error("Error fetching the count:", error);
