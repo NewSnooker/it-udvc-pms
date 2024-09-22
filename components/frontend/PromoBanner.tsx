@@ -6,7 +6,7 @@ const PromoBanner: React.FC = () => {
     <Link
       href="https://coding-school-typescript.vercel.app/give-away"
       target="_blank"
-      className="bg-blue-600 text-white py-2 flex justify-center items-center absolute top-0 h-10 inset-0 z-[999] text-sm"
+      className="bg-blue-600 text-white py-2 flex justify-center items-center sticky top-0 h-10 inset-0 z-[999] text-sm"
     >
       <div className="flex items-center space-x-2">
         <span className="text-yellow-400">✨</span>
