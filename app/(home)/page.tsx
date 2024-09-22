@@ -19,17 +19,19 @@ import { authOptions } from "@/config/auth";
 import { useSession } from "next-auth/react";
 import { CustomerReviews } from "@/components/frontend/CustomerReviews";
 import Showcase from "@/components/frontend/showcase";
+import { getKitUsers } from "@/actions/users";
 export default async function Home() {
   // const session = await getServerSession(authOptions);
   // const { data: session } = useSession();
   // console.log(session?.user);
+  const count = (await getKitUsers()) ?? 0;
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-4xl py-16 ">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
           <Announcement
-            title="Download the Starter Kit"
-            href="https://gmukejohnbaptist.gumroad.com/l/next-js-starter-kit"
+            title="Get Starter Kit for Free"
+            href="https://coding-school-typescript.vercel.app/give-away"
           />
         </div>
         <div className="text-center">
@@ -49,7 +51,7 @@ export default async function Home() {
             </div>
             <div className="">
               <StarRating count={5} />
-              <p className="dark:text-slate-900">785 founders sleep better</p>
+              <p className="dark:text-slate-900">{count} developers use it.</p>
             </div>
           </div>
         </div>

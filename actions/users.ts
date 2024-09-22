@@ -1,5 +1,6 @@
 "use server";
 
+import axios from "axios";
 import { db } from "@/prisma/db";
 import { UserProps } from "@/types/types";
 import bcrypt from "bcrypt";
@@ -46,5 +47,21 @@ export async function createUser(data: UserProps) {
       status: 500,
       data: null,
     };
+  }
+}
+
+export async function getKitUsers() {
+  const endpoint = process.env.KIT_API_ENDPOINT as string;
+  try {
+    // Make the request to the API endpoint
+    const response = await axios.get(endpoint);
+
+    // Extract the count from the response data
+    const count = response.data.count;
+
+    return count;
+  } catch (error) {
+    console.error("Error fetching the count:", error);
+    return 0;
   }
 }

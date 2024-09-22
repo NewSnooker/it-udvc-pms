@@ -1,3 +1,4 @@
+import PromoBanner from "@/components/frontend/PromoBanner";
 import { SiteBanner } from "@/components/frontend/site-banner";
 import Footer from "@/components/frontend/site-footer";
 import SiteHeader from "@/components/frontend/site-header";
@@ -13,6 +14,7 @@ export default async function HomeLayout({
   const session = await getServerSession(authOptions);
   return (
     <div className="bg-white">
+      <PromoBanner />
       {/* <SiteBanner /> */}
       <SiteHeader session={session} />
       <div className="relative isolate px-6 pt-14 lg:px-8">
