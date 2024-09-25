@@ -26,10 +26,7 @@ export default async function Home() {
     <main className="min-h-screen">
       <div className="mx-auto max-w-4xl py-16 ">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          <Announcement
-            title="Get Starter Kit for Free"
-            href="https://coding-school-typescript.vercel.app/give-away"
-          />
+          <Announcement title="Introducing Component Pages" href="/pages" />
         </div>
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
