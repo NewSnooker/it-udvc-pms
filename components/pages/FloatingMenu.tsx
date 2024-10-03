@@ -13,6 +13,7 @@ interface ComponentPage {
 
 export const componentPages: ComponentPage[] = [
   // { name: "All", count: 15, url: "/pages" },
+  { name: "Navbars", count: 1, url: "/pages/navbars" },
   { name: "Heros", count: 3, url: "/pages/hero-sections" },
   { name: "Feature", count: 2, url: "/pages/feature-sections" },
   { name: "Why Us", count: 1, url: "/pages/why-us" },
