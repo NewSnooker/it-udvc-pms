@@ -67,15 +67,15 @@ export default function ActionColumn({
         <AlertDialog>
           <AlertDialogTrigger asChild>
             {/* <DropdownMenuItem className="text-red-600 hover:text-red-700 transition-all duration-500 cursor-pointer">
-              
+
             </DropdownMenuItem> */}
             <Button
               variant={"ghost"}
               size={"sm"}
-              className="text-red-600 hover:text-red-700 transition-all duration-500 cursor-pointer "
+              className="text-red-600 hover:text-red-700 cursor-pointer rounded-sm w-full flex items-center justify-start "
             >
               <Trash className="w-4 h-4  mr-2 flex-shrink-0" />
-              <span>Delete</span>
+              <div>Delete</div>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -102,7 +102,10 @@ export default function ActionColumn({
           <span>Delete</span>
         </DropdownMenuItem> */}
         <DropdownMenuItem>
-          <Link href={editEndpoint} className="flex item gap-2">
+          <Link
+            href={editEndpoint}
+            className="flex items-center justify-center px-1 gap-2"
+          >
             <Pencil className="w-4 h-4 " />
             <span>Edit</span>
           </Link>

@@ -22,20 +22,21 @@ export default function ImageInput({
       </CardHeader>
       <CardContent>
         <div className="grid gap-2">
-          <Image
-            alt={title}
-            className="h-40 w-full rounded-md object-cover"
-            height="300"
-            src={imageUrl}
-            width="300"
-          />
+          <div className="border border-zinc-300 p-1 rounded-md">
+            <Image
+              alt={title}
+              className="h-40 w-full rounded-md object-cover "
+              height="300"
+              src={imageUrl}
+              width="300"
+            />
+          </div>
           <UploadButton
-            className="col-span-full"
+            className="col-span-full mt-4 ut-button:bg-gray-900 dark:ut-button:bg-gray-50 dark:ut-button:text-gray-900 ut-label:text-gray-900 dark:ut-label:text-gray-50   ut-button:ut-readying:bg-gray-500/50 ut-button:ut-allowed-content:bg-gray-500/50"
             endpoint={endpoint}
             onClientUploadComplete={(res) => {
               // Do something with the response
               console.log("Files: ", res);
-
               setImageUrl(res[0].url);
             }}
             onUploadError={(error: Error) => {

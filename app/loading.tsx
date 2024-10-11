@@ -8,9 +8,9 @@ export default function Loading() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="w-[200px] ">
           <Lottie animationData={LoaderAnimation} />
-        </div>
-        <div className="pt-4">
-          <p className="text-muted-foreground text-sm">Loading...</p>
+          <div className="pt-4 flex items-center justify-center ">
+            <div className="text-muted-foreground text-sm">Loading...</div>
+          </div>
         </div>
       </div>
     </div>

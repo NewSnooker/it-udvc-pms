@@ -1,4 +1,15 @@
 "use client";
+import * as React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import {
   filterByLast7Days,
   filterByThisMonth,
@@ -6,9 +17,7 @@ import {
   filterByToday,
   filterByYesterday,
 } from "@/lib/dateFilters";
-import React, { useState } from "react";
-import Select from "react-tailwindcss-select";
-import { SelectValue } from "react-tailwindcss-select/dist/components/type";
+import { useState } from "react";
 
 export default function DateFilters({
   data,
@@ -26,41 +35,45 @@ export default function DateFilters({
     { value: "month", label: "This Month" },
     { value: "year", label: "This year" },
   ];
-  const [selectedFilter, setSelectedFilter] = useState<SelectValue>(options[0]);
-  const handleChange = (item: any) => {
-    const valueString = item!.value;
-    setSelectedFilter(item);
+
+  const [selectedFilter, setSelectedFilter] = useState(options[0].value);
+
+  const handleChange = (value: string) => {
+    setSelectedFilter(value);
     setIsSearch(false);
-    if (valueString === "life") {
-      onFilter(data);
-    } else if (valueString === "today") {
-      const filteredData = filterByToday(data);
-      onFilter(filteredData);
-    } else if (valueString === "yesterday") {
-      const filteredData = filterByYesterday(data);
-      onFilter(filteredData);
-    } else if (valueString === "last-7-days") {
-      const filteredData = filterByLast7Days(data);
-      onFilter(filteredData);
-    } else if (valueString === "month") {
-      const filteredData = filterByThisMonth(data);
-      onFilter(filteredData);
-    } else if (valueString === "year") {
-      const filteredData = filterByThisYear(data);
-      onFilter(filteredData);
+
+    let filteredData = data;
+
+    if (value === "today") {
+      filteredData = filterByToday(data);
+    } else if (value === "yesterday") {
+      filteredData = filterByYesterday(data);
+    } else if (value === "last-7-days") {
+      filteredData = filterByLast7Days(data);
+    } else if (value === "month") {
+      filteredData = filterByThisMonth(data);
+    } else if (value === "year") {
+      filteredData = filterByThisYear(data);
     }
-    console.log("value:", valueString);
-    // setAnimal(value);
-    // onFilter(filteredData);
+
+    onFilter(filteredData);
   };
+
   return (
-    <div>
-      <Select
-        value={selectedFilter}
-        onChange={handleChange}
-        options={options}
-        primaryColor={"indigo"}
-      />
-    </div>
+    <Select onValueChange={handleChange}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select a filter" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Filter by date</SelectLabel>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }

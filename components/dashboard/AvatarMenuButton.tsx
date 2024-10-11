@@ -84,10 +84,12 @@ export function AvatarMenuButton({ session }: { session: Session }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Avatar>
-          <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
-          <AvatarFallback>{initials}</AvatarFallback>
-        </Avatar>
+        <div className="cursor-pointer">
+          <Avatar>
+            <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
+            <AvatarFallback>{initials}</AvatarFallback>
+          </Avatar>
+        </div>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
