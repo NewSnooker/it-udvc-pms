@@ -170,7 +170,7 @@ export default function TableHeader({
   }
   return (
     <div className=" mb-3">
-      <div className="flex justify-between items-center border-b border-gray-200 dark:border-gray-600 py-3">
+      <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-600 py-3">
         <h2 className="scroll-m-20  text-2xl font-semibold tracking-tight first:mt-0">
           {title}({data.length})
         </h2>
@@ -257,7 +257,7 @@ export default function TableHeader({
                       </DialogHeader>
                       <div className="h-72 w-full rounded-md border flex items-center justify-center flex-col">
                         <div className="flex items-center justify-center w-24 h-24 bg-green-100 rounded-full">
-                          <Check />
+                          <Check className="h-20 w-16 text-green-500 " />
                         </div>
                         <h2 className="text-xs pt-2 px-8 text-center">
                           Data Synced Successfully. You can close the Window

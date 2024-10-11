@@ -94,7 +94,6 @@ export default function CategoryForm({
   // console.log(error);
   // }
   // }
-  console.log(status);
 
   return (
     <form className="" onSubmit={handleSubmit(saveCategory)}>

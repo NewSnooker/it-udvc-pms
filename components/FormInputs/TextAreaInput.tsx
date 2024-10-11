@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 type TextAreaProps = {
   register: any;
   errors: any;
@@ -16,21 +18,15 @@ export default function TextArea({
 }: TextAreaProps) {
   return (
     <div className="col-span-full">
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium leading-6 text-zinc-900"
-      >
+      <Label htmlFor={name} className="block text-sm font-medium leading-6">
         {label}
-      </label>
+      </Label>
       <div className="mt-2">
-        <textarea
+        <Textarea
           id={name}
           {...register(`${name}`, { required: true })}
           rows={3}
-          className={cn(
-            "block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-sm",
-            errors[`${name}`] && "focus:ring-red-500"
-          )}
+          className={cn("", errors[`${name}`] && "focus:ring-red-500")}
         />
         {errors[`${name}`] && (
           <span className="text-xs text-red-600">Description is required</span>
