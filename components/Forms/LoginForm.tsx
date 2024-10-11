@@ -23,6 +23,7 @@ export default function LoginForm() {
   } = useForm<LoginProps>();
   const params = useSearchParams();
   const returnUrl = params.get("returnUrl") || "/dashboard";
+  const errorParam = params.get("error");
   const [passErr, setPassErr] = useState("");
   const router = useRouter();
   async function onSubmit(data: LoginProps) {
@@ -85,6 +86,11 @@ export default function LoginForm() {
             forgotPasswordLink="/forgot-password"
           />
           {passErr && <p className="text-red-500 text-xs">{passErr}</p>}
+          {errorParam === "OAuthAccountNotLinked" && (
+            <p className="text-red-500 text-xs">
+              Account not linked, please sign in with the correct method.
+            </p>
+          )}
           <div>
             <SubmitButton
               title="Sign In"

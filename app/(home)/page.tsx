@@ -25,9 +25,9 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-4xl py-16 ">
-        <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+        {/* <div className="hidden sm:mb-8 sm:flex sm:justify-center">
           <Announcement title="Introducing Component Pages" href="/pages" />
-        </div>
+        </div> */}
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Build it over the weekend and launch on Monday.
@@ -54,7 +54,7 @@ export default async function Home() {
         <div className="">
           <ComparisonFeatures />
         </div>
-        <div className="py-16">
+        {/* <div className="py-16">
           <div className="relative rounded-lg overflow-hidden">
             <BorderBeam />
             <Image
@@ -65,11 +65,10 @@ export default async function Home() {
               className="w-full h-full rounded-lg object-cover  border"
             />
           </div>
-        </div>
-        <div className="py-16">
+        </div> */}
+        {/* <div className="py-16">
           <CustomerReviews />
-          {/* <Testimonials /> */}
-        </div>
+        </div> */}
 
         <div className="py-16">
           <HowItWorks />
@@ -78,7 +77,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="py-16 relative">
+        {/* <div className="py-16 relative">
           <Iframe
             url="https://www.youtube.com/embed/Kxea70yK11I?si=ba72X9z64cEgaCp1"
             width="100%"
@@ -87,12 +86,10 @@ export default async function Home() {
             display="block"
             position="relative"
           />
-          {/* <div className="pb-8">
-            <Testimonials />
-          </div> */}
-        </div>
+
+        </div> */}
       </div>
-      <div className="pb-16">
+      {/* <div className="pb-16">
         <Showcase />
       </div>
       <div className="max-w-6xl mx-auto">
@@ -145,7 +142,7 @@ export default async function Home() {
             <Testimonials />
           </div>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }
