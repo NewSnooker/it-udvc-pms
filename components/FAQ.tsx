@@ -9,7 +9,7 @@ import SectionHeading from "./global/SectionHeading";
 
 export function FAQ() {
   return (
-    <div className="grid gap-8 grid-cols-1 lg:grid-cols-2 dark:text-slate-900">
+    <div className="grid gap-8 grid-cols-1 lg:grid-cols-2 dark:text-zinc-900">
       <SectionHeading title="Frequently Asked Questions" />
       <div className="text-xl">
         <Accordion type="single" collapsible className="w-full">

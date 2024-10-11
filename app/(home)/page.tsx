@@ -29,10 +29,10 @@ export default async function Home() {
           <Announcement title="Introducing Component Pages" href="/pages" />
         </div> */}
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl">
             Build it over the weekend and launch on Monday.
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
+          <p className="mt-6 text-lg leading-8 text-zinc-600 mb-4">
             This Next Js Boilerplate is a comprehensive and modern starting
             point, packed with all the features you need to quickly build your
             SaaS, AI tool, or any web app, helping you make your first earnings
@@ -45,7 +45,7 @@ export default async function Home() {
             </div>
             <div className="">
               <StarRating count={5} />
-              <p className="dark:text-slate-900">{count} developers use it.</p>
+              <p className="dark:text-zinc-900">{count} developers use it.</p>
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default async function Home() {
           </div>
           <div className="text-center text-balance">
             <SectionHeading title="Stop wasting hours managing Stripe invoices" />
-            <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
+            <p className="mt-6 text-lg leading-8 text-zinc-600 mb-4">
               Ditch the Stripe Invoicing fee, reduce customer support, and focus
               on your startup. 1-minute no-code setup.
             </p>
@@ -122,10 +122,10 @@ export default async function Home() {
       </div>
       <div className="mx-auto max-w-4xl py-16 ">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl">
             Ditch Stripe Invoicing fee and focus on your startup
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 mb-4">
+          <p className="mt-6 text-lg leading-8 text-zinc-600 mb-4">
             Let your customers generate, edit, and download invoices themselves.
           </p>
           <CustomLinkButton title="Get Started" href="/courses/next/#pricing" />

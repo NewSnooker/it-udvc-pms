@@ -102,14 +102,14 @@ export default function NavbarV1() {
                               href="#"
                             >
                               <div className="flex items-center">
-                                <div className="bg-gray-800 p-2 rounded-md mr-3">
+                                <div className="bg-zinc-900 p-2 rounded-md mr-3">
                                   <child.icon className="h-5 w-5" />
                                 </div>
                                 <div>
                                   <div className="font-medium">
                                     {child.title}
                                   </div>
-                                  <p className="text-sm text-gray-400">
+                                  <p className="text-sm text-zinc-400">
                                     {child.description}
                                   </p>
                                 </div>
@@ -158,7 +158,7 @@ export default function NavbarV1() {
                             key={child.title}
                             className="flex items-center space-x-2"
                           >
-                            <div className="bg-gray-800 p-1 rounded-md">
+                            <div className="bg-zinc-900 p-1 rounded-md">
                               <child.icon className="h-4 w-4" />
                             </div>
                             <Link href="#" className="text-sm hover:underline">
@@ -189,7 +189,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white",
+            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-zinc-900 hover:text-white focus:bg-zinc-900 focus:text-white",
             className
           )}
           {...props}

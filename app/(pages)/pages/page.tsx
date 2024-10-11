@@ -13,15 +13,15 @@ export default function ComponentListPage() {
   // );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-zinc-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        <h1 className="text-3xl font-extrabold text-zinc-900 sm:text-4xl">
           Component Pages
           <span className="ml-2 inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
             {totalComponents} components
           </span>
         </h1>
-        <p className="mt-4 text-xl text-gray-500">
+        <p className="mt-4 text-xl text-zinc-500">
           Explore our collection of pre-built components to accelerate your web
           development process. Each category contains multiple variations to
           suit your needs.
@@ -35,7 +35,7 @@ export default function ComponentListPage() {
                   <li key={page.name}>
                     <Link
                       href={page.url}
-                      className="block hover:bg-gray-50 transition duration-150 ease-in-out"
+                      className="block hover:bg-zinc-50 transition duration-150 ease-in-out"
                     >
                       <div className="px-4 py-4 sm:px-6">
                         <div className="flex items-center justify-between">
@@ -51,7 +51,7 @@ export default function ComponentListPage() {
                             </div>
                           </div>
                           <div className="ml-2 flex-shrink-0 flex">
-                            <ArrowRight className="h-5 w-5 text-gray-400" />
+                            <ArrowRight className="h-5 w-5 text-zinc-400" />
                           </div>
                         </div>
                       </div>

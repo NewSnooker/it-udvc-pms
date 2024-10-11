@@ -17,8 +17,8 @@ const Feature: React.FC<FeatureProps> = ({ icon, title, description }) => (
     transition={{ duration: 0.5, delay: 0.2 }}
   >
     <div className="bg-lime-400 rounded-full p-4 mb-4">{icon}</div>
-    <h3 className="text-lg text-slate-800 font-semibold mb-2">{title}</h3>
-    <p className="text-sm text-gray-600">{description}</p>
+    <h3 className="text-lg text-zinc-800 font-semibold mb-2">{title}</h3>
+    <p className="text-sm text-zinc-600">{description}</p>
   </motion.div>
 );
 
@@ -66,7 +66,7 @@ const WhyUsV1: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative py-16 px-4 overflow-hidden bg-gray-50 "
+      className="relative py-16 px-4 overflow-hidden bg-zinc-50 "
     >
       {/* Background Image */}
       <div
@@ -90,7 +90,7 @@ const WhyUsV1: React.FC = () => {
         <motion.h1 className="text-4xl md:text-5xl font-bold text-green-900 py-6 mb-4 w-full lg:w-2/3 text-balance">
           We are the best agricultural export provider from Uganda
         </motion.h1>
-        <motion.p className="text-xl mb-8 text-slate-600">
+        <motion.p className="text-xl mb-8 text-zinc-600">
           Fast, reliable, and high-quality agricultural exports from Uganda to
           the world.
         </motion.p>

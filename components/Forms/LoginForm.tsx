@@ -59,7 +59,7 @@ export default function LoginForm() {
   return (
     <div className="w-full py-5 lg:px-8 px-6 ">
       <div className="">
-        <div className="py-4 text-gray-900">
+        <div className="py-4 text-zinc-900">
           <h2 className="text-xl lg:text-2xl font-bold leading-9 tracking-tight  ">
             Login in to your account
           </h2>
@@ -102,10 +102,10 @@ export default function LoginForm() {
             />
           </div>
         </form>
-        <div className="flex items-center py-4 justify-center space-x-1 text-slate-900">
-          <div className="h-[1px] w-full bg-slate-200"></div>
+        <div className="flex items-center py-4 justify-center space-x-1 text-zinc-900">
+          <div className="h-[1px] w-full bg-zinc-200"></div>
           <div className="uppercase">Or</div>
-          <div className="h-[1px] w-full bg-slate-200"></div>
+          <div className="h-[1px] w-full bg-zinc-200"></div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -122,11 +122,11 @@ export default function LoginForm() {
             variant={"outline"}
             className="w-full"
           >
-            <FaGithub className="mr-2 w-6 h-6 text-slate-900 dark:text-white" />
+            <FaGithub className="mr-2 w-6 h-6 text-zinc-900 dark:text-white" />
             Login with Github
           </Button>
         </div>
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm text-zinc-500">
           Not a Registered ?{" "}
           <Link
             href="/register"

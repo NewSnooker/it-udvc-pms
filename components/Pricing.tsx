@@ -27,7 +27,7 @@ export default function Pricing() {
     },
   ];
   return (
-    <div className=" grid grid-cols-1 lg:grid-cols-2 gap-8 dark:text-slate-900">
+    <div className=" grid grid-cols-1 lg:grid-cols-2 gap-8 dark:text-zinc-900">
       {plans.map((plan, i) => {
         const isRecommended = plan.recommended;
         return (

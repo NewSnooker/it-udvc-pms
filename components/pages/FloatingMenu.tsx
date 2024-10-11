@@ -46,7 +46,7 @@ export default function FloatingMenu() {
                 <li key={page.name}>
                   <a
                     href={page.url}
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150 ease-in-out"
+                    className="flex items-center px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 transition-colors duration-150 ease-in-out"
                   >
                     {page.name}
                     {page.count && (

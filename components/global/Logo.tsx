@@ -10,7 +10,7 @@ export default function Logo({ title, href, labelShown = true }: LogoProps) {
   return (
     <Link
       href={href}
-      className="-m-1.5 p-1.5 flex items-center space-x-2 dark:text-slate-900"
+      className="-m-1.5 p-1.5 flex items-center space-x-2 dark:text-zinc-900"
     >
       <span className="sr-only">{title}</span>
       {/* <img

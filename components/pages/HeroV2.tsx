@@ -47,7 +47,7 @@ export default function HeroV2() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto"
+          className="text-xl text-zinc-200 mb-8 max-w-3xl mx-auto"
         >
           AskDoc connects you with top healthcare professionals. Book
           appointments instantly and take control of your health journey.

@@ -53,6 +53,7 @@ export async function createUser(data: UserProps) {
 export async function getKitUsers() {
   const endpoint = process.env.KIT_API_ENDPOINT as string;
   try {
+    console.log(endpoint);
     const res = await fetch(endpoint, {
       next: { revalidate: 0 }, // Revalidate immediately
     });

@@ -34,12 +34,12 @@ const FeaturesV2: React.FC = () => {
           <h3 className="text-4xl font-bold text-green-900 mb-4">
             Streamlined Digital Solutions for Agricultural Exports
           </h3>
-          <p className="mb-6 text-gray-600">
+          <p className="mb-6 text-zinc-600">
             Experience seamless export management with Agrikkom's cutting-edge
             digital platform. We leverage technology to simplify processes,
             provide real-time insights, and enhance your export operations.
           </p>
-          <ul className="mb-8 text-gray-600">
+          <ul className="mb-8 text-zinc-600">
             <li className="flex items-center mb-4">
               <Globe className="text-lime-600 mr-3 h-6 w-6" />
               <span>Global market access and insights</span>

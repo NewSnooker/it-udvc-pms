@@ -24,12 +24,12 @@ const ContactV1: React.FC = () => {
   };
 
   return (
-    <section className="bg-gray-100 py-16 px-4">
+    <section className="bg-zinc-100 py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl lg:text-5xl font-bold text-green-900 mb-2">
           Get In Touch
         </h2>
-        <p className="text-gray-600 mb-8 pb-4">
+        <p className="text-zinc-600 mb-8 pb-4">
           Streamline your processes and empower your team with our products.
           Effortlessly manage employee data, and more.
         </p>
@@ -44,7 +44,7 @@ const ContactV1: React.FC = () => {
                 To create a more value-added solution, is essential to an
                 analysis of the possibilities of improvement.
               </p>
-              <button className="bg-white text-green-800 px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition duration-300">
+              <button className="bg-white text-green-800 px-4 py-2 rounded-full text-sm font-semibold hover:bg-zinc-100 transition duration-300">
                 Book Appointment
               </button>
             </div>

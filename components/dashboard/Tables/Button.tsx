@@ -35,16 +35,16 @@ export function DialogDemo() {
           <div className="flex items-center justify-center w-full">
             <label
               htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              className="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-zinc-50 dark:hover:bg-bray-800 dark:bg-zinc-800 hover:bg-zinc-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-zinc-800"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <CloudUpload className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
+                <CloudUpload className="w-8 h-8 mb-4 text-zinc-500 dark:text-zinc-400" />
 
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
                   <span className="font-semibold">Click to upload</span> or drag
                   and drop
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   Only Excel Files (.xlsx)
                 </p>
               </div>

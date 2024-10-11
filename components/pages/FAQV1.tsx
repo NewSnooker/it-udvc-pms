@@ -50,7 +50,7 @@ export default function FAQV1() {
           <p className="text-sm font-semibold text-green-600 mb-2 uppercase tracking-wide">
             Frequently Asked Questions
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 mb-4">
             You ask? We <span className="italic">answer</span>
           </h2>
         </div>
@@ -65,7 +65,7 @@ export default function FAQV1() {
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
                 <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-zinc-900">
                     {faq.question}
                   </h3>
                   {openIndex === index ? (
@@ -83,7 +83,7 @@ export default function FAQV1() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="p-4 pt-0 text-gray-600">{faq.answer}</div>
+                    <div className="p-4 pt-0 text-zinc-600">{faq.answer}</div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -92,8 +92,8 @@ export default function FAQV1() {
         </div>
         <div className="mt-12 flex items-center justify-between">
           <div className="flex items-center">
-            <HelpCircle className="w-5 h-5 text-gray-500 mr-2" />
-            <span className="text-gray-600">Need further support?</span>
+            <HelpCircle className="w-5 h-5 text-zinc-500 mr-2" />
+            <span className="text-zinc-600">Need further support?</span>
           </div>
           <button className="bg-lime-400 text-green-900 px-6 py-2 rounded-full hover:bg-lime-500 transition duration-300 flex items-center">
             Contact us

@@ -42,7 +42,7 @@ export default function QuillEditor({
     <div className={className}>
       <label
         htmlFor="content"
-        className="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50 mb-2"
+        className="block text-sm font-medium leading-6 text-zinc-900 dark:text-zinc-50 mb-2"
       >
         {label}
       </label>

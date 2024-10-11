@@ -303,12 +303,12 @@ export default function TableHeader({
                           <div className="flex items-center justify-center w-full">
                             <label
                               htmlFor="dropzone-file"
-                              className="flex lg:flex-col flex-row  items-center justify-center w-full h-16 lg:h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                              className="flex lg:flex-col flex-row  items-center justify-center w-full h-16 lg:h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-zinc-50 dark:hover:bg-bray-800 dark:bg-zinc-800 hover:bg-zinc-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-zinc-800"
                             >
                               <div className="flex flex-row lg:flex-col items-center justify-center pt-5 pb-6 gap-4 lg:gap-0">
-                                <CloudUpload className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
+                                <CloudUpload className="w-8 h-8 mb-4 text-zinc-500 dark:text-zinc-400" />
 
-                                <p className="lg:mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                <p className="lg:mb-2 text-sm text-zinc-500 dark:text-zinc-400">
                                   <span className="font-semibold">
                                     Click to upload
                                   </span>{" "}
@@ -317,7 +317,7 @@ export default function TableHeader({
                                     or drag and drop
                                   </span>
                                 </p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                <p className="text-xs text-zinc-500 dark:text-zinc-400">
                                   Only Excel Files (.xlsx)
                                 </p>
                               </div>
@@ -335,9 +335,9 @@ export default function TableHeader({
                             </label>
                           </div>
                           {excelFile && (
-                            <div className="flex items-center shadow-lg rounded-md lg:py-3 py-2 px-6 bg-slate-100 dark:bg-slate-800 justify-between">
+                            <div className="flex items-center shadow-lg rounded-md lg:py-3 py-2 px-6 bg-zinc-100 dark:bg-zinc-900 justify-between">
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 lg:w-14 lg:h-14 p-2 lg:p-4 bg-slate-300 dark:bg-slate-500 rounded flex items-center justify-center flex-shrink-0">
+                                <div className="w-8 h-8 lg:w-14 lg:h-14 p-2 lg:p-4 bg-zinc-300 dark:bg-zinc-500 rounded flex items-center justify-center flex-shrink-0">
                                   <RiFileExcel2Line className="h-4 w-4" />
                                 </div>
                                 <div className="">
@@ -350,7 +350,7 @@ export default function TableHeader({
                                 </div>
                               </div>
                               <button onClick={() => setExcelFile(null)}>
-                                <X className="text-slate-600 w-5 h-5" />
+                                <X className="text-zinc-600 w-5 h-5" />
                               </button>
                             </div>
                           )}
