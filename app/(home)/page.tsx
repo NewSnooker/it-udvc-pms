@@ -30,15 +30,13 @@ export default async function Home() {
         </div> */}
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl">
-            Build it over the weekend and launch on Monday.
+            จัดการโครงการของคุณให้มีประสิทธิภาพยิ่งขึ้น
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-600 mb-4">
-            This Next Js Boilerplate is a comprehensive and modern starting
-            point, packed with all the features you need to quickly build your
-            SaaS, AI tool, or any web app, helping you make your first earnings
-            online faster.
+            ระบบ CRM สำหรับผู้จัดการโครงการที่ช่วยให้คุณติดตามงาน จัดการทีม
+            และสร้างผลลัพธ์ที่ยอดเยี่ยม
           </p>
-          <CustomLinkButton title="Go to Dashboard" href="/dashboard" />
+          <CustomLinkButton title="เริ่มใช้งานฟรี" href="/dashboard" />
           <div className="pt-8 pb-4 flex items-center  justify-center gap-8">
             <div className="">
               <AnimatedAvatars />

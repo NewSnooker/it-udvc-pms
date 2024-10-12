@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import {
+  AlignHorizontalJustifyEnd,
   Bell,
   CircleUser,
   Home,
@@ -53,8 +54,8 @@ export default function Navbar({ session }: { session: Session }) {
               href="#"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <AlignHorizontalJustifyEnd className="h-6 w-6" />
+              <span className="sr-only">SK CRM</span>
             </Link>
             <Link
               href="#"

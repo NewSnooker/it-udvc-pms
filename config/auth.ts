@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       profile(profile) {
         return {
-          id: profile.id.toString(),
+          id: profile.id,
           name: profile.name || profile.login,
           firstName: profile.name?.split(" ")[0] || "",
           lastName: profile.name?.split(" ")[1] || "",
@@ -60,8 +60,8 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         try {
           console.log(
-            "Authorize function called with credentials:",
-            credentials
+            "Authorize function called with credentials:"
+            // credentials
           );
           // Check if user credentials are Correct
           if (!credentials?.email || !credentials?.password) {
@@ -106,7 +106,7 @@ export const authOptions: NextAuthOptions = {
           };
           //
           console.log("User Compiled");
-          console.log(user);
+          // console.log(user);
           return user;
         } catch (error) {
           console.log("aLL Failed");
@@ -118,7 +118,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      console.log("JWT callback", { token, user });
+      // console.log("JWT callback", { token, user });
       if (user) {
         token.id = user.id;
         token.name = user.name;
@@ -132,7 +132,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     session({ session, token }) {
-      console.log("Session callback", { session, token });
+      // console.log("Session callback", { session, token });
       if (session.user && token) {
         session.user.id = token.id;
         session.user.name = token.name;

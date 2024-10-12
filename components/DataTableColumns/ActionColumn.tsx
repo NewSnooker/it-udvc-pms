@@ -101,15 +101,14 @@ export default function ActionColumn({
           <Trash className="w-4 h-4  mr-2 flex-shrink-0" />
           <span>Delete</span>
         </DropdownMenuItem> */}
-        <DropdownMenuItem>
-          <Link
-            href={editEndpoint}
-            className="flex items-center justify-center px-1 gap-2"
-          >
-            <Pencil className="w-4 h-4 " />
-            <span>Edit</span>
-          </Link>
-        </DropdownMenuItem>
+        <Link href={editEndpoint} className="cursor-pointer">
+          <DropdownMenuItem>
+            <div className="flex items-center px-1 gap-2 cursor-pointer w-full">
+              <Pencil className="w-4 h-4 " />
+              <span>Edit</span>
+            </div>
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

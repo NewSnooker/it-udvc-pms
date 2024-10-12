@@ -25,8 +25,8 @@ import AuthenticatedAvatar from "@/components/global/AuthenticatedAvatar";
 
 export default function SiteHeader({ session }: { session: Session | null }) {
   const navigation = [
-    { name: "Products", href: "/products" },
-    { name: "Solutions", href: "/solutions" },
+    { name: "Features", href: "/#features" },
+    { name: "Solutions", href: "/#solutions" },
     { name: "Resources", href: "/resources" },
     { name: "Docs", href: "/docs" },
     { name: "Pricing", href: "/pricing" },
@@ -48,7 +48,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
         className="flex items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <Logo title="Next Starter Pro" href="/" />
+          <Logo title="SK CRM" href="/" />
         </div>
         <div className="flex lg:hidden">
           <button

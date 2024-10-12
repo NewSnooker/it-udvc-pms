@@ -1,18 +1,25 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 import {
+  AlignHorizontalJustifyEnd,
   Bell,
   CircleUser,
+  DollarSign,
   ExternalLink,
+  Handshake,
   Home,
   LayoutGrid,
   LineChart,
+  Lock,
   Menu,
   Package,
   Package2,
   Search,
   ShoppingCart,
+  User2,
   Users,
 } from "lucide-react";
 
@@ -30,35 +37,140 @@ import { cn } from "@/lib/utils";
 export default function Sidebar() {
   const sidebarLinks = [
     {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: Home,
+      title: "แดชบอร์ด",
+      link: [
+        {
+          title: "ภาพรวม",
+          href: "/dashboard/overview",
+          icon: Home,
+        },
+      ],
     },
     {
-      title: "Orders",
-      href: "/dashboard/orders",
-      icon: ShoppingCart,
-      count: 6,
+      title: "ลูกค้าและโครงงาน",
+      link: [
+        {
+          title: "ลูกค้า",
+          href: "/dashboard/clients",
+          icon: Users,
+        },
+        {
+          title: "โครงงาน",
+          href: "/dashboard/projects",
+          icon: LayoutGrid,
+          count: 2,
+        },
+      ],
     },
     {
-      title: "Products",
-      href: "/dashboard/products",
-      icon: Package,
+      title: "การเงิน",
+      link: [
+        {
+          title: "ใบแจ้งหนี้",
+          href: "/dashboard/invoices",
+          icon: DollarSign,
+        },
+        {
+          title: "การชำระเงิน",
+          href: "/dashboard/payments",
+          icon: Handshake,
+        },
+      ],
     },
     {
-      title: "Customers",
-      href: "/dashboard/customers",
-      icon: Users,
+      title: "ทีมงาน",
+      link: [
+        {
+          title: "สมาชิก",
+          href: "/dashboard/mambers",
+          icon: User2,
+        },
+        {
+          title: "บทบาท",
+          href: "/dashboard/roles",
+          icon: Lock,
+        },
+      ],
     },
     {
-      title: "Categories",
-      href: "/dashboard/categories",
-      icon: LayoutGrid,
+      title: "การติดต่อ",
+      link: [
+        {
+          title: "อีเมล",
+          href: "/dashboard/emails",
+          icon: User2,
+        },
+        // {
+        //   title: "อีเมล",
+        //   href: "/dashboard/bulk-emails",
+        //   icon: Lock,
+        // },
+      ],
     },
     {
-      title: "Analytics",
-      href: "/dashboard/analytics",
-      icon: LineChart,
+      title: "ผลงาน",
+      link: [
+        {
+          title: "ผลงาน",
+          href: "/dashboard/portfolio",
+          icon: User2,
+        },
+      ],
+    },
+    {
+      title: "แบรนด์",
+      link: [
+        {
+          title: "ตั้งค่าแบรนด์",
+          href: "/dashboard/brand-settings",
+          icon: User2,
+        },
+        {
+          title: "ตัวจัดการไฟล์",
+          href: "/dashboard/file-manager",
+          icon: User2,
+        },
+      ],
+    },
+    {
+      title: "รายงาน",
+      link: [
+        {
+          title: "ความคืบหน้าของโครงการ",
+          href: "/dashboard/project-progress",
+          icon: User2,
+        },
+        {
+          title: "สรุปทางการเงิน",
+          href: "/dashboard/financial-summary",
+          icon: User2,
+        },
+        {
+          title: "การติดตามเวลา",
+          href: "/dashboard/time-tracking",
+          icon: User2,
+        },
+      ],
+    },
+    {
+      title: "ตั้งค่า",
+      link: [
+        {
+          title: "ตั้งค่าบัญชี",
+          href: "/dashboard/account-settings",
+          icon: User2,
+        },
+        {
+          title: "การแจ้งเตือน",
+          href: "/dashboard/notifications",
+          icon: User2,
+        },
+        {
+          title: "บูรณาการ",
+          href: "/dashboard/integrations",
+          icon: User2,
+        },
+      ],
     },
   ];
   const pathname = usePathname();
@@ -67,8 +179,8 @@ export default function Sidebar() {
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Package2 className="h-6 w-6" />
-            <span className="">Acme Inc</span>
+            <AlignHorizontalJustifyEnd className="h-6 w-6" />
+            <span className="">SK CRM</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />
@@ -76,41 +188,50 @@ export default function Sidebar() {
           </Button>
         </div>
         <div className="flex-1">
-          <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {sidebarLinks.map((item, i) => {
-              const Icon = item.icon;
-              const isActive = item.href === pathname;
-              return (
-                <Link
-                  key={i}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                    isActive && " bg-muted  text-primary"
-                  )}
-                >
-                  <Icon className="h-4 w-4" />
-                  {item.title}
-                  {item.count && (
-                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                      {item.count}
-                    </Badge>
-                  )}
-                </Link>
-              );
-            })}
-            <Link
-              href="/"
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              )}
-            >
-              <ExternalLink className="h-4 w-4" />
-              Live Website
-            </Link>
-          </nav>
+          <ScrollArea className="h-[550px] w-full p-4">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+              {sidebarLinks.map((item, i) => {
+                return (
+                  <div className="py-1" key={i}>
+                    <h2 className="pb-1 font-semibold">{item.title}</h2>
+                    {item.link.map((item, i) => {
+                      const Icon = item.icon;
+                      const isActive = item.href === pathname;
+                      return (
+                        <Link
+                          key={i}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                            isActive && " bg-muted  text-primary"
+                          )}
+                        >
+                          <Icon className="h-4 w-4" />
+                          {item.title}
+                          {item.count && (
+                            <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                              {item.count}
+                            </Badge>
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+              <Link
+                href="/"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                )}
+              >
+                <ExternalLink className="h-4 w-4" />
+                เว็บไซต์
+              </Link>
+            </nav>
+          </ScrollArea>
         </div>
-        <div className="mt-auto p-4">
+        {/* <div className="mt-auto p-4">
           <Card x-chunk="dashboard-02-chunk-0">
             <CardHeader className="p-2 pt-0 md:p-4">
               <CardTitle>Upgrade to Pro</CardTitle>
@@ -124,6 +245,13 @@ export default function Sidebar() {
                 Upgrade
               </Button>
             </CardContent>
+          </Card>
+        </div> */}
+        <div className="mt-auto p-4">
+          <Card x-chunk="dashboard-02-chunk-0">
+            <Button size="sm" className="w-full">
+              ออกจากระบบ
+            </Button>
           </Card>
         </div>
       </div>
