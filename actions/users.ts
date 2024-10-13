@@ -108,13 +108,11 @@ export async function deleteUser(id: string) {
 export async function getKitUsers() {
   const endpoint = process.env.KIT_API_ENDPOINT as string;
   try {
-    console.log(endpoint);
     const res = await fetch(endpoint, {
       next: { revalidate: 0 }, // Revalidate immediately
     });
     const response = await res.json();
     const count = response.count;
-    console.log(count);
     return count;
   } catch (error) {
     console.error("Error fetching the count:", error);
