@@ -2,13 +2,13 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 
-import DateColumn from "@/components/DataTableColumns/DateColumn";
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
 import { ColumnDef } from "@tanstack/react-table";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
-import { Category } from "@prisma/client";
+import { User } from "@prisma/client";
 import TitleColumn from "@/components/DataTableColumns/TitleColumn";
-export const columns: ColumnDef<Category>[] = [
+import DateColumn from "@/components/DataTableColumns/DateColumn";
+export const columns: ColumnDef<User>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -31,31 +31,43 @@ export const columns: ColumnDef<Category>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "title",
-    header: ({ column }) => <TitleColumn column={column} title="Title" />,
-  },
-  {
-    accessorKey: "imageUrl",
-    header: "Category Image",
-    cell: ({ row }) => <ImageColumn row={row} accessorKey="imageUrl" />,
-  },
 
   {
+    accessorKey: "image",
+    header: "รูปภาพ",
+    cell: ({ row }) => <ImageColumn row={row} accessorKey="image" />,
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => <TitleColumn column={column} title="ชื่อ" />,
+  },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => <TitleColumn column={column} title="เบอร์โทร" />,
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => <TitleColumn column={column} title="อีเมล" />,
+  },
+  {
+    accessorKey: "location",
+    header: ({ column }) => <TitleColumn column={column} title="ที่อยู่" />,
+  },
+  {
     accessorKey: "createdAt",
-    header: "Date Created",
+    header: ({ column }) => <TitleColumn column={column} title="วันที่สร้าง" />,
     cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
   },
   {
-    id: "actions",
+    id: "จัดการ",
     cell: ({ row }) => {
       const category = row.original;
       return (
         <ActionColumn
           row={row}
-          model="category"
-          title="หมวดหมู่"
-          editEndpoint={`categories/update/${category.id}`}
+          model="clients"
+          title="ลูกค้า"
+          editEndpoint={`clients/update/${category.id}`}
           id={category.id}
         />
       );

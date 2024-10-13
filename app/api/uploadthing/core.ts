@@ -12,6 +12,12 @@ export const ourFileRouter = {
       return { uploadedBy: "JB" };
     }
   ),
+  clientProfileImage: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
+    async ({ metadata, file }) => {
+      console.log("file url", file.url);
+      return { uploadedBy: "JB" };
+    }
+  ),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

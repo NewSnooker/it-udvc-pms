@@ -19,7 +19,7 @@ export default function FormFooter({
     <div className="flex items-center  gap-2 justify-between ">
       <CloseButton href={href} parent={parent} />
       <SubmitButton
-        title={editingId ? `Update ${title}` : `Save ${title}`}
+        title={editingId ? `อัพเดต${title}` : `บันทึก${title}`}
         loading={loading}
       />
     </div>

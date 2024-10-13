@@ -6,7 +6,17 @@ import { UserProps } from "@/types/types";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 export async function createUser(data: UserProps) {
-  const { email, password, firstName, lastName, name, phone, image } = data;
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    name,
+    phone,
+    image,
+    role,
+    location,
+  } = data;
   try {
     // Hash the PAASWORD
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,9 +41,12 @@ export async function createUser(data: UserProps) {
         name,
         phone,
         image,
+        role,
+        location,
       },
     });
-    // revalidatePath("/dashboard/users");
+    revalidatePath("/dashboard/clients");
+    revalidatePath("/dashboard/users");
     // console.log(newUser);
     return {
       error: null,
@@ -50,6 +63,48 @@ export async function createUser(data: UserProps) {
   }
 }
 
+export async function getUserById(id: string) {
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function updateUserById(id: string, data: UserProps) {
+  try {
+    const updatedUser = await db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+    revalidatePath("/dashboard/clients");
+    return updatedUser;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function deleteUser(id: string) {
+  try {
+    const deletedUser = await db.user.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      ok: true,
+      data: deletedUser,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function getKitUsers() {
   const endpoint = process.env.KIT_API_ENDPOINT as string;
   try {

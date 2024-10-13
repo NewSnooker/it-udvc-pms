@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-export default function SortableColumn({
+export default function TitleColumn({
   column,
   title,
 }: {
@@ -10,6 +10,7 @@ export default function SortableColumn({
 }) {
   return (
     <Button
+      className="-m-4"
       variant="ghost"
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
     >

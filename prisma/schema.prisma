@@ -1,19 +1,18 @@
- 
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
- 
+
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
- 
+
 generator client {
   provider = "prisma-client-js"
 }
- 
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
- 
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -27,12 +26,12 @@ model Account {
   scope             String?
   id_token          String? @db.String
   session_state     String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
 }
- 
+
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
@@ -40,44 +39,133 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
- 
+
 enum UserRole {
   USER
   ADMIN
-  SERVICE_PROVIDER
+  CLIENT
+  MEMBER
 }
- 
+
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
   name          String
-  firstName          String
-  lastName          String
-  phone          String
-  email         String   @unique
+  firstName     String
+  lastName      String
+  phone         String
+  email         String          @unique
   emailVerified DateTime?
   image         String?
-  role          UserRole  @default(USER)
+  role          UserRole        @default(USER)
+  location      String?
   password      String?
-  status Boolean @default(true)
+  status        Boolean         @default(true)
   accounts      Account[]
   sessions      Session[]
-  isVerfied     Boolean   @default(false)
+  project       Project[]
+  invoices      Invoice[]
+  portfolioItem PortfolioItem[]
+  payment       Payment[]
+  isVerfied     Boolean         @default(false)
   token         Int?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 }
- 
- 
- 
-model Category {
+
+model Project {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String
+  clientId    String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @db.ObjectId
+  modules     Module[]
+  members     Member[]
+  invoices    Invoice[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Module {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String   @db.ObjectId
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  slug        String    @unique
+  description String?
+  status      String
+  dueDate     DateTime?
+  module      Module    @relation(fields: [moduleId], references: [id])
+  moduleId    String    @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Member {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  role      String
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invoice {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  invoiceNumber String   @unique
+  amount        Float
+  status        String
+  dueDate       DateTime
+  project       Project  @relation(fields: [projectId], references: [id])
+  projectId     String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String   @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Payment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount    Float
+  date      DateTime
+  method    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PortfolioItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  imageUrl    String?
+  projectUrl  String?
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String  @unique
   imageUrl    String?
   description String?
- 
+
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
-
- 

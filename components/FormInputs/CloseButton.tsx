@@ -16,7 +16,7 @@ export default function CloseButton({
           parent === "" ? `/dashboard${href}` : `/dashboard/${parent}${href}`
         }
       >
-        Close
+        ปิด
       </Link>
     </Button>
   );

@@ -26,10 +26,11 @@ export default function FormHeader({ title, editingId }: FormHeaderProps) {
           type="button"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span className="sr-only">Back</span>
+          <span className="sr-only">กลับ</span>
         </Button>
         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-          {editingId ? "Update" : "Create"} {title}
+          {editingId ? "อัพเดต" : "สร้าง"}
+          {title}
         </h1>
       </div>
     </div>

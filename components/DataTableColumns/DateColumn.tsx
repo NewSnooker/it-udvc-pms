@@ -1,5 +1,7 @@
-import { getNormalDate } from "@/lib/getNormalDate";
 import React from "react";
+import moment from "moment";
+import "moment/locale/th";
+moment.locale("th");
 
 export default function DateColumn({
   row,
@@ -9,14 +11,5 @@ export default function DateColumn({
   accessorKey: any;
 }) {
   const createdAt = row.getValue(`${accessorKey}`);
-  const date = getNormalDate(createdAt);
-  const originalDate = new Date(createdAt);
-
-  const day = originalDate.getDate();
-  const month = originalDate.toLocaleString("default", { month: "short" });
-  const year = originalDate.getFullYear();
-
-  const formatted = `${day}th ${month} ${year}`;
-  // console.log(imageUrl);
-  return <div className="">{date}</div>;
+  return <div>{moment(createdAt).format("L")}</div>;
 }

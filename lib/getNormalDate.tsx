@@ -1,4 +1,4 @@
-export function getNormalDate(inputDate: Date): string {
+export function getNormalDate(inputDate: Date, p0: { locale: any }): string {
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
     month: "short",
