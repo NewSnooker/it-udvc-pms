@@ -1,12 +1,14 @@
 import React from "react";
 import { columns } from "./columns";
-import { Category, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import DataTable from "@/components/DataTableComponents/DataTable";
 import TableHeader from "../../../../components/dashboard/Tables/TableHeader";
-import { getAllClient } from "@/actions/clients";
+import { getUserClient } from "@/actions/clients";
+import { getAuthUser } from "@/config/getAuthUser";
 
 export default async function page() {
-  const clients: User[] = (await getAllClient()) || [];
+  const user = await getAuthUser();
+  const clients: User[] = (await getUserClient(user?.id)) || [];
 
   return (
     <div className="p-8">
