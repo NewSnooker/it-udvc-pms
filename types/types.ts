@@ -14,6 +14,7 @@ export type UserProps = {
   image: string;
   email: string;
   password: string;
+  userId?: string;
   role?: UserRole;
   location?: string;
 };

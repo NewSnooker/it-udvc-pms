@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           console.log("Pass 2 Checked");
-          console.log(existingUser);
+          // console.log(existingUser);
           let passwordMatch: boolean = false;
           //Check if Password is correct
           if (existingUser && existingUser.password) {

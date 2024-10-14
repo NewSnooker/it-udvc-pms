@@ -16,6 +16,7 @@ export async function createUser(data: UserProps) {
     image,
     role,
     location,
+    userId,
   } = data;
   try {
     // Hash the PAASWORD
@@ -43,6 +44,7 @@ export async function createUser(data: UserProps) {
         image,
         role,
         location,
+        userId,
       },
     });
     revalidatePath("/dashboard/clients");

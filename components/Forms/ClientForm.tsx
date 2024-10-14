@@ -30,11 +30,13 @@ export type SelectOptionProps = {
 };
 type ClientFormProps = {
   editingId?: string | undefined;
+  userId?: string;
   initialData?: User | undefined | null;
 };
 export default function ClientForm({
   editingId,
   initialData,
+  userId,
 }: ClientFormProps) {
   const {
     register,
@@ -50,6 +52,7 @@ export default function ClientForm({
       location: initialData?.location || "",
     },
   });
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const initialImage =
@@ -62,6 +65,7 @@ export default function ClientForm({
     data.name = `${data.firstName} ${data.lastName}`;
     data.image = imageUrl;
     data.role = "CLIENT";
+    data.userId = userId;
     try {
       if (editingId) {
         await updateUserById(editingId, data);
