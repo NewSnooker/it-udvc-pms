@@ -107,17 +107,17 @@ export async function deleteUser(id: string) {
     console.log(error);
   }
 }
-// export async function getKitUsers() {
-//   const endpoint = process.env.KIT_API_ENDPOINT as string;
-//   try {
-//     const res = await fetch(endpoint, {
-//       next: { revalidate: 0 }, // Revalidate immediately
-//     });
-//     const response = await res.json();
-//     const count = response.count;
-//     return count;
-//   } catch (error) {
-//     console.error("เกิดข้อผิดพลาดในการดึงจํานวนผู้ใช้:", error);
-//     return 0;
-//   }
-// }
+export async function getKitUsers() {
+  const endpoint = process.env.KIT_API_ENDPOINT as string;
+  try {
+    const res = await fetch(endpoint, {
+      next: { revalidate: 0 }, // Revalidate immediately
+    });
+    const response = await res.json();
+    const count = response.count;
+    return count;
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการดึงจํานวนผู้ใช้:", error);
+    return 0;
+  }
+}

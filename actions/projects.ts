@@ -70,7 +70,14 @@ export async function updateProjectById(id: string, data: ProjectProps) {
       where: {
         id,
       },
-      data,
+      data: {
+        name: data.name,
+        description: data.description,
+        slug: data.slug,
+        thumbnail: data.thumbnail,
+        startDate: data.startDate,
+        clientId: data.clientId,
+      },
     });
     revalidatePath("/dashboard/projects");
     return updatedProject;
