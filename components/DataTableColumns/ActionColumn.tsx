@@ -25,6 +25,7 @@ import { deleteCategory } from "@/actions/categories";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { deleteUser } from "@/actions/users";
+import { deleteProject } from "@/actions/projects";
 
 type ActionColumnProps = {
   row: any;
@@ -52,6 +53,12 @@ export default function ActionColumn({
         toast.success(`ลบ${title} สําเร็จ`);
       } else if (model === "clients") {
         const res = await deleteUser(id);
+        if (res?.ok) {
+          window.location.reload();
+        }
+        toast.success(`ลบ${title} สําเร็จ`);
+      } else if (model === "projects") {
+        const res = await deleteProject(id);
         if (res?.ok) {
           window.location.reload();
         }

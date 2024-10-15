@@ -80,17 +80,17 @@ export default function ClientForm({
           setEmailErr(res.error);
         } else if (res.status === 200) {
           setLoading(false);
-          toast.success("สร้างลูกค้าสําเร็จ");
+          toast.success("สร้างลูกค้าสําเร็จ!");
           router.push("/dashboard/clients");
         } else {
           setLoading(false);
-          toast.error("เกิดข้อผิดพลาดในการสร้างลูกค้า");
+          toast.error("เกิดข้อผิดพลาดในการสร้างลูกค้า!");
         }
       }
     } catch (error) {
       setLoading(false);
       console.error("Network Error:", error);
-      toast.error("เกิดข้อผิดพลาดบางอย่าง");
+      toast.error("เกิดข้อผิดพลาดบางอย่าง!");
     }
   }
   return (
@@ -102,9 +102,6 @@ export default function ClientForm({
           <Card>
             <CardHeader>
               <CardTitle>ลูกค้า</CardTitle>
-              {/* <CardDescription>
-                Lipsum dolor sit amet, consectetur adipiscing elit
-              </CardDescription> */}
             </CardHeader>
             <CardContent className="grid gap-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

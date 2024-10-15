@@ -1,10 +1,20 @@
-import ClientForm from "@/components/Forms/ClientForm";
+import { getUserClient } from "@/actions/clients";
+import ProjectForm from "@/components/Forms/ProjectForm";
+import { getAuthUser } from "@/config/getAuthUser";
 import React from "react";
 
-export default function page() {
+export default async function page() {
+  const user = await getAuthUser();
+  const userId = user?.id;
+  const clients = await getUserClient(userId);
+  const userClients =
+    clients?.map((client) => ({
+      label: client.name,
+      value: client.id,
+    })) || [];
   return (
     <div className="p-8">
-      <ClientForm />
+      <ProjectForm userId={userId} clients={userClients} />
     </div>
   );
 }

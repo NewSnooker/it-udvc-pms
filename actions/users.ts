@@ -28,7 +28,7 @@ export async function createUser(data: UserProps) {
     });
     if (existingUser) {
       return {
-        error: `Email already exists`,
+        error: `มีอีเมลนี้ในระบบแล้ว`,
         status: 409,
         data: null,
       };
@@ -58,7 +58,7 @@ export async function createUser(data: UserProps) {
   } catch (error) {
     console.log(error);
     return {
-      error: `Something Went wrong, Please try again`,
+      error: `เกิดข้อผิดพลาดในการสร้างผู้ใช้`,
       status: 500,
       data: null,
     };
@@ -107,17 +107,17 @@ export async function deleteUser(id: string) {
     console.log(error);
   }
 }
-export async function getKitUsers() {
-  const endpoint = process.env.KIT_API_ENDPOINT as string;
-  try {
-    const res = await fetch(endpoint, {
-      next: { revalidate: 0 }, // Revalidate immediately
-    });
-    const response = await res.json();
-    const count = response.count;
-    return count;
-  } catch (error) {
-    console.error("Error fetching the count:", error);
-    return 0;
-  }
-}
+// export async function getKitUsers() {
+//   const endpoint = process.env.KIT_API_ENDPOINT as string;
+//   try {
+//     const res = await fetch(endpoint, {
+//       next: { revalidate: 0 }, // Revalidate immediately
+//     });
+//     const response = await res.json();
+//     const count = response.count;
+//     return count;
+//   } catch (error) {
+//     console.error("เกิดข้อผิดพลาดในการดึงจํานวนผู้ใช้:", error);
+//     return 0;
+//   }
+// }

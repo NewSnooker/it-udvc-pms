@@ -5,10 +5,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
 import { ColumnDef } from "@tanstack/react-table";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
-import { User } from "@prisma/client";
+import { Project } from "@prisma/client";
 import TitleColumn from "@/components/DataTableColumns/TitleColumn";
 import DateColumn from "@/components/DataTableColumns/DateColumn";
-export const columns: ColumnDef<User>[] = [
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+export const columns: ColumnDef<Project>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,42 +35,49 @@ export const columns: ColumnDef<User>[] = [
   },
 
   {
-    accessorKey: "image",
+    accessorKey: "thumbnail",
     header: "รูปภาพ",
-    cell: ({ row }) => <ImageColumn row={row} accessorKey="image" />,
+    cell: ({ row }) => <ImageColumn row={row} accessorKey="thumbnail" />,
   },
   {
     accessorKey: "name",
-    header: ({ column }) => <TitleColumn column={column} title="ชื่อ" />,
+    header: ({ column }) => <TitleColumn column={column} title="ชื่อโครงการ" />,
   },
   {
-    accessorKey: "phone",
-    header: ({ column }) => <TitleColumn column={column} title="เบอร์โทร" />,
+    accessorKey: "startDate",
+    header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
+    cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => <TitleColumn column={column} title="อีเมล" />,
+    accessorKey: "startDate",
+    header: "ดูเพิ่มเติม",
+
+    cell: ({ row }) => {
+      return (
+        <Button asChild size={"sm"}>
+          <Link href={"/dashboard/projects/view/name-project"}>
+            ดูเพิ่มเติม
+          </Link>
+        </Button>
+      );
+    },
   },
-  {
-    accessorKey: "location",
-    header: ({ column }) => <TitleColumn column={column} title="ที่อยู่" />,
-  },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => <TitleColumn column={column} title="วันที่สร้าง" />,
-    cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
-  },
+  // {
+  //   accessorKey: "createdAt",
+  //   header: ({ column }) => <TitleColumn column={column} title="วันที่สร้าง" />,
+  //   cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
+  // },
   {
     id: "จัดการ",
     cell: ({ row }) => {
-      const category = row.original;
+      const project = row.original;
       return (
         <ActionColumn
           row={row}
-          model="clients"
+          model="projects"
           title="ลูกค้า"
-          editEndpoint={`clients/update/${category.id}`}
-          id={category.id}
+          editEndpoint={`clients/update/${project.id}`}
+          id={project.id}
         />
       );
     },

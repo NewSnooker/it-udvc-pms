@@ -1,4 +1,5 @@
 import { UserRole } from "@prisma/client";
+import exp from "constants";
 
 export type CategoryProps = {
   title: string;
@@ -17,6 +18,19 @@ export type UserProps = {
   userId?: string;
   role?: UserRole;
   location?: string;
+};
+export type ProjectProps = {
+  name: string;
+  slug: string;
+  notes?: string;
+  description: string;
+  bannerImage: string;
+  thumbnail: string;
+  startDate: any;
+  endDate?: Date | undefined | null;
+  status?: string;
+  clientId: string;
+  userId: string | undefined;
 };
 export type LoginProps = {
   email: string;

@@ -1,14 +1,14 @@
 import React from "react";
 import { columns } from "./columns";
-import { User } from "@prisma/client";
+import { Project } from "@prisma/client";
 import DataTable from "@/components/DataTableComponents/DataTable";
 import TableHeader from "../../../../components/dashboard/Tables/TableHeader";
-import { getUserClient } from "@/actions/clients";
 import { getAuthUser } from "@/config/getAuthUser";
+import { getUserProjects } from "@/actions/projects";
 
 export default async function page() {
   const user = await getAuthUser();
-  const clients: User[] = (await getUserClient(user?.id)) || [];
+  const projects: Project[] = (await getUserProjects(user?.id)) || [];
 
   return (
     <div className="p-8">
@@ -16,11 +16,11 @@ export default async function page() {
         title="โครงงาน"
         linkTitle="เพิ่มโครงงาน"
         href="/dashboard/projects/new"
-        data={clients}
+        data={projects}
         model="projects"
       />
       <div className="py-8">
-        <DataTable data={clients} columns={columns} />
+        <DataTable data={projects} columns={columns} />
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ type TextAreaProps = {
   label: string;
   name: string;
   helperText?: string;
+  placeholder?: string;
 };
 export default function TextArea({
   register,
@@ -15,6 +16,7 @@ export default function TextArea({
   label,
   name,
   helperText = "",
+  placeholder,
 }: TextAreaProps) {
   return (
     <div className="col-span-full">
@@ -27,9 +29,10 @@ export default function TextArea({
           {...register(`${name}`, { required: true })}
           rows={3}
           className={cn("", errors[`${name}`] && "focus:ring-red-500")}
+          placeholder={placeholder || label}
         />
         {errors[`${name}`] && (
-          <span className="text-xs text-red-600">Description is required</span>
+          <span className="text-xs text-red-600">จำเป็นต้องกรอก {label}</span>
         )}
       </div>
       {helperText && (
