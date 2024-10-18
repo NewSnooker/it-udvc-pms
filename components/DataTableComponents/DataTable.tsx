@@ -46,12 +46,12 @@ import ProjectSummary from "../DataTableColumns/ProjectSummary";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  model: string | undefined | null;
+  model?: string | undefined | null;
 }
 export default function DataTable<TData, TValue>({
   columns,
   data,
-  model,
+  model = null,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -88,7 +88,7 @@ export default function DataTable<TData, TValue>({
   // const finalData = isSearch ? searchResults : filteredData;
   return (
     <div className="space-y-4">
-      {model === "project" ? (
+      {model && model === "project" ? (
         <ProjectSummary data={isSearch ? searchResults : filteredData} />
       ) : (
         <></>
