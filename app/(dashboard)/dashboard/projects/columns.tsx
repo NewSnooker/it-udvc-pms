@@ -10,6 +10,7 @@ import TitleColumn from "@/components/DataTableColumns/TitleColumn";
 import DateColumn from "@/components/DataTableColumns/DateColumn";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import NumberColumn from "@/components/DataTableColumns/NumberColumn";
 export const columns: ColumnDef<Project>[] = [
   {
     id: "select",
@@ -44,20 +45,31 @@ export const columns: ColumnDef<Project>[] = [
     header: ({ column }) => <TitleColumn column={column} title="ชื่อโครงการ" />,
   },
   {
+    accessorKey: "budget",
+    header: ({ column }) => <TitleColumn column={column} title="งบประมาณ" />,
+    cell: ({ row }) => <NumberColumn row={row} accessorKey="budget" />,
+  },
+  {
+    accessorKey: "deadline",
+    header: ({ column }) => (
+      <TitleColumn column={column} title="กำหนดส่ง (วัน)" />
+    ),
+    cell: ({ row }) => <NumberColumn row={row} accessorKey="deadline" />,
+  },
+  {
     accessorKey: "startDate",
     header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
     cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
   },
   {
     accessorKey: "startDate",
-    header: "ดูเพิ่มเติม",
+    header: "เพิ่มเติม",
 
     cell: ({ row }) => {
+      const project = row.original;
       return (
         <Button asChild size={"sm"}>
-          <Link href={"/dashboard/projects/view/name-project"}>
-            ดูเพิ่มเติม
-          </Link>
+          <Link href={`/project/${project.slug}`}>เพิ่มเติม</Link>
         </Button>
       );
     },
@@ -75,8 +87,8 @@ export const columns: ColumnDef<Project>[] = [
         <ActionColumn
           row={row}
           model="projects"
-          title="ลูกค้า"
-          editEndpoint={`clients/update/${project.id}`}
+          title="โครงการ"
+          editEndpoint={`projects/update/${project.id}`}
           id={project.id}
         />
       );

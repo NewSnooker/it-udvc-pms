@@ -58,7 +58,7 @@ export default function TextInput({
         <div className="relative rounded-md ">
           {icon && (
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Icon className="text-zinc-300 w-4 h-4" />
+              <Icon className=" w-4 h-4" />
             </div>
           )}
           <Input
@@ -73,7 +73,7 @@ export default function TextInput({
             placeholder={placeholder || label}
           />
           {unit && (
-            <p className="bg-white py-2 px-3 rounded-tr-md rounded-br-md absolute inset-y-0 right-1 my-[2px] flex items-center">
+            <p className=" py-2 px-3 rounded-tr-md rounded-br-md absolute inset-y-0 right-1 my-[2px] flex items-center">
               {unit}
             </p>
           )}

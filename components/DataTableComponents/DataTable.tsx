@@ -41,14 +41,17 @@ import { ListFilter } from "lucide-react";
 import DateFilters from "./DateFilters";
 import DateRangeFilter from "./DateRangeFilter";
 import { DataTablePagination } from "./DataTablePagination";
+import ProjectSummary from "../DataTableColumns/ProjectSummary";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  model: string | undefined | null;
 }
 export default function DataTable<TData, TValue>({
   columns,
   data,
+  model,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -82,8 +85,14 @@ export default function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
   // console.log(searchResults);
+  // const finalData = isSearch ? searchResults : filteredData;
   return (
     <div className="space-y-4">
+      {model === "project" ? (
+        <ProjectSummary data={isSearch ? searchResults : filteredData} />
+      ) : (
+        <></>
+      )}{" "}
       <div className="flex justify-between items-center gap-8">
         <div className="flex-1 w-full">
           <SearchBar
@@ -108,12 +117,12 @@ export default function DataTable<TData, TValue>({
               <Button variant="outline" size="sm" className="h-8 gap-1">
                 <ListFilter className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Filter
+                  การกรอง
                 </span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuLabel>การกรอง</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem checked>
                 Active
@@ -125,7 +134,6 @@ export default function DataTable<TData, TValue>({
           <DataTableViewOptions table={table} />
         </div>
       </div>
-
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -169,7 +177,7 @@ export default function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  ไม่พบข้อมูล
                 </TableCell>
               </TableRow>
             )}

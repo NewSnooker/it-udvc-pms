@@ -32,8 +32,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { signOut } from "next-auth/react";
 export default function Sidebar() {
   const sidebarLinks = [
     {
@@ -47,7 +48,7 @@ export default function Sidebar() {
       ],
     },
     {
-      title: "ลูกค้าและโครงงาน",
+      title: "ลูกค้าและโครงการ",
       link: [
         {
           title: "ลูกค้า",
@@ -55,10 +56,10 @@ export default function Sidebar() {
           icon: Users,
         },
         {
-          title: "โครงงาน",
+          title: "โครงการ",
           href: "/dashboard/projects",
           icon: LayoutGrid,
-          count: 2,
+          // count: 2,
         },
       ],
     },
@@ -174,6 +175,15 @@ export default function Sidebar() {
     },
   ];
   const pathname = usePathname();
+  const router = useRouter();
+  async function handleLogout() {
+    try {
+      await signOut();
+      router.push("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -211,11 +221,11 @@ export default function Sidebar() {
                         >
                           <Icon className="h-4 w-4" />
                           {item.title}
-                          {item.count && (
+                          {/* {item.count && (
                             <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                               {item.count}
                             </Badge>
-                          )}
+                          )} */}
                         </Link>
                       );
                     })}
@@ -252,7 +262,7 @@ export default function Sidebar() {
         </div> */}
         <div className="mt-auto p-4">
           <Card x-chunk="dashboard-02-chunk-0">
-            <Button size="sm" className="w-full">
+            <Button onClick={handleLogout} size="sm" className="w-full">
               ออกจากระบบ
             </Button>
           </Card>

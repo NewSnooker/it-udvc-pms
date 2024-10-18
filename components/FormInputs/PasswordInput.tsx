@@ -75,7 +75,7 @@ export default function PasswordInput({
         <div className="relative rounded-md ">
           {icon && (
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Icon className="text-zinc-300 w-4 h-4" />
+              <Icon className=" w-4 h-4" />
             </div>
           )}
           <Input

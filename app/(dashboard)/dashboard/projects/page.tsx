@@ -13,14 +13,14 @@ export default async function page() {
   return (
     <div className="p-8">
       <TableHeader
-        title="โครงงาน"
-        linkTitle="เพิ่มโครงงาน"
+        title="โครงการ"
+        linkTitle="เพิ่มโครงการ"
         href="/dashboard/projects/new"
         data={projects}
         model="projects"
       />
-      <div className="py-8">
-        <DataTable data={projects} columns={columns} />
+      <div className="pb-8 pt-4">
+        <DataTable data={projects} columns={columns} model={"project"} />
       </div>
     </div>
   );

@@ -25,6 +25,8 @@ import { Project, User } from "@prisma/client";
 import FormSelectInput from "../FormInputs/FormSelectInput";
 import { createProject, updateProjectById } from "@/actions/projects";
 import { convertDateToIso } from "@/lib/convertDateToIso";
+import { CalendarClock, Coins, UserIcon } from "lucide-react";
+import { convertIsoDateToNormal } from "@/lib/convertIsoDateToNormal";
 
 export type SelectOptionProps = {
   label: string;
@@ -51,7 +53,13 @@ export default function ProjectForm({
     defaultValues: {
       name: initialData?.name,
       description: initialData?.description || "",
-      startDate: initialData?.startDate || null,
+      budget: initialData?.budget || 0,
+      startDate: editingId
+        ? convertIsoDateToNormal(initialData?.startDate ?? "") || null
+        : "",
+      endDate: editingId
+        ? convertIsoDateToNormal(initialData?.endDate ?? "") || null
+        : "",
     },
   });
   const router = useRouter();
@@ -66,16 +74,29 @@ export default function ProjectForm({
   async function saveProject(data: ProjectProps) {
     try {
       setLoading(true);
+      const differenceInTime =
+        new Date(data.endDate).getTime() - new Date(data.startDate).getTime();
+      if (differenceInTime < 0) {
+        toast.error("วันที่สิ้นสุดต้องมากกว่าวันที่เริ่มต้น");
+        setLoading(false);
+        return;
+      }
+      const deadline = differenceInTime / (1000 * 60 * 60 * 24);
+
+      data.deadline = deadline;
       data.slug = generateSlug(data.name);
       data.thumbnail = imageUrl;
       data.userId = userId;
       data.clientId = selectedClient?.value || "";
       data.startDate = convertDateToIso(data.startDate);
+      data.endDate = convertDateToIso(data.endDate);
+      data.budget = Number(data.budget);
+      data.notes = "";
 
       if (editingId) {
         await updateProjectById(editingId, data);
         setLoading(false);
-        // Toast
+
         toast.success("อัพเดตโครงการสําเร็จ!");
         //reset
         reset();
@@ -83,15 +104,24 @@ export default function ProjectForm({
         router.push("/dashboard/projects");
         setImageUrl("/placeholder.svg");
       } else {
-        await createProject(data);
-        setLoading(false);
-        // Toast
-        toast.success("สร้างโครงการสําเร็จ!");
-        //reset
-        reset();
-        setImageUrl("/thumbnail.png");
-        //route
-        router.push("/dashboard/projects");
+        const res = await createProject(data);
+        if (res?.status === 404) {
+          setLoading(false);
+          toast.error(res?.error);
+          return;
+        } else if (res?.status === 409) {
+          setLoading(false);
+          toast.error(res?.error);
+          return;
+        } else if (res?.status === 200) {
+          setLoading(false);
+          toast.success("สร้างโครงการสําเร็จ!");
+          reset();
+          setImageUrl("/thumbnail.png");
+          router.push("/dashboard/projects");
+        } else {
+          toast.error("เกิดข้อผิดพลาด โปรดลองอีกครั้ง");
+        }
       }
     } catch (error) {
       setLoading(false);
@@ -111,16 +141,31 @@ export default function ProjectForm({
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
-                <div className="grid gap-3">
-                  <TextInput
-                    register={register}
-                    errors={errors}
-                    label="ชื่อโครงการ"
-                    name="name"
-                    placeholder="กรอกชื่อโครงการ"
-                  />
+                <div className="grid grid-cols-12 gap-4">
+                  <div className="col-span-full lg:col-span-8">
+                    <TextInput
+                      register={register}
+                      errors={errors}
+                      label="ชื่อโครงการ"
+                      name="name"
+                      placeholder="กรอกชื่อโครงการ"
+                    />
+                  </div>
+                  <div className="col-span-full lg:col-span-4">
+                    <TextInput
+                      register={register}
+                      errors={errors}
+                      label="งบประมาณ "
+                      name="budget"
+                      type="number"
+                      unit="บาท"
+                      icon={Coins}
+                      placeholder="กรอกงบประมาณ"
+                    />
+                  </div>
                 </div>
-                <div className="grid gap-3">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <TextInput
                     register={register}
                     errors={errors}
@@ -129,7 +174,16 @@ export default function ProjectForm({
                     type="date"
                     placeholder="กรอกวันที่เริ่ม"
                   />
+                  <TextInput
+                    register={register}
+                    errors={errors}
+                    label="วันที่เริ่มสิ้นสุด"
+                    name="endDate"
+                    type="date"
+                    placeholder="กรอกวันที่สิ้นสุด"
+                  />
                 </div>
+
                 <div className="grid gap-3">
                   <FormSelectInput
                     label="ลูกค้าโครงการ"

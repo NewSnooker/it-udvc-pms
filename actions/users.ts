@@ -17,6 +17,8 @@ export async function createUser(data: UserProps) {
     role,
     location,
     userId,
+    companyName,
+    companyDescription,
   } = data;
   try {
     // Hash the PAASWORD
@@ -45,6 +47,8 @@ export async function createUser(data: UserProps) {
         role,
         location,
         userId,
+        companyName,
+        companyDescription,
       },
     });
     revalidatePath("/dashboard/clients");

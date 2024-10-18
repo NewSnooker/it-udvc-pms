@@ -66,7 +66,7 @@ export default function DateFilters({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Filter by date</SelectLabel>
+          <SelectLabel>กรอกตัวเลือก</SelectLabel>
           {options.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}

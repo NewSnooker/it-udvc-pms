@@ -15,14 +15,17 @@ import FormFooter from "./FormFooter";
 import { createUser, updateUserById } from "@/actions/users";
 import PasswordInput from "../FormInputs/PasswordInput";
 import {
+  Building,
   Flag,
   Headset,
   Lock,
   Mail,
   MapPin,
+  Pencil,
   User as UserIcon,
 } from "lucide-react";
 import { User } from "@prisma/client";
+import TextArea from "../FormInputs/TextAreaInput";
 
 export type SelectOptionProps = {
   label: string;
@@ -50,6 +53,8 @@ export default function ClientForm({
       phone: initialData?.phone || "",
       email: initialData?.email || "",
       location: initialData?.location || "",
+      companyName: initialData?.companyName || "",
+      companyDescription: initialData?.companyDescription || "",
     },
   });
 
@@ -166,6 +171,23 @@ export default function ClientForm({
                   type="password"
                 />
               )}
+
+              <TextInput
+                register={register}
+                errors={errors}
+                label="ชื่อบริษัท"
+                name="companyName"
+                icon={Building}
+                placeholder="กรอกชื่อบริษัท"
+              />
+              <TextArea
+                register={register}
+                errors={Pencil}
+                label="รายละเอียดบริษัท"
+                name="companyDescription"
+                // icon={MapPin}
+                placeholder="กรอกรายละเอียดบริษัท"
+              />
             </CardContent>
           </Card>
         </div>

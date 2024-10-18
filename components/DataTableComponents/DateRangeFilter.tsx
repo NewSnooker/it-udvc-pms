@@ -69,7 +69,7 @@ export default function DateRangeFilter({
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>เลือกช่วงเวลา</span>
             )}
           </Button>
         </PopoverTrigger>
