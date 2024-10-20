@@ -23,54 +23,48 @@ import {
   X,
   PlusCircle,
 } from "lucide-react";
+
 import Link from "next/link";
 import { ProjectData } from "@/types/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DescriptionForm from "@/components/Forms/DescriptionForm";
 import NotesForm from "@/components/Forms/NotesForm";
+import ProjectBanner from "./ProjectBanner";
+import { ModeToggle } from "@/components/mode-toggle";
+import AuthenticatedAvatar from "@/components/global/AuthenticatedAvatar";
+import { Session } from "next-auth";
+import PaymentForm from "@/components/Forms/PaymentForm";
 
 export default function ProjectDetailsPage({
   projectData,
+  session,
 }: {
   projectData: ProjectData;
+  session: Session | null;
 }) {
-  const [activeTab, setActiveTab] = useState("overview");
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   return (
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto p-4 space-y-6">
-        <div className="mb-4">
+        <div className="mb-4 flex items-center justify-between">
           <Link href="/dashboard/projects">
             <Button variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" /> กลับไปยังหน้าโครงการ
             </Button>
           </Link>
-        </div>
-        {/* Banner */}
-        <div className="relative h-52 rounded-lg overflow-hidden">
-          <Image
-            src="/placeholder.svg"
-            alt="Project Banner"
-            className="absolute inset-0 w-full h-full object-cover"
-            height={250}
-            width={1700}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r opacity-60 dark:opacity-75  from-yellow-400 to-red-600" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl font-bold text-white">
-              {projectData.name}
-            </h1>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-2 right-2 text-white"
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-2">
+            <ModeToggle />
+            <AuthenticatedAvatar session={session} />
           </div>
         </div>
-
+        {/* Banner */}
+        <ProjectBanner
+          editingId={projectData.id}
+          banner={projectData.bannerImage}
+          name={projectData.name}
+          bg={projectData.gradient}
+        />
         {/* Project Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="md:col-span-3 space-y-6">
@@ -357,15 +351,46 @@ export default function ProjectDetailsPage({
                 <CardTitle>ใบแจ้งหนี้และการชำระเงิน</CardTitle>
               </CardHeader>
               <CardContent className="">
-                <Tabs defaultValue="invoices" className="w-full">
+                <Tabs defaultValue="payments" className="w-full">
                   <TabsList className="w-full">
-                    <TabsTrigger className="w-full" value="invoices">
-                      ใบแจ้งหนี้
-                    </TabsTrigger>
                     <TabsTrigger className="w-full" value="payments">
                       การชำระเงิน
                     </TabsTrigger>
+                    <TabsTrigger className="w-full" value="invoices">
+                      ใบแจ้งหนี้
+                    </TabsTrigger>
                   </TabsList>
+                  <TabsContent value="payments">
+                    <div className="space-y-4 w-full">
+                      <PaymentForm />
+                    </div>
+
+                    <ScrollArea className="h-52">
+                      {projectData.invoices.length > 0 ? (
+                        projectData.invoices.map((invoice, index) => (
+                          <p
+                            key={index}
+                            className="text-sm text-muted-foreground"
+                          >
+                            รายละเอียดการชำระเงินจะแสดงที่นี่
+                          </p>
+                        ))
+                      ) : (
+                        <div className="w-full col-span-full flex flex-col items-center pt-6 ">
+                          <Image
+                            src={receipt}
+                            alt="empty"
+                            height={224}
+                            width={224}
+                            className="h-24 w-24 object-cover "
+                          />
+                          <p className="text-lg text-muted-foreground mt-4 mb-6">
+                            ไม่พบการชำระเงิน
+                          </p>
+                        </div>
+                      )}
+                    </ScrollArea>
+                  </TabsContent>
                   <TabsContent value="invoices" className="w-full">
                     <ScrollArea className="h-52 ">
                       {projectData.invoices.length > 0 ? (
@@ -388,33 +413,6 @@ export default function ProjectDetailsPage({
                           />
                           <p className="text-lg text-muted-foreground mt-4 mb-6">
                             ไม่พบใบแจ้งหนี้
-                          </p>
-                        </div>
-                      )}
-                    </ScrollArea>
-                  </TabsContent>
-                  <TabsContent value="payments">
-                    <ScrollArea className="h-52">
-                      {projectData.invoices.length > 0 ? (
-                        projectData.invoices.map((invoice, index) => (
-                          <p
-                            key={index}
-                            className="text-sm text-muted-foreground"
-                          >
-                            รายละเอียดการชำระเงินจะแสดงที่นี่
-                          </p>
-                        ))
-                      ) : (
-                        <div className="w-full col-span-full flex flex-col items-center pt-6 ">
-                          <Image
-                            src={receipt}
-                            alt="empty"
-                            height={224}
-                            width={224}
-                            className="h-24 w-24 object-cover "
-                          />
-                          <p className="text-lg text-muted-foreground mt-4 mb-6">
-                            ไม่พบการชำระเงิน
                           </p>
                         </div>
                       )}

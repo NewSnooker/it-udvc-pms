@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadButton } from "@/lib/uploadthing";
 // import { UploadButton } from "@/lib/uploadthing";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import React from "react";
 type ImageInputProps = {
   title: string;

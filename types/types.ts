@@ -16,6 +16,7 @@ export type UserProps = {
   password: string;
   userId: string | undefined;
   role: UserRole;
+  userLogo: string | undefined;
   location: string;
   companyName: string;
   companyDescription: string;
@@ -26,6 +27,7 @@ export type ProjectProps = {
   notes: string | undefined | null;
   description: string;
   bannerImage: string;
+  gradient: string;
   thumbnail: string;
   startDate: any;
   endDate: any;
@@ -47,6 +49,7 @@ export type ProjectData = {
   notes: string | undefined | null;
   description: string | null;
   bannerImage: string | null;
+  gradient: string | null;
   thumbnail: string | null;
   budget: number | null;
   deadline: number | null;

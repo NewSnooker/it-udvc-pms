@@ -14,7 +14,7 @@ type SubmitButtonProps = {
 };
 export default function SubmitButton({
   title,
-  loadingTitle = "Saving Please wait...",
+  loadingTitle = "กำลังดำเนินการ...",
   loading,
   className,
   loaderIcon = Loader,
