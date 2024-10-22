@@ -15,13 +15,14 @@ import "moment/locale/th";
 moment.locale("th");
 import {
   CalendarDays,
-  DollarSign,
+  Banknote,
   Edit,
   MessageSquare,
   Users,
   ArrowLeft,
   X,
   PlusCircle,
+  HandCoins,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -34,6 +35,8 @@ import { ModeToggle } from "@/components/mode-toggle";
 import AuthenticatedAvatar from "@/components/global/AuthenticatedAvatar";
 import { Session } from "next-auth";
 import PaymentForm from "@/components/Forms/PaymentForm";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -44,6 +47,12 @@ export default function ProjectDetailsPage({
 }) {
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
+  const paidAmount = projectData.payments.reduce((acc, item) => {
+    return acc + item.amount;
+  }, 0);
+  const remainingAmount = projectData.budget
+    ? projectData.budget - paidAmount
+    : 0;
   return (
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto p-4 space-y-6">
@@ -66,8 +75,8 @@ export default function ProjectDetailsPage({
           bg={projectData.gradient}
         />
         {/* Project Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="md:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-6">
+          <div className="md:col-span-5 space-y-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>รายละเอียดโครงการ</CardTitle>
@@ -238,16 +247,29 @@ export default function ProjectDetailsPage({
             </Card>
           </div>
 
-          <div className="md:col-span-1 space-y-6">
+          <div className="md:col-span-2 space-y-6">
             <Card className="">
               <CardHeader>
                 <CardTitle>ข้อมูลโครงการ</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <DollarSign className="h-5 w-5 text-yellow-400" />
-                  <span className="font-medium">งบประมาณ:</span>
-                  <span>{projectData.budget?.toLocaleString()} บาท</span>
+                <div className="">
+                  <div className="flex items-center space-x-2">
+                    <Banknote className="h-5 w-5 text-yellow-500" />
+                    <span className="font-medium">งบประมาณ:</span>
+                    <span className="font-bold text-sm mr-2">
+                      {projectData.budget?.toLocaleString() || "N/A"}
+                    </span>
+                    <span>บาท</span>
+                  </div>{" "}
+                  <div className="flex items-center space-x-2">
+                    <HandCoins className="h-5 w-5 text-green-500" />
+                    <span className="font-medium">จ่ายแล้ว:</span>
+                    <span className="font-bold text-sm mr-2">
+                      {paidAmount?.toLocaleString() || "N/A"}
+                    </span>
+                    <span>บาท</span>
+                  </div>
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2">
@@ -255,13 +277,13 @@ export default function ProjectDetailsPage({
                     <span className="font-medium">ช่วงเวลา:</span>
                   </div>
                   <div className="pl-7 space-y-1">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm ">
                       เริ่ม: {moment(projectData?.startDate).format("LL")}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm ">
                       สิ้นสุด: {moment(projectData?.endDate).format("LL")}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm ">
                       เป็นเวลา: {projectData?.deadline} วัน
                     </p>
                     {/* <p className="text-sm text-muted-foreground">
@@ -361,19 +383,35 @@ export default function ProjectDetailsPage({
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="payments">
-                    <div className="space-y-4 w-full">
-                      <PaymentForm />
+                    <div className="space-y-2 w-full">
+                      <PaymentForm
+                        projectId={projectData.id}
+                        userId={projectData.userId ?? ""}
+                        clientId={projectData.clientId ?? ""}
+                        remainingAmount={remainingAmount}
+                      />
                     </div>
 
                     <ScrollArea className="h-52">
-                      {projectData.invoices.length > 0 ? (
-                        projectData.invoices.map((invoice, index) => (
-                          <p
-                            key={index}
-                            className="text-sm text-muted-foreground"
-                          >
-                            รายละเอียดการชำระเงินจะแสดงที่นี่
-                          </p>
+                      {projectData.payments.length > 0 ? (
+                        projectData.payments.map((payment, index) => (
+                          <div className="mt-2" key={index}>
+                            <Button
+                              variant="outline"
+                              className="flex items-center justify-between gap-2 py-2 px-4  w-full text-sm"
+                            >
+                              <div className="">
+                                {moment(payment.date).format("L")}{" "}
+                              </div>
+
+                              <div className="line-clamp-1">
+                                {payment.title}{" "}
+                              </div>
+                              <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
+                                ฿{payment.amount.toLocaleString()}
+                              </Badge>
+                            </Button>
+                          </div>
                         ))
                       ) : (
                         <div className="w-full col-span-full flex flex-col items-center pt-6 ">
@@ -390,17 +428,38 @@ export default function ProjectDetailsPage({
                         </div>
                       )}
                     </ScrollArea>
+                    <Progress value={33} />
                   </TabsContent>
                   <TabsContent value="invoices" className="w-full">
                     <ScrollArea className="h-52 ">
-                      {projectData.invoices.length > 0 ? (
-                        projectData.invoices.map((invoice, index) => (
-                          <p
-                            key={index}
-                            className="text-sm text-muted-foreground"
-                          >
-                            รายละเอียดใบแจ้งหนี้จะแสดงที่นี่
-                          </p>
+                      {projectData.payments.length > 0 ? (
+                        projectData.payments.map((invoice, index) => (
+                          <div className="mt-2" key={index}>
+                            <Link
+                              href={`/project/invoice/${invoice.id}?project=${projectData.slug}`}
+                            >
+                              <Button
+                                variant="outline"
+                                className="flex items-center justify-between gap-2 py-2 px-4  w-full text-sm"
+                              >
+                                <div className="flex flex-col justify-start items-start">
+                                  <span className="text-xs">
+                                    #{invoice.invoiceNumber}
+                                  </span>
+                                  <div className="text-xs text-muted-foreground">
+                                    {moment(invoice.date).format("L")}
+                                  </div>
+                                </div>
+
+                                <div className="line-clamp-1">
+                                  {invoice.title}{" "}
+                                </div>
+                                <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
+                                  ฿{invoice.amount}
+                                </Badge>
+                              </Button>
+                            </Link>
+                          </div>
                         ))
                       ) : (
                         <div className="w-full col-span-full flex flex-col items-center pt-6 ">

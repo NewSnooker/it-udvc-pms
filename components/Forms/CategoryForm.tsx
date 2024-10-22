@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -97,8 +96,6 @@ export default function CategoryForm({
 
   return (
     <form className="" onSubmit={handleSubmit(saveCategory)}>
-      <FormHeader title="Category" editingId={editingId} />
-
       <div className="grid grid-cols-12 gap-6 py-8">
         <div className="lg:col-span-8 col-span-full space-y-3">
           <Card>

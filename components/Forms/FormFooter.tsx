@@ -10,7 +10,7 @@ export default function FormFooter({
   parent,
 }: {
   href: string;
-  editingId: string | undefined;
+  editingId?: string | undefined;
   loading: boolean;
   title: string;
   parent?: string;

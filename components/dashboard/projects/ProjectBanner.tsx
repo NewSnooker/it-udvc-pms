@@ -115,7 +115,7 @@ export default function ProjectBanner({
         <h1 className="text-4xl font-bold text-white">{name}</h1>
 
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <div className=" absolute top-2 right-2 p-3 cursor-pointer rounded-lg hover:bg-accent hover:text-accent-foreground text-sm font-semibold transition-colors ">
               <Edit className="h-4 w-4" />
             </div>

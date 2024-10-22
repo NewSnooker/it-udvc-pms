@@ -107,14 +107,27 @@ export type Invoice = {
 };
 
 export type Payment = {
+  title: string;
   id: string;
   amount: number;
-  date: Date;
+  date: Date | string;
   method: string;
   projectId: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  invoiceNumber: string;
+};
+export type PaymentProps = {
+  title: string;
+  amount: number;
+  tax: number;
+  date: Date | string;
+  invoiceNumber: string;
+  method: string;
+  projectId: string;
+  userId: string;
+  clientId: string;
 };
 
 export type ClientData = {
