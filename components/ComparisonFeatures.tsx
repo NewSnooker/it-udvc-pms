@@ -30,7 +30,7 @@ export default function ComparisonFeatures() {
         />
         <FeaturesCard
           features={pros}
-          title="การจัดการโครงการด้วย CRM ของเรา"
+          title="การจัดการโครงการด้วย UDVC PMS ของเรา"
           className="bg-green-50 text-green-800"
         />
       </div>

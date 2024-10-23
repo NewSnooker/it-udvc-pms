@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ import { Session } from "next-auth";
 import PaymentForm from "@/components/Forms/PaymentForm";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import BudgetProgressBar from "./BudgetProgressBar";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -47,12 +48,49 @@ export default function ProjectDetailsPage({
 }) {
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
+  const [daysDifference, setDaysDifference] = useState(0);
   const paidAmount = projectData.payments.reduce((acc, item) => {
     return acc + item.amount;
   }, 0);
   const remainingAmount = projectData.budget
     ? projectData.budget - paidAmount
     : 0;
+  function calculateDaysDifference(enDate: string | Date): number {
+    const end = new Date(enDate);
+    const now = new Date();
+
+    // ตั้งเวลาให้เป็นเที่ยงคืน (00:00:00) เพื่อให้เปรียบเทียบเฉพาะวัน
+    end.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+
+    const diffTime = end.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+  }
+
+  function formatDaysDifference(days: number): string {
+    if (days > 0) {
+      return `เหลือเวลา ${days} วัน`;
+    } else if (days < 0) {
+      return `เกินกำหนด ${Math.abs(days)} วันที่ผ่านมา`;
+    } else {
+      return "สิ้นสุดโครงการวันนี้!";
+    }
+  }
+
+  useEffect(() => {
+    if (projectData.endDate) {
+      setDaysDifference(calculateDaysDifference(projectData.endDate));
+    }
+    const interval = setInterval(() => {
+      if (projectData.endDate) {
+        setDaysDifference(calculateDaysDifference(projectData.endDate));
+      }
+    }, 24 * 60 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [projectData.endDate]);
+
   return (
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto p-4 space-y-6">
@@ -283,12 +321,20 @@ export default function ProjectDetailsPage({
                     <p className="text-sm ">
                       สิ้นสุด: {moment(projectData?.endDate).format("LL")}
                     </p>
-                    <p className="text-sm ">
-                      เป็นเวลา: {projectData?.deadline} วัน
-                    </p>
-                    {/* <p className="text-sm text-muted-foreground">
-                      เหลือเวลา: {projectData?.deadline} วัน
-                    </p> */}
+                    <div className="text-sm flex">
+                      สถานะ:{" "}
+                      <div
+                        className={` font-medium ml-2 ${
+                          daysDifference <= 0
+                            ? "text-red-600"
+                            : "text-green-600"
+                        }`}
+                      >
+                        {projectData?.endDate
+                          ? formatDaysDifference(daysDifference)
+                          : "กำลังดําเนินการ"}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -428,7 +474,12 @@ export default function ProjectDetailsPage({
                         </div>
                       )}
                     </ScrollArea>
-                    <Progress value={33} />
+                    {projectData.budget && (
+                      <BudgetProgressBar
+                        budget={projectData.budget ?? 0}
+                        paidAmount={paidAmount ?? 0}
+                      />
+                    )}
                   </TabsContent>
                   <TabsContent value="invoices" className="w-full">
                     <ScrollArea className="h-52 ">

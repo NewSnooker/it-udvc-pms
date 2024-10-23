@@ -193,7 +193,7 @@ export default function Sidebar() {
             className="flex items-center gap-2 font-semibold"
           >
             <AlignHorizontalJustifyEnd className="h-6 w-6" />
-            <span className="">SK CRM</span>
+            <span className="">UDVC PMS</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />

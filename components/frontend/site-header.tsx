@@ -48,7 +48,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
         className="flex items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <Logo title="SK CRM" href="/" />
+          <Logo title="UDVC PMS" href="/" />
         </div>
         <div className="flex lg:hidden">
           <button

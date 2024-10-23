@@ -7,7 +7,7 @@ export default function Loading() {
   return (
     <div>
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-[600px] ">
+        <div className=" w-[350px] sm:w-[600px] ">
           <Lottie animationData={LoaderAnimation} />
           <div className=" flex items-center justify-center ">
             <Lottie animationData={underLoading} />

@@ -10,8 +10,8 @@ import Providers from "@/components/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SK CRM",
-  description: "SK CRM description",
+  title: "UDVC PMS",
+  description: "UDVC PMS description",
   // icons: {
   //   icon: "/favicon.ico",
   // },

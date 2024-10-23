@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { Edit, Link, Loader, PlusCircle } from "lucide-react";
+import { Edit, Link, Loader, PlusCircle, Type, X } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,9 @@ import { ProjectProps } from "@/types/types";
 import { useForm } from "react-hook-form";
 import TextInput from "@/components/FormInputs/TextInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
+import { Button } from "@/components/ui/button";
+import { generateSlug } from "@/lib/generateSlug";
+import { redirect } from "next/navigation";
 export default function ProjectBanner({
   banner,
   name,
@@ -48,6 +51,8 @@ export default function ProjectBanner({
   const [gradient, setGradient] = useState(initialGradient);
   const [imageUrl, setImageUrl] = useState(initialImage);
   const [loading, setLoading] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -56,6 +61,7 @@ export default function ProjectBanner({
   } = useForm<ProjectProps>({
     defaultValues: {
       bannerImage: "",
+      name: name || "",
     },
   });
   async function handleGradientChange(bgColor: string) {
@@ -98,8 +104,22 @@ export default function ProjectBanner({
       console.log(error);
     }
   }
+
+  async function updateNameProject(data: ProjectProps) {
+    try {
+      setLoading(true);
+      if (editingId) {
+        await updateProjectById(editingId, data);
+        setLoading(false);
+        setIsEditingName(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }
   return (
-    <div className="relative h-56 rounded-lg overflow-hidden">
+    <div className="relative h-56 rounded-lg overflow-hidden group">
       <Image
         src={imageUrl}
         alt="Project Banner"
@@ -112,13 +132,52 @@ export default function ProjectBanner({
         className={`absolute inset-0 opacity-60 dark:opacity-75 ${gradient}`}
       />
       <div className="absolute inset-0 flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-white">{name}</h1>
+        {!isEditingName ? (
+          <h1 className="text-4xl font-bold text-white ml-10">{name}</h1>
+        ) : (
+          <form className="" onSubmit={handleSubmit(updateNameProject)}>
+            <div className="flex items-end gap-3">
+              <TextInput
+                register={register}
+                errors={errors}
+                label=""
+                name="name"
+                placeholder="กรอกชื่อโครงการ"
+                icon={Type}
+              />
+              <SubmitButton
+                title="ยืนยันการอัพเดต"
+                loading={loading}
+                loadingTitle="กำลังอัพเดต..."
+              />
+            </div>
+          </form>
+        )}
+
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          onClick={() => setIsEditingName(!isEditingName)}
+          className={`${
+            isEditingName ? "ml-2 mt-2" : ""
+          } hover:bg-transparent text-white hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+        >
+          {!isEditingName ? (
+            <Edit className="h-4 w-4" />
+          ) : (
+            <X className="h-4 w-4 " />
+          )}
+        </Button>
 
         <Dialog>
           <DialogTrigger asChild>
-            <div className=" absolute top-2 right-2 p-3 cursor-pointer rounded-lg hover:bg-accent hover:text-accent-foreground text-sm font-semibold transition-colors ">
+            <Button
+              variant="outline"
+              size={"icon"}
+              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 "
+            >
               <Edit className="h-4 w-4" />
-            </div>
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -132,7 +191,7 @@ export default function ProjectBanner({
                     อัพโหลด
                   </TabsTrigger>
                   <TabsTrigger className="w-full" value="link">
-                    รูปภาพ URL
+                    URL
                   </TabsTrigger>
                   <TabsTrigger className="w-full" value="unspalsh">
                     unspalsh

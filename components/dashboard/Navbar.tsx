@@ -55,7 +55,7 @@ export default function Navbar({ session }: { session: Session }) {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <AlignHorizontalJustifyEnd className="h-6 w-6" />
-              <span className="sr-only">SK CRM</span>
+              <span className="sr-only">UDVC PMS</span>
             </Link>
             <Link
               href="#"

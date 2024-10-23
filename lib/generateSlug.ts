@@ -1,9 +1,10 @@
 export function generateSlug(title: string): string {
-  // Convert title to lowercase and replace spaces with dashes
-  const slug = title.toLowerCase().replace(/\s+/g, "-");
+  // Convert title to lowercase, replace spaces with dashes
+  let slug = title.trim().toLowerCase().replace(/\s+/g, "-");
 
-  // Remove special characters except for dashes
-  const cleanedSlug = slug.replace(/[^\w\-]/g, "");
+  // Remove special characters except for dashes and Thai characters
+  slug = slug.replace(/[^\w\-ก-๙]/g, "");
 
-  return cleanedSlug;
+  // Encode any remaining unsafe characters for URL compatibility
+  return encodeURIComponent(slug);
 }

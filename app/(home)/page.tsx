@@ -33,7 +33,7 @@ export default async function Home() {
             จัดการโครงการของคุณให้มีประสิทธิภาพยิ่งขึ้น
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-600 mb-4">
-            ระบบ CRM สำหรับผู้จัดการโครงการที่ช่วยให้คุณติดตามงาน จัดการทีม
+            ระบบ UDVC PMS สำหรับผู้จัดการโครงการที่ช่วยให้คุณติดตามงาน จัดการทีม
             และสร้างผลลัพธ์ที่ยอดเยี่ยม
           </p>
           <CustomLinkButton title="เริ่มใช้งานฟรี" href="/dashboard" />
