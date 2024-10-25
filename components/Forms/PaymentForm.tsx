@@ -81,7 +81,7 @@ export default function PaymentForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="w-full">
+        <Button size="sm" variant="outline" className="w-full sm:w-auto ">
           <PlusCircle className="w-4 h-4 mr-1.5" />
           เพิ่มการชำระเงิน
         </Button>
@@ -95,19 +95,24 @@ export default function PaymentForm({
             {remainingAmount < 0 ? (
               <div className="">
                 <span>จำนวนงบประมาน เกินงบประมาน:</span>
-                <span className="ml-2 font-bold text-red-500">
-                  {Math.abs(remainingAmount).toLocaleString()}
+                <span className="ml-2 ">
+                  <span className="font-bold text-red-500">
+                    {Math.abs(remainingAmount).toLocaleString()}
+                  </span>{" "}
+                  บาท
                 </span>
               </div>
             ) : (
               <div className="">
                 <span>จำนวนงบประมาน คงเหลือ:</span>
-                <span className="ml-2 font-bold text-yellow-500">
-                  {remainingAmount.toLocaleString()}
+                <span className="ml-2 ">
+                  <span className="font-bold text-yellow-500">
+                    {remainingAmount.toLocaleString()}
+                  </span>{" "}
+                  บาท
                 </span>
               </div>
             )}
-            <span className="ml-2">บาท</span>
           </span>
         </DialogDescription>
         <form onSubmit={handleSubmit(savePayment)}>

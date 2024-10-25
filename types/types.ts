@@ -76,10 +76,20 @@ export type Module = {
   updatedAt: Date;
 };
 
+export type ModuleProps = {
+  name: string;
+  userName: string;
+  projectId: string;
+  userId: string;
+};
+
 export type ProjectComment = {
   id: string;
   content: string;
   projectId: string;
+  userName: string;
+  userRole: UserRole;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -128,6 +138,13 @@ export type PaymentProps = {
   projectId: string;
   userId: string;
   clientId: string;
+};
+export type CommentProps = {
+  content: string;
+  projectId: string;
+  userName: string;
+  userRole: UserRole;
+  userId: string;
 };
 
 export type ClientData = {

@@ -39,7 +39,7 @@ const Editor = ({ initialValue, onChange, isEditable = true }: EditorProp) => {
       <EditorContent
         className={cn({
           "border p-4 rounded-xl": isEditable,
-          "w-full ": !isEditable,
+          "w-[206px] sm:w-full break-words": !isEditable,
         })}
         {...(initialValue && { initialContent: initialValue })}
         extensions={extensions}

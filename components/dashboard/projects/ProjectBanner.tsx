@@ -119,7 +119,7 @@ export default function ProjectBanner({
     }
   }
   return (
-    <div className="relative h-56 rounded-lg overflow-hidden group">
+    <div className="relative  h-60 rounded-lg overflow-hidden group">
       <Image
         src={imageUrl}
         alt="Project Banner"
@@ -131,12 +131,14 @@ export default function ProjectBanner({
       <div
         className={`absolute inset-0 opacity-60 dark:opacity-75 ${gradient}`}
       />
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center flex-col sm:flex-row">
         {!isEditingName ? (
-          <h1 className="text-4xl font-bold text-white ml-10">{name}</h1>
+          <div className="mt-6 sm:mt-0 sm:ml-10">
+            <h1 className="text-4xl font-bold text-white">{name}</h1>
+          </div>
         ) : (
           <form className="" onSubmit={handleSubmit(updateNameProject)}>
-            <div className="flex items-end gap-3">
+            <div className="flex flex-col sm:flex-row items-end gap-3">
               <TextInput
                 register={register}
                 errors={errors}
@@ -149,6 +151,7 @@ export default function ProjectBanner({
                 title="ยืนยันการอัพเดต"
                 loading={loading}
                 loadingTitle="กำลังอัพเดต..."
+                className="w-full sm:w-auto"
               />
             </div>
           </form>
@@ -160,7 +163,7 @@ export default function ProjectBanner({
           onClick={() => setIsEditingName(!isEditingName)}
           className={`${
             isEditingName ? "ml-2 mt-2" : ""
-          } hover:bg-transparent text-white hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+          } hover:bg-transparent text-white hover:text-white opacity-0 group-hover:opacity-100 transition-opacity `}
         >
           {!isEditingName ? (
             <Edit className="h-4 w-4" />
@@ -174,7 +177,7 @@ export default function ProjectBanner({
             <Button
               variant="outline"
               size={"icon"}
-              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 "
+              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity  "
             >
               <Edit className="h-4 w-4" />
             </Button>
