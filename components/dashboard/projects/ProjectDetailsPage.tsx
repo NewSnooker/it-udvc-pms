@@ -79,6 +79,12 @@ export default function ProjectDetailsPage({
       return "สิ้นสุดโครงการวันนี้!";
     }
   }
+  const handleFormClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   useEffect(() => {
     if (projectData.endDate) {
@@ -175,20 +181,28 @@ export default function ProjectDetailsPage({
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 pb-6 w-full ">
                       {projectData.modules.length > 0 ? (
                         projectData.modules.map((module, index) => (
-                          <div key={index} className="relative h-fit ">
-                            <div className="text-sm w-full shadow-md transition-all duration-300 dark:transition-all dark:duration-300 bg-zinc-100 dark:bg-background dark:border dark:hover:border-none cursor-pointer px-6 py-4 rounded-lg hover:shadow-none">
-                              {module.name}
-                              <div className="absolute top-2 right-2">
-                                <ModuleForm
-                                  projectId={projectData.id}
-                                  userId={user.id}
-                                  userName={user.name}
-                                  initialModule={module.name}
-                                  editingId={module.id}
-                                />
+                          <Link
+                            href={`/project/modules/${module.id}?pid=${module.projectId}`}
+                            key={index}
+                          >
+                            <div className="h-fit group ">
+                              <div className="text-sm w-full flex items-center justify-between shadow-md transition-all duration-300 dark:transition-all dark:duration-300 bg-zinc-100 dark:bg-background dark:border dark:hover:border-none cursor-pointer px-4 pr-2 sm:px-6 sm:pr-4 py-4 rounded-lg hover:shadow-none">
+                                <span>{module.name}</span>
+                                <div
+                                  className="sm:opacity-0 group-hover:sm:opacity-100 transition-all"
+                                  onClick={(event) => handleFormClick(event)}
+                                >
+                                  <ModuleForm
+                                    projectId={projectData.id}
+                                    userId={user.id}
+                                    userName={user.name}
+                                    initialModule={module.name}
+                                    editingId={module.id}
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          </Link>
                         ))
                       ) : (
                         <div className="w-full col-span-full flex flex-col items-center p-8 ">

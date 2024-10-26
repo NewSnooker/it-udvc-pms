@@ -63,6 +63,7 @@ export async function deleteModule(id: string) {
         id,
       },
     });
+    revalidatePath("/dashboard/projects");
 
     return {
       ok: true,

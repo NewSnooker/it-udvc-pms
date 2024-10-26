@@ -8,15 +8,27 @@ import { ModuleProps } from "@/types/types";
 import TextInput from "../FormInputs/TextInput";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Package, SquarePen } from "lucide-react";
+import { Package, SquarePen, Trash } from "lucide-react";
 import SubmitButton from "../FormInputs/SubmitButton";
-import { createModule, updateModuleById } from "@/actions/module";
+import { createModule, deleteModule, updateModuleById } from "@/actions/module";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function ModuleForm({
   projectId,
@@ -55,20 +67,36 @@ export default function ModuleForm({
       if (editingId) {
         await updateModuleById(editingId, data);
         setLoading(false);
-        toast.success("อัพเดตฟังก์ชั่นโครงการสําเร็จ!");
         reset();
+        toast.success("อัพเดตฟังก์ชั่นโครงการสําเร็จ!");
+        setOpen(false);
       } else {
         await createModule(data);
         setLoading(false);
-        toast.success("เพิ่มฟังก์ชั่นโครงการสําเร็จ!");
         reset();
+        toast.success("เพิ่มฟังก์ชั่นโครงการสําเร็จ!");
+        setOpen(false);
       }
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
   }
-
+  async function handleModuleDelete(id: string) {
+    setLoading(true);
+    try {
+      const res = await deleteModule(id);
+      if (res && res.ok) {
+        setLoading(false);
+        toast.success("ลบฟังก์ชั่นโครงการสําเร็จ!");
+        setOpen(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast.error("ลบฟังก์ชั่นโครงไม่สำเร็จ!");
+    }
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -83,7 +111,7 @@ export default function ModuleForm({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>
             {editingId ? "แก้ไขฟังก์ชั่นโครงการ" : "เพิ่มฟังก์ชั่นโครงการ"}
@@ -100,13 +128,57 @@ export default function ModuleForm({
               icon={Package}
             />
           </div>
-          <SubmitButton
-            title={
-              editingId ? "อัปเดตฟังก์ชั่นโครงการ" : "เพิ่มฟังก์ชั่นโครงการ"
-            }
-            loading={loading}
-            className="mt-4 w-full"
-          />
+
+          <div
+            className={`w-full mt-4 ${
+              editingId ? "flex  justify-between gap-4" : ""
+            } `}
+          >
+            {editingId && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    disabled={loading}
+                    variant="destructive"
+                    size="icon"
+                    className="w-full "
+                  >
+                    <Trash className="h-4 w-4  mr-1.5 " />
+                    ลบ<p className="hidden sm:inline">ฟังก์ชั่นโครงการ</p>
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="py-10">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>คุณแน่ใจแล้วหรือไม่?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      เมื่อดำเนินการนี้ไม่สามารถยกเลิกได้
+                      การดำเนินการนี้จะลบสิ่งนี้อย่างถาวร
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+                    <AlertDialogAction className="px-0">
+                      <Button
+                        variant={"destructive"}
+                        className="w-full sm:w-auto"
+                        onClick={() => handleModuleDelete(editingId)}
+                      >
+                        ยืนยันการลบ
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+
+            <SubmitButton
+              title={
+                editingId ? "อัปเดตฟังก์ชั่นโครงการ" : "เพิ่มฟังก์ชั่นโครงการ"
+              }
+              loading={loading}
+              className="w-full"
+            />
+          </div>
         </form>
       </DialogContent>
     </Dialog>

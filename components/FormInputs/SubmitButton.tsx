@@ -30,7 +30,7 @@ export default function SubmitButton({
           type="button"
           size={"sm"}
           disabled
-          className={cn("", className)}
+          className={cn("gap-1", className)}
         >
           <LoaderIcon className="w-4 h-4 animate-spin mr-2" />
           {loadingTitle}

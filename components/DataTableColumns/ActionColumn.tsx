@@ -98,7 +98,7 @@ export default function ActionColumn({
             <AlertDialogHeader>
               <AlertDialogTitle>คุณแน่ใจแล้วหรือไม่?</AlertDialogTitle>
               <AlertDialogDescription>
-                การดำเนินการนี้ไม่สามารถยกเลิกได้
+                เมื่อดำเนินการนี้ไม่สามารถยกเลิกได้
                 การดำเนินการนี้จะลบสิ่งนี้อย่างถาวร
               </AlertDialogDescription>
             </AlertDialogHeader>

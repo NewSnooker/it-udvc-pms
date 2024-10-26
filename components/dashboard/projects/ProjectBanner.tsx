@@ -185,10 +185,10 @@ export default function ProjectBanner({
           <DialogContent>
             <DialogHeader>
               <DialogTitle className=" mb-2">แก้ไขแบนเนอร์</DialogTitle>
-              <Tabs defaultValue="ไล่ระดับสี" className="w-full">
+              <Tabs defaultValue="gradient" className="w-full">
                 <TabsList className="w-full ">
                   <TabsTrigger className="w-full" value="gradient">
-                    ไล่ระดับสี
+                    <p className="hidden lg:block">ไล่ระดับ</p>สี
                   </TabsTrigger>
                   <TabsTrigger className="w-full" value="upload">
                     อัพโหลด
@@ -200,14 +200,14 @@ export default function ProjectBanner({
                     unspalsh
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="gradient">
-                  <div className="grid grid-cols-2 lg:grid-cols-4 py-4 px-6 gap-4">
+                <TabsContent value="gradient" className="w-full">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 px-4 mt-4 justify-center items-center gap-x-10 sm:gap-x-8 gap-y-4 w-full">
                     {gradients.map((item, index) => (
                       <div
                         key={index}
                         onClick={() => handleGradientChange(item)}
                         className={`${cn(
-                          "h-16 w-20 rounded-2xl shadow-lg cursor-pointer hover:scale-95 transition-all"
+                          "h-16 rounded-2xl shadow-lg cursor-pointer hover:scale-95 transition-all"
                         )} ${item}
                         ${gradient === item ? "border-2 border-red-600 " : ""}`}
                       />
@@ -264,13 +264,13 @@ export default function ProjectBanner({
                   </form>
                 </TabsContent>
                 <TabsContent value="unspalsh">
-                  <div className="grid grid-cols-2 lg:grid-cols-4 py-4 px-6 gap-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 px-4 mt-4 justify-center items-center gap-x-10 sm:gap-x-8 gap-y-4 w-full">
                     {gradients.map((item, index) => (
                       <div
                         key={index}
                         onClick={() => handleGradientChange(item)}
                         className={`${cn(
-                          "h-16 w-20 rounded-2xl shadow-lg cursor-pointer hover:scale-95 transition-all"
+                          "h-16 rounded-2xl shadow-lg cursor-pointer hover:scale-95 transition-all"
                         )} ${item}
                         ${gradient === item ? "border-2 border-red-600 " : ""}`}
                       />

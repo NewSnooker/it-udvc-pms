@@ -8,9 +8,9 @@ export default function Loading() {
     <div>
       <div className="flex items-center justify-center min-h-screen">
         <div className=" w-[350px] sm:w-[600px] ">
-          <Lottie animationData={LoaderAnimation} />
+          <Lottie animationData={LoaderAnimation} className="px-10 sm:p-0" />
           <div className=" flex items-center justify-center ">
-            <Lottie animationData={underLoading} />
+            <Lottie animationData={underLoading} className="px-10 sm:p-0" />
           </div>
           {/* <div className="pt-4 flex items-center justify-center ">
             <div className="text-muted-foreground text-2xl">กำลังโหลด...</div>
