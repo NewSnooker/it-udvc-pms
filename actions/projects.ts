@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/prisma/db";
-import { ClientData, ProjectData, ProjectProps } from "@/types/types";
+import { ProjectData, ProjectProps } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProject(data: ProjectProps) {
@@ -62,6 +62,28 @@ export async function getUserProjects(userId: string | undefined) {
         where: {
           userId,
         },
+      });
+
+      return projects;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function getRecentProjects(userId: string | undefined) {
+  try {
+    if (userId) {
+      const projects = await db.project.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          userId,
+        },
+        take: 5,
       });
 
       return projects;

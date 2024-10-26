@@ -60,6 +60,7 @@
     "react-icons": "^5.2.1",
     "react-iframe": "^1.8.5",
     "react-quill": "^2.0.0",
+    "react-slot-counter": "^3.0.1",
     "react-tailwindcss-select": "^1.8.5",
     "recharts": "^2.13.0",
     "sonner": "^1.5.0",

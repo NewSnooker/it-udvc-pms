@@ -22,7 +22,6 @@ import {
   ArrowLeft,
   X,
   PlusCircle,
-  HandCoins,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -439,7 +438,7 @@ export default function ProjectDetailsPage({
                                     {invoice.title}{" "}
                                   </div>
                                   <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
-                                    ฿{invoice.amount}
+                                    ฿{invoice.amount.toLocaleString()}
                                   </Badge>
                                 </Button>
                               </Link>
