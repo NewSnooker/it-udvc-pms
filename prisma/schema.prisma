@@ -135,12 +135,16 @@ model Module {
   updatedAt DateTime @updatedAt
 }
 
+enum TaskStatus {
+  TODO
+  INPROGRESS
+  COMPLETE
+}
+
 model Task {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  description String?
-  status      String
-  dueDate     DateTime?
+  status      TaskStatus @default(TODO)
   module      Module    @relation(fields: [moduleId], references: [id])
   moduleId    String    @db.ObjectId
   createdAt   DateTime  @default(now())

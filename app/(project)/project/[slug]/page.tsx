@@ -1,5 +1,5 @@
 import { getProjectDetailBySlug } from "@/actions/projects";
-import ProjectDetailsPage from "@/components/dashboard/projects/ProjectDetailsPage";
+import ProjectDetailsPage from "@/components/projects/ProjectDetailsPage";
 import { authOptions } from "@/config/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

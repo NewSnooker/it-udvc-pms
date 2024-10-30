@@ -81,7 +81,7 @@ export default function PaymentForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="outline" className="w-full sm:w-auto ">
+        <Button size="sm" className="w-full sm:w-auto ">
           <PlusCircle className="w-4 h-4 mr-1.5" />
           เพิ่มการชำระเงิน
         </Button>

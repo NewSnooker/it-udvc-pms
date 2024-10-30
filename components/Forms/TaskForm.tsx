@@ -4,20 +4,24 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { ModuleProps } from "@/types/types";
+import { TasksProps } from "@/types/types";
 import TextInput from "../FormInputs/TextInput";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { Package, SquarePen, Trash } from "lucide-react";
+import {
+  EllipsisVertical,
+  Package,
+  PlusCircle,
+  Trash,
+  Plus,
+} from "lucide-react";
 import SubmitButton from "../FormInputs/SubmitButton";
-import { createModule, deleteModule, updateModuleById } from "@/actions/module";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,52 +33,56 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { TaskStatus } from "@prisma/client";
+import { createTask, deleteTask, updateTaskById } from "@/actions/tasks";
 
-export default function ModuleForm({
-  projectId,
-  userId,
-  userName,
-  initialModule,
+export default function TaskForm({
+  moduleId,
+  initialTitle,
+  initialStatus,
   editingId,
+  isDefault,
+  titleStatus,
 }: {
-  projectId: string;
-  userId: string;
-  userName: string;
-  initialModule?: string;
+  moduleId: string;
+  initialTitle?: string;
+  initialStatus: TaskStatus;
   editingId?: string;
+  isDefault?: boolean;
+  titleStatus?: string;
 }) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ModuleProps>({
+  } = useForm<TasksProps>({
     defaultValues: {
-      name: initialModule || "",
+      title: initialTitle || "",
     },
   });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  async function saveModule(data: ModuleProps) {
+  async function saveTasks(data: TasksProps) {
     setLoading(true);
-    data.userName = userName;
-    data.projectId = projectId;
-    data.userId = userId;
-
+    data.moduleId = moduleId;
+    data.status = initialStatus;
     try {
       if (editingId) {
-        await updateModuleById(editingId, data);
+        await updateTaskById(editingId, data);
         setLoading(false);
         reset();
-        toast.success("อัพเดตฟังก์ชั่นโครงการสําเร็จ!");
+        toast.success("อัพเดตงานสําเร็จ!");
+        router.refresh();
         setOpen(false);
       } else {
-        await createModule(data);
+        await createTask(data);
         setLoading(false);
         reset();
-        toast.success("เพิ่มฟังก์ชั่นโครงการสําเร็จ!");
+        toast.success("เพิ่มงานสําเร็จ!");
+        router.refresh();
         setOpen(false);
       }
     } catch (error) {
@@ -85,29 +93,40 @@ export default function ModuleForm({
   async function handleModuleDelete(id: string) {
     setLoading(true);
     try {
-      const res = await deleteModule(id);
+      const res = await deleteTask(id);
       if (res && res.ok) {
         setLoading(false);
-        toast.success("ลบฟังก์ชั่นโครงการสําเร็จ!");
+        toast.success("ลบงานสําเร็จ!");
         setOpen(false);
       }
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast.error("ลบฟังก์ชั่นโครงไม่สำเร็จ!");
+      toast.error("ลบงานไม่สำเร็จ!");
     }
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {editingId ? (
-          <Button variant="ghost" size="icon" className=" transition-all ">
-            <SquarePen className="h-4 w-4" />
+          <Button variant="ghost" size="icon" className=" transition-all  ">
+            <EllipsisVertical className="h-4 w-4" />
           </Button>
         ) : (
-          <Button size="sm" className="w-full sm:w-auto">
-            <Package className="w-4 h-4 mr-1.5" />
-            เพิ่มฟังก์ชั่นโครงการ
+          <Button
+            size="sm"
+            variant={isDefault ? "default" : "ghost"}
+            onClick={() => setOpen(true)}
+            className={`${isDefault ? "w-full sm:w-auto" : ""}`}
+          >
+            {isDefault ? (
+              <span className=" flex">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                งานที่ต้องทำ
+              </span>
+            ) : (
+              <Plus className=" h-4 w-4" />
+            )}
           </Button>
         )}
       </DialogTrigger>
@@ -115,18 +134,20 @@ export default function ModuleForm({
         <DialogHeader>
           <DialogTitle>
             {editingId
-              ? `แก้ไขฟังก์ชั่น: ${initialModule}`
-              : "เพิ่มฟังก์ชั่นโครงการ"}
+              ? `แก้ไขงาน: ${initialTitle}`
+              : isDefault
+              ? "งานที่ต้องทำ"
+              : titleStatus}
           </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(saveModule)}>
+        <form onSubmit={handleSubmit(saveTasks)}>
           <div className="grid gap-3">
             <TextInput
               register={register}
               errors={errors}
               label=""
-              placeholder="กรอกชื่อฟังก์ชั่นโครงการ"
-              name="name"
+              placeholder="กรอกชื่องาน"
+              name="title"
               icon={Package}
             />
           </div>
@@ -146,7 +167,7 @@ export default function ModuleForm({
                     className="w-full "
                   >
                     <Trash className="h-4 w-4  mr-1.5 " />
-                    ลบ<p className="hidden sm:inline">ฟังก์ชั่นโครงการ</p>
+                    ลบ<p className="hidden sm:inline">งาน</p>
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="py-10">
@@ -174,9 +195,7 @@ export default function ModuleForm({
             )}
 
             <SubmitButton
-              title={
-                editingId ? "อัปเดตฟังก์ชั่นโครงการ" : "เพิ่มฟังก์ชั่นโครงการ"
-              }
+              title={editingId ? "อัปเดตงาน" : "เพิ่มงาน"}
               loading={loading}
               className="w-full"
             />

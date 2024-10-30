@@ -101,10 +101,10 @@ export default function ProjectDetailsPage({
   return (
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto pt-4 pb-10 space-y-6">
-        <div className="mb-4 flex items-center justify-between">
-          <Link href="/dashboard/projects">
-            <Button variant="outline">
-              <ArrowLeft className="mr-2 h-4 w-4" /> กลับไปยังหน้าโครงการ
+        <div className="mb-4 flex items-center justify-between w-full">
+          <Link href="/dashboard/projects" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto">
+              <ArrowLeft className="mr-2 h-4 w-4 " /> กลับไปยังหน้าโครงการ
             </Button>
           </Link>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-2">
@@ -185,8 +185,8 @@ export default function ProjectDetailsPage({
                             href={`/project/modules/${module.id}?pid=${module.projectId}`}
                             key={index}
                           >
-                            <div className="h-fit group ">
-                              <div className="text-sm w-full flex items-center justify-between shadow-md transition-all duration-300 dark:transition-all dark:duration-300 bg-zinc-100 dark:bg-background dark:border dark:hover:border-none cursor-pointer px-4 pr-2 sm:px-6 sm:pr-4 py-4 rounded-lg hover:shadow-none">
+                            <div className="h-fit group transition-all ease-in-out">
+                              <div className="text-sm w-full flex items-center justify-between shadow-md bg-zinc-100 dark:bg-background dark:border dark:hover:border-none cursor-pointer px-4 pr-2 sm:px-6 sm:pr-4 py-4 rounded-lg hover:shadow-none">
                                 <span>{module.name}</span>
                                 <div
                                   className="sm:opacity-0 group-hover:sm:opacity-100 transition-all"

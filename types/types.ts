@@ -1,4 +1,4 @@
-import { ProjectStatus, UserRole } from "@prisma/client";
+import { ProjectStatus, TaskStatus, UserRole } from "@prisma/client";
 
 export type CategoryProps = {
   title: string;
@@ -67,7 +67,25 @@ export type ProjectData = {
   updatedAt: Date;
   client: ClientData | null;
 };
+export type ModuleData = {
+  id: string;
+  name: string;
+  userName: string;
+  projectId: string;
+  userId: string | undefined | null;
+  tasks: Task[] | undefined | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
+export type Task = {
+  id: string;
+  title: string;
+  status: TaskStatus;
+  moduleId: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 export type Module = {
   id: string;
   name: string;
@@ -76,6 +94,11 @@ export type Module = {
   updatedAt: Date;
 };
 
+export type TasksProps = {
+  title: string;
+  status: TaskStatus;
+  moduleId: string;
+};
 export type ModuleProps = {
   name: string;
   userName: string;

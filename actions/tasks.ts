@@ -1,16 +1,18 @@
 "use server";
 
 import { db } from "@/prisma/db";
-import { ModuleProps } from "@/types/types";
+import { TasksProps } from "@/types/types";
+import { TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export async function createModule(data: ModuleProps) {
+export async function createTask(data: TasksProps) {
   try {
-    const newModule = await db.module.create({
+    const newTasks = await db.task.create({
       data,
     });
     revalidatePath("/dashboard/projects");
-    return newModule;
+    revalidatePath("/(project)/project/modules/[id]", "page");
+    return newTasks;
   } catch (error) {
     console.log(error);
     return null;
@@ -38,16 +40,33 @@ export async function getProjectModules(projectId: string | undefined) {
     return null;
   }
 }
-export async function updateModuleById(id: string, data: ModuleProps) {
+export async function updateTaskById(id: string, data: TasksProps) {
   try {
-    const updatedModule = await db.module.update({
+    const updatedTask = await db.task.update({
       where: {
         id,
       },
       data,
     });
     revalidatePath("/dashboard/projects");
-    return updatedModule;
+    revalidatePath("/(project)/project/modules/[id]", "page");
+    return updatedTask;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function updateTaskStatus(id: string, status: TaskStatus) {
+  try {
+    const updatedTask = await db.task.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      },
+    });
+    revalidatePath("/dashboard/projects");
+    return updatedTask;
   } catch (error) {
     console.log(error);
   }
@@ -64,9 +83,9 @@ export async function getModuleById(id: string) {
     console.log(error);
   }
 }
-export async function deleteModule(id: string) {
+export async function deleteTask(id: string) {
   try {
-    const deletedModule = await db.module.delete({
+    const deletedTask = await db.task.delete({
       where: {
         id,
       },
@@ -75,7 +94,7 @@ export async function deleteModule(id: string) {
 
     return {
       ok: true,
-      data: deletedModule,
+      data: deletedTask,
     };
   } catch (error) {
     console.log(error);

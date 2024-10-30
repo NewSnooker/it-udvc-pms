@@ -92,7 +92,7 @@ export default function CommentForm({
             <Pen className="h-4 w-4" />
           </Button>
         ) : (
-          <Button variant="outline" size="sm" className="w-full sm:w-auto">
+          <Button size="sm" className="w-full sm:w-auto">
             <MessageSquareText className="w-4 h-4 mr-1.5" />
             คอมเม้นโครงการ
           </Button>
