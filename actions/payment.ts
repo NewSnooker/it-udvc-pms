@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/prisma/db";
-import { CategoryProps, PaymentProps } from "@/types/types";
+import { CategoryProps, InvoiceDetails, PaymentProps } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
 export async function createPayment(data: PaymentProps) {
@@ -58,7 +58,7 @@ export async function getInvoiceById(id: string) {
       invoice: payment,
       user,
       client,
-    };
+    } as InvoiceDetails;
   } catch (error) {
     console.log(error);
     return null;

@@ -1,4 +1,9 @@
-import { ProjectStatus, TaskStatus, UserRole } from "@prisma/client";
+import {
+  ProjectStatus,
+  TaskStatus,
+  UserRole,
+  Payment as IPayment,
+} from "@prisma/client";
 
 export type CategoryProps = {
   title: string;
@@ -126,7 +131,33 @@ export type Member = {
   createdAt: Date;
   updatedAt: Date;
 };
+export interface InvoiceLinkProps {
+  invoiceLink?: string;
+  preview: string;
+  title: string;
+  username: string;
+}
 
+export type InvoiceDetails = {
+  invoice: IPayment;
+  user: IUser;
+  client: IClient;
+};
+interface IUser {
+  name: string;
+  phone: string;
+  email: string;
+  companyName: string;
+  companyDescription: string;
+  userLogo: string;
+}
+interface IClient {
+  name: string;
+  phone: string;
+  email: string;
+  companyName: string;
+  companyDescription: string;
+}
 export type Invoice = {
   id: string;
   invoiceNumber: string;
