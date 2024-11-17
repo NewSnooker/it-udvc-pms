@@ -19,11 +19,11 @@ export const metadata: Metadata = {
 };
 import dynamic from "next/dynamic";
 import { WEBSITE_NAME } from "@/constants";
-// import { PHProvider } from "@/components/posthog-provider";
+import { PHProvider } from "@/components/posthog-provider";
 
-// const PostHogPageView = dynamic(() => import("@/components/PostHogPageView"), {
-//   ssr: false,
-// });
+const PostHogPageView = dynamic(() => import("@/components/PostHogPageView"), {
+  ssr: false,
+});
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,30 +32,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <PHProvider> */}
-        <NextSSRPlugin
-          /**
-           * The `extractRouterConfig` will extract **only** the route configs
-           * from the router to prevent additional information from being
-           * leaked to the client. The data passed to the client is the same
-           * as if you were to fetch `/api/uploadthing` directly.
-           */
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
+        <PHProvider>
+          <NextSSRPlugin
+            /**
+             * The `extractRouterConfig` will extract **only** the route configs
+             * from the router to prevent additional information from being
+             * leaked to the client. The data passed to the client is the same
+             * as if you were to fetch `/api/uploadthing` directly.
+             */
+            routerConfig={extractRouterConfig(ourFileRouter)}
+          />
 
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Providers>
-            <Toaster position="top-center" reverseOrder={false} />
-            {/* <PostHogPageView /> */}
-            {children}
-          </Providers>
-        </ThemeProvider>
-        {/* </PHProvider> */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Providers>
+              <Toaster position="top-center" reverseOrder={false} />
+              <PostHogPageView />
+              {children}
+            </Providers>
+          </ThemeProvider>
+        </PHProvider>
       </body>
     </html>
   );
