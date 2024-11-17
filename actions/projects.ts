@@ -133,6 +133,7 @@ export async function getProjectDetailBySlug(
         invoices: true,
         comments: true,
         payments: true,
+        user: true,
       },
     });
 
@@ -154,6 +155,7 @@ export async function getProjectDetailBySlug(
         email: true,
         image: true,
         location: true,
+        plain: true,
         role: true,
         companyName: true,
         companyDescription: true,

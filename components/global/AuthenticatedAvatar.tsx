@@ -12,12 +12,14 @@ import { getInitials } from "@/lib/generateInitials";
 import { Session } from "next-auth";
 import Link from "next/link";
 import LogoutBtn from "@/components/global/LogoutBtn";
+import { UserRole } from "@prisma/client";
 
 export default function AuthenticatedAvatar({
   session,
 }: {
   session: Session | null;
 }) {
+  const role = session?.user?.role;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
@@ -38,11 +40,12 @@ export default function AuthenticatedAvatar({
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="/dashboard">Dashboard</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>Services</DropdownMenuItem>
-        {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
+        {role === UserRole.USER && (
+          <DropdownMenuItem>
+            <Link href="/dashboard">แดชบอร์ด</Link>
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuItem>
           <LogoutBtn />
         </DropdownMenuItem>

@@ -17,7 +17,7 @@ import * as React from "react";
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export const InvoiceLink: React.FC<Readonly<InvoiceLinkProps>> = ({
   invoiceLink,
-  preview = "ใบแจ้งหนี้ สำหรับการชําระเงิน โดย ######",
+  preview = "Payment Invoice for the Second Installment Made on Date 23",
   title = "ใบแจ้งหนี้ สำหรับการชําระเงิน โดย ######",
   username,
 }) => (

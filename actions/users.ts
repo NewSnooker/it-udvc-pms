@@ -2,6 +2,7 @@
 
 import { db } from "@/prisma/db";
 import { UserProps } from "@/types/types";
+import { UserRole } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 export async function createUser(data: UserProps) {
@@ -38,6 +39,7 @@ export async function createUser(data: UserProps) {
       data: {
         email,
         password: hashedPassword,
+        plain: role === UserRole.CLIENT ? password : "",
         firstName,
         lastName,
         name,

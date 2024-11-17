@@ -3,6 +3,7 @@ import {
   TaskStatus,
   UserRole,
   Payment as IPayment,
+  User,
 } from "@prisma/client";
 
 export type CategoryProps = {
@@ -71,6 +72,7 @@ export type ProjectData = {
   createdAt: Date;
   updatedAt: Date;
   client: ClientData | null;
+  user: User | null;
 };
 export type ModuleData = {
   id: string;
@@ -133,9 +135,9 @@ export type Member = {
 };
 export interface InvoiceLinkProps {
   invoiceLink?: string;
-  preview: string;
-  title: string;
-  username: string;
+  preview?: string;
+  title?: string;
+  username?: string;
 }
 
 export type InvoiceDetails = {
@@ -211,6 +213,7 @@ export type ClientData = {
   image: string | undefined | null;
   location: string | undefined | null;
   role: UserRole;
+  plain: string | null;
   companyName: string | undefined | null;
   companyDescription: string | null;
 };

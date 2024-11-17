@@ -4,12 +4,11 @@ import Image from "next/image";
 import moment from "moment";
 import "moment/locale/th";
 import Link from "next/link";
-import { ArrowLeft, Mail, PrinterIcon } from "lucide-react";
+import { ArrowLeft, Loader, Mail, PrinterIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InvoiceDetails } from "@/types/types";
 import { useReactToPrint } from "react-to-print";
 import { UserRole } from "@prisma/client";
-import { send } from "process";
 import { sendInvoiceLink } from "@/actions/emails";
 import toast from "react-hot-toast";
 moment.locale("th");
@@ -20,21 +19,24 @@ export default function Invoice({
 }: {
   invoiceDetails: InvoiceDetails;
   project: string;
-  role: string | undefined;
+  role: string;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
   const [loading, setLoading] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  setLoading(true);
+  const invoiceLink = `${baseUrl}/project/invoice/${invoiceDetails.invoice.id}?project=${project}`;
   async function handleSendInvoice() {
     try {
-      const res = await sendInvoiceLink();
+      setLoading(true);
+      const res = await sendInvoiceLink(invoiceDetails, invoiceLink);
       setLoading(false);
       toast.success("ส่งอีเมลสําเร็จ");
     } catch (error) {
-      console.log(error);
+      toast.error("ส่งอีเมลไม่สําเร็จ");
+      setLoading(false);
+      console.error(error);
     }
   }
   return (
@@ -47,9 +49,18 @@ export default function Invoice({
         </Link>
         <div className=" flex items-center justify-center sm:justify-end gap-x-2 w-full">
           {role === UserRole.USER && (
-            <Button variant="outline" onClick={handleSendInvoice}>
-              <Mail className="w-4 h-4 mr-2" />
-              Send to Client
+            <Button
+              disabled={loading}
+              variant="outline"
+              onClick={handleSendInvoice}
+            >
+              {loading ? (
+                <Loader className="w-4 h-4 animate-spin mr-2" />
+              ) : (
+                <Mail className="w-4 h-4 mr-2" />
+              )}
+
+              {loading ? "Sending..." : "Send to Client"}
             </Button>
           )}
           <Button onClick={() => reactToPrintFn()}>

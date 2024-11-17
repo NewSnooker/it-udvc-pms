@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react";
 import { CustomerReviews } from "@/components/frontend/CustomerReviews";
 import Showcase from "@/components/frontend/showcase";
 import { getKitUsers } from "@/actions/users";
+import { WEBSITE_NAME } from "@/constants";
 export default async function Home() {
   const count = (await getKitUsers()) ?? 0;
   return (
@@ -33,8 +34,8 @@ export default async function Home() {
             จัดการโครงการของคุณให้มีประสิทธิภาพยิ่งขึ้น
           </h1>
           <p className="mt-6 text-lg leading-8 text-zinc-600 mb-4">
-            ระบบ UDVC PMS สำหรับผู้จัดการโครงการที่ช่วยให้คุณติดตามงาน จัดการทีม
-            และสร้างผลลัพธ์ที่ยอดเยี่ยม
+            ระบบ {WEBSITE_NAME} สำหรับผู้จัดการโครงการที่ช่วยให้คุณติดตามงาน
+            จัดการทีม และสร้างผลลัพธ์ที่ยอดเยี่ยม
           </p>
           <CustomLinkButton title="เริ่มใช้งานฟรี" href="/dashboard" />
           <div className="pt-8 pb-4 flex items-center  justify-center gap-8">

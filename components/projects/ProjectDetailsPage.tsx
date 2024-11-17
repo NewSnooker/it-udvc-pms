@@ -22,6 +22,7 @@ import {
   ArrowLeft,
   X,
   PlusCircle,
+  LogOut,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -38,6 +39,9 @@ import BudgetProgressBar from "./BudgetProgressBar";
 import CommentForm from "@/components/Forms/CommentForm";
 import { getInitials } from "@/lib/generateInitials";
 import ModuleForm from "@/components/Forms/ModuleForm";
+import InviteClient from "../DataTableColumns/InviteClient";
+import { UserRole } from "@prisma/client";
+import LogoutBtn from "../global/LogoutBtn";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -47,6 +51,7 @@ export default function ProjectDetailsPage({
   session: Session | null;
 }) {
   const user = session?.user;
+  const role = user?.role;
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [daysDifference, setDaysDifference] = useState(0);
@@ -102,11 +107,19 @@ export default function ProjectDetailsPage({
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto pt-4 pb-10 space-y-6">
         <div className="mb-4 flex items-center justify-between w-full">
-          <Link href="/dashboard/projects" className="w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto">
-              <ArrowLeft className="mr-2 h-4 w-4 " /> กลับไปยังหน้าโครงการ
+          {role === UserRole.USER ? (
+            <Link href="/dashboard/projects" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto">
+                <ArrowLeft className="mr-2 h-4 w-4 " /> กลับไปยังหน้าโครงการ
+              </Button>
+            </Link>
+          ) : (
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <div className="">
+                <LogOut className="mr-2 h-4 w-4 " /> <LogoutBtn />
+              </div>
             </Button>
-          </Link>
+          )}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-2">
             <ModeToggle />
             <AuthenticatedAvatar session={session} />
@@ -368,12 +381,14 @@ export default function ProjectDetailsPage({
                       <CardTitle className="mb-3 sm:mb-0">
                         การชำระเงินและใบแจ้งหนี้{" "}
                       </CardTitle>
-                      <PaymentForm
-                        projectId={projectData.id}
-                        userId={projectData.userId ?? ""}
-                        clientId={projectData.clientId ?? ""}
-                        remainingAmount={remainingAmount}
-                      />
+                      {role === UserRole.USER && (
+                        <PaymentForm
+                          projectId={projectData.id}
+                          userId={projectData.userId ?? ""}
+                          clientId={projectData.clientId ?? ""}
+                          remainingAmount={remainingAmount}
+                        />
+                      )}
                     </div>
                   </CardHeader>
                   <CardContent className="">
@@ -392,7 +407,7 @@ export default function ProjectDetailsPage({
                             <div className="mt-2" key={index}>
                               <Button
                                 variant="outline"
-                                className="flex items-center justify-between gap-2 py-2 px-4  w-full text-sm"
+                                className="flex items-center justify-between gap-2 py-2 px-4 cursor-default w-full text-sm"
                               >
                                 <div className="">
                                   {moment(payment.date).format("L")}{" "}
@@ -535,77 +550,133 @@ export default function ProjectDetailsPage({
                     </div>
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <div className="flex items-center space-x-2 mb-2 sm:mb-0">
-                    <Users className="h-5 w-5 text-purple-400" />
-                    <span className="font-medium">สมาชิก:</span>
+                {role === UserRole.USER && (
+                  <div className="space-y-1">
+                    <div className="flex items-center space-x-2 mb-2 sm:mb-0">
+                      <Users className="h-5 w-5 text-purple-400" />
+                      <span className="font-medium">สมาชิก:</span>
+                    </div>
+                    <div className=" flex -space-x-2">
+                      {projectData.members.length > 0 ? (
+                        projectData.members.map((member, index) => (
+                          <Avatar
+                            key={index}
+                            className="h-8 w-8 border-2 border-background"
+                          >
+                            <AvatarFallback>
+                              {member.name.substring(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                        ))
+                      ) : (
+                        <div className="w-full">
+                          <Button
+                            variant="outline"
+                            size={"sm"}
+                            className="w-full sm:w-auto sm:ml-7"
+                          >
+                            <PlusCircle className="w-4 h-4 mr-1.5" />
+                            เชิญ
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div className=" flex -space-x-2">
-                    {projectData.members.length > 0 ? (
-                      projectData.members.map((member, index) => (
-                        <Avatar
-                          key={index}
-                          className="h-8 w-8 border-2 border-background"
-                        >
-                          <AvatarFallback>
-                            {member.name.substring(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                      ))
-                    ) : (
-                      <div className="w-full">
-                        <Button
-                          variant="outline"
-                          size={"sm"}
-                          className="w-full sm:w-auto sm:ml-7"
-                        >
-                          <PlusCircle className="w-4 h-4 mr-1.5" />
-                          เชิญ
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
               </CardContent>
             </Card>
             {/* Client Details */}
             <Card>
               <CardHeader>
-                <CardTitle>รายละเอียดลูกค้า</CardTitle>
+                <CardTitle>
+                  รายละเอียด{role === UserRole.CLIENT ? "ผู้ดูแล" : "ลูกค้า"}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center space-x-4 mb-2 ">
-                  <Avatar className="h-10 w-10 ">
-                    <AvatarImage
-                      src={projectData?.client?.image ?? "/placeholder.svg"}
-                      alt="Space Corp"
-                    />
-                    <AvatarFallback>
-                      {projectData?.client?.name.substring(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">{projectData?.client?.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      บริษัท{" "}
-                      {projectData?.client?.companyName || "ยังไม่ได้ระบุ"}
+                <div className="flex items-center space-x-4 mb-2 sm:mb-4  ">
+                  {role === UserRole.USER ? (
+                    <Avatar className="h-10 w-10 ">
+                      <AvatarImage
+                        src={projectData?.client?.image ?? "/placeholder.svg"}
+                        alt="Space Corp"
+                      />
+                      <AvatarFallback>
+                        {projectData?.client?.name
+                          .substring(0, 2)
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  ) : (
+                    <Avatar className="h-10 w-10 ">
+                      <AvatarImage
+                        src={projectData?.user?.image ?? "/placeholder.svg"}
+                        alt="Space Corp"
+                      />
+                      <AvatarFallback>
+                        {projectData?.user?.name.substring(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
+                  {role === UserRole.USER ? (
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
+                      <div>
+                        <p className="font-semibold">
+                          {projectData?.client?.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          บริษัท{" "}
+                          {projectData?.client?.companyName || "ยังไม่ได้ระบุ"}
+                        </p>
+                      </div>
+                      <div className="">
+                        <InviteClient row={projectData} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
+                      <div>
+                        <p className="font-semibold">
+                          {projectData?.user?.name || "ยังไม่ได้ระบุ"}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          บริษัท{" "}
+                          {projectData?.user?.companyName || "ยังไม่ได้ระบุ"}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {role === UserRole.USER ? (
+                  <div className="space-y-1">
+                    <p>
+                      <strong>อีเมล: </strong>
+                      {projectData?.client?.email}
+                    </p>
+                    <p>
+                      <strong>เบอร์โทร: </strong>
+                      {projectData?.client?.phone}
+                    </p>
+                    <p>
+                      <strong>ที่อยู่: </strong>
+                      {projectData?.client?.location}
                     </p>
                   </div>
-                </div>
-                <div className="space-y-1">
-                  <p>
-                    <strong>อีเมล: </strong>
-                    {projectData?.client?.email}
-                  </p>
-                  <p>
-                    <strong>เบอร์โทร: </strong>
-                    {projectData?.client?.phone}
-                  </p>
-                  <p>
-                    <strong>ที่อยู่: </strong>
-                    {projectData?.client?.location}
-                  </p>
-                </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p>
+                      <strong>อีเมล: </strong>
+                      {projectData?.user?.email}
+                    </p>
+                    <p>
+                      <strong>เบอร์โทร: </strong>
+                      {projectData?.user?.phone}
+                    </p>
+                    <p>
+                      <strong>ที่อยู่: </strong>
+                      {projectData?.user?.location}
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

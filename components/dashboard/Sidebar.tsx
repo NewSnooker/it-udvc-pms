@@ -35,6 +35,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
+import { WEBSITE_NAME } from "@/constants";
 export default function Sidebar() {
   const sidebarLinks = [
     {
@@ -193,7 +194,7 @@ export default function Sidebar() {
             className="flex items-center gap-2 font-semibold"
           >
             <AlignHorizontalJustifyEnd className="h-6 w-6" />
-            <span className="">UDVC PMS</span>
+            <span className="">{WEBSITE_NAME}</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />

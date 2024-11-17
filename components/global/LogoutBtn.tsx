@@ -15,7 +15,7 @@ export default function LogoutBtn() {
   }
   return (
     <div>
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout}>ออกจากระบบ</button>
     </div>
   );
 }

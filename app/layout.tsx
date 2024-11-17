@@ -11,13 +11,14 @@ import Providers from "@/components/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "UDVC PMS",
-  description: "UDVC PMS description",
+  title: WEBSITE_NAME,
+  description: `${WEBSITE_NAME} is a platform for IT professionals to find and connect with other IT professionals. It is a place where you can learn from others and share your knowledge with them.`,
   // icons: {
   //   icon: "/favicon.ico",
   // },
 };
 import dynamic from "next/dynamic";
+import { WEBSITE_NAME } from "@/constants";
 // import { PHProvider } from "@/components/posthog-provider";
 
 // const PostHogPageView = dynamic(() => import("@/components/PostHogPageView"), {

@@ -8,6 +8,7 @@ import ActionColumn from "@/components/DataTableColumns/ActionColumn";
 import { User } from "@prisma/client";
 import TitleColumn from "@/components/DataTableColumns/TitleColumn";
 import DateColumn from "@/components/DataTableColumns/DateColumn";
+import InviteClient from "@/components/DataTableColumns/InviteClient";
 export const columns: ColumnDef<User>[] = [
   {
     id: "select",
@@ -49,6 +50,11 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "email",
     header: ({ column }) => <TitleColumn column={column} title="อีเมล" />,
   },
+  // {
+  //   accessorKey: "createdAt",
+  //   header: ({ column }) => <TitleColumn column={column} title="เชิญ" />,
+  //   cell: ({ row }) => <InviteClient row={row} />,
+  // },
   {
     accessorKey: "location",
     header: ({ column }) => <TitleColumn column={column} title="ที่อยู่" />,

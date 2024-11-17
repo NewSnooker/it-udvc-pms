@@ -38,6 +38,7 @@ import { Session } from "next-auth";
 import { getInitials } from "@/lib/generateInitials";
 import { ModeToggle } from "../mode-toggle";
 import { AvatarMenuButton } from "./AvatarMenuButton";
+import { WEBSITE_NAME } from "@/constants";
 export default function Navbar({ session }: { session: Session }) {
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -55,7 +56,7 @@ export default function Navbar({ session }: { session: Session }) {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <AlignHorizontalJustifyEnd className="h-6 w-6" />
-              <span className="sr-only">UDVC PMS</span>
+              <span className="sr-only">{WEBSITE_NAME}</span>
             </Link>
             <Link
               href="#"

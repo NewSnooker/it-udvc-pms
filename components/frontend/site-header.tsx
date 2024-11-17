@@ -22,6 +22,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/global/Logo";
 import AuthenticatedAvatar from "@/components/global/AuthenticatedAvatar";
+import { WEBSITE_NAME } from "@/constants";
 
 export default function SiteHeader({ session }: { session: Session | null }) {
   const navigation = [
@@ -48,7 +49,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
         className="flex items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <Logo title="UDVC PMS" href="/" />
+          <Logo title={WEBSITE_NAME} href="/" />
         </div>
         <div className="flex lg:hidden">
           <button

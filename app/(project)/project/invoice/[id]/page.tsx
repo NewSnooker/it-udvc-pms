@@ -29,7 +29,7 @@ export default async function page({
   // }
   return (
     <Invoice
-      role={role}
+      role={role as string}
       invoiceDetails={invoiceDetails}
       project={project as string}
     />

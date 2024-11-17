@@ -1,6 +1,7 @@
 import React from "react";
 import SectionHeading from "./global/SectionHeading";
 import FeaturesCard from "./FeaturesCard";
+import { WEBSITE_NAME } from "@/constants";
 
 export default function ComparisonFeatures() {
   const cons = [
@@ -30,7 +31,7 @@ export default function ComparisonFeatures() {
         />
         <FeaturesCard
           features={pros}
-          title="การจัดการโครงการด้วย UDVC PMS ของเรา"
+          title={`การจัดการโครงการด้วย ${WEBSITE_NAME} ของเรา`}
           className="bg-green-50 text-green-800"
         />
       </div>

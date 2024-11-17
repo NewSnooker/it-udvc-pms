@@ -2,8 +2,9 @@ import Navbar from "@/components/dashboard/Navbar";
 import Sidebar from "@/components/dashboard/Sidebar";
 import SidebarV2 from "@/components/pages/SidebarV2";
 import { authOptions } from "@/config/auth";
+import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
 export default async function DashboardLayout({
@@ -12,8 +13,12 @@ export default async function DashboardLayout({
   children: ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  const role = session?.user?.role;
   if (!session) {
     redirect("/login");
+  }
+  if (role !== UserRole.USER) {
+    return notFound();
   }
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
