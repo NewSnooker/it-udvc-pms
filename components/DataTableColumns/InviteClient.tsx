@@ -17,8 +17,6 @@ export default function InviteClient({ row }: { row: any }) {
     const data: ClientInvitationProps = {
       clientName: projectData.client?.name,
       projectName: projectData.name,
-      message:
-        "We're excited to invite you to collaborate on our project. Your input is invaluable to us, and we look forward to working together.",
       loginEmail: projectData.client?.email,
       loginPassword: projectData.client?.plain ?? "",
       loginLink: `${baseUrl}/login/?returnUrl=/project/${projectData.slug}`,

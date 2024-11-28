@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/prisma/db";
-import { ProjectData, ProjectProps } from "@/types/types";
+import { ProjectData, ProjectProps, ProjectWithPayments } from "@/types/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProject(data: ProjectProps) {
@@ -73,6 +73,48 @@ export async function getUserProjects(userId: string | undefined) {
     return null;
   }
 }
+export async function getUserGuestProjects(userId: string | undefined) {
+  try {
+    if (userId) {
+      const projects = await db.guestProject.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          guestId: userId,
+        },
+      });
+
+      return projects;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function getUserMemberProjects(userId: string | undefined) {
+  try {
+    if (userId) {
+      const projects = await db.guestProject.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          projectOwnerId: userId,
+        },
+      });
+
+      return projects;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
 export async function getRecentProjects(userId: string | undefined) {
   try {
     if (userId) {
@@ -83,10 +125,38 @@ export async function getRecentProjects(userId: string | undefined) {
         where: {
           userId,
         },
-        take: 5,
+        take: 3,
       });
 
       return projects;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function getDetailUserProjects(userId: string | undefined) {
+  try {
+    if (userId) {
+      const projects = await db.project.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          thumbnail: true,
+          payments: true,
+        },
+      });
+
+      return projects as ProjectWithPayments[];
     } else {
       return null;
     }
@@ -175,7 +245,6 @@ export async function getProjectDetailBySlug(
     return null;
   }
 }
-
 export async function deleteProject(id: string) {
   try {
     const deletedProject = await db.project.delete({

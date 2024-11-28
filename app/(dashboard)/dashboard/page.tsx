@@ -13,13 +13,13 @@ export default async function Dashboard() {
   const analytics = (await getDashboardOverview(user?.id)) || [];
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-8">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
         {analytics?.map((item, i) => (
           <OverViewCard key={i} item={item} />
         ))}
       </div>
-      <div className="grid gap-4 md:gap-8 lg:grid-cols-2 ">
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-2 ">
         <RecentProjects recentProjects={recentProjects || []} />
         <RecentClients recentClients={recentClients || []} />
       </div>

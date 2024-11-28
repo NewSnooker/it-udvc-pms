@@ -61,9 +61,11 @@ export default function LoginForm() {
       <div className="">
         <div className="py-4 text-zinc-900">
           <h2 className="text-xl lg:text-2xl font-bold leading-9 tracking-tight  ">
-            Login in to your account
+            เข้าสู่ระบบ
           </h2>
-          <p className="text-xs">Welcome Back, fill in details to login</p>
+          <p className="text-xs">
+            ยินดีตอนรับกลับ! กรอกรายละเอียดเพื่อเข้าสู่ระบบ{" "}
+          </p>
         </div>
       </div>
       <div className="">
@@ -71,30 +73,30 @@ export default function LoginForm() {
           <TextInput
             register={register}
             errors={errors}
-            label="Email Address"
+            label="อีเมล"
             name="email"
             icon={Mail}
-            placeholder="email"
+            placeholder="อีเมล"
           />
           <PasswordInput
             register={register}
             errors={errors}
-            label="Password"
+            label="รหัสผ่าน"
             name="password"
             icon={Lock}
-            placeholder="password"
+            placeholder="รหัสผ่าน"
             forgotPasswordLink="/forgot-password"
           />
           {passErr && <p className="text-red-500 text-xs">{passErr}</p>}
           {errorParam === "OAuthAccountNotLinked" && (
             <p className="text-red-500 text-xs">
-              Account not linked, please sign in with the correct method.
+              บัญชีไม่ได้เชื่อมโยง กรุณาลงชื่อเข้าใช้ด้วยวิธีที่ถูกต้อง!
             </p>
           )}
           <div>
             <SubmitButton
-              title="Sign In"
-              loadingTitle="Loading Please wait.."
+              title="เข้าสู่ระบบ"
+              loadingTitle="กำลังเข้าสู่ระบบ..."
               loading={loading}
               className="w-full"
               loaderIcon={Loader2}
@@ -108,7 +110,7 @@ export default function LoginForm() {
           <div className="h-[1px] w-full bg-zinc-200"></div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           <Button
             onClick={() => signIn("google")}
             variant={"outline"}
@@ -126,13 +128,13 @@ export default function LoginForm() {
             Login with Github
           </Button>
         </div>
-        <p className="mt-6 text-center text-sm text-zinc-500">
-          Not a Registered ?{" "}
+        <p className="text-center  text-sm text-zinc-500">
+          ยังไม่มีบัญชี?{" "}
           <Link
             href="/register"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Create Account
+            เข้าสู่ระบบ
           </Link>
         </p>
       </div>

@@ -6,7 +6,6 @@ import {
   Heading,
   Hr,
   Html,
-  Img,
   Link,
   Preview,
   Section,
@@ -15,10 +14,11 @@ import {
 import * as React from "react";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const InvoiceLink: React.FC<Readonly<InvoiceLinkProps>> = ({
   invoiceLink,
-  preview = "Payment Invoice for the Second Installment Made on Date 23",
-  title = "ใบแจ้งหนี้ สำหรับการชําระเงิน โดย ######",
+  preview = "ใบแจ้งหนี้สำหรับการชำระเงินงวดที่ ######",
+  title = "ใบแจ้งหนี้ สำหรับการชำระเงิน โดย ######",
   username,
 }) => (
   <Html>
@@ -29,17 +29,16 @@ export const InvoiceLink: React.FC<Readonly<InvoiceLinkProps>> = ({
         <Heading style={heading}>🪄 {title}</Heading>
         <Section style={body}>
           <Text style={paragraph}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-            aperiam aut cumque mollitia ipsam necessitatibus, alias accusamus
-            optio natus vitae.
+            เราขอแจ้งให้คุณทราบว่าใบแจ้งหนี้สำหรับการชำระเงินของคุณได้ถูกสร้างขึ้นเรียบร้อยแล้ว
+            กรุณาดูรายละเอียดเพิ่มเติมด้านล่าง:
           </Text>
           <Text style={paragraph}>
             <Link style={link} href={invoiceLink}>
-              👉 Click here to sign in 👈
+              👉 คลิกที่นี่เพื่อเข้าสู่ระบบ 👈
             </Link>
           </Text>
         </Section>
-        <Text style={paragraph}>Best-Raycast {username}</Text>
+        <Text style={paragraph}>ขอแสดงความนับถือ, {username}</Text>
         <Hr style={hr} />
         <Text style={footer}>Raycast Technologies Inc.</Text>
         <Text style={footer}>

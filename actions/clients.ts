@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/prisma/db";
+import { UserRole } from "@prisma/client";
 
 export async function getUserClient(userId: string | undefined) {
   try {
@@ -10,7 +11,7 @@ export async function getUserClient(userId: string | undefined) {
           createdAt: "desc",
         },
         where: {
-          role: "CLIENT",
+          role: UserRole.CLIENT,
           userId,
         },
       });
@@ -32,7 +33,7 @@ export async function getUserRecentClient(userId: string | undefined) {
           createdAt: "desc",
         },
         where: {
-          role: "CLIENT",
+          role: UserRole.CLIENT,
           userId,
         },
         take: 5,

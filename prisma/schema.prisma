@@ -8,6 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -66,6 +70,7 @@ model User {
   userId             String?          @db.ObjectId
   status             Boolean          @default(true)
   accounts           Account[]
+  guestProject       GuestProject[]
   sessions           Session[]
   project            Project[]
   invoices           Invoice[]
@@ -73,7 +78,7 @@ model User {
   portfolioItem      PortfolioItem[]
   comments           ProjectComment[]
   payment            Payment[]
-  isVerfied          Boolean          @default(false)
+  isVerified         Boolean          @default(false)
   token              Int?
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
@@ -121,6 +126,19 @@ model ProjectComment {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model GuestProject {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectLink    String
+  projectName    String
+  guestName      String
+  projectOwner   String
+  user           User     @relation(fields: [guestId], references: [id])
+  guestId        String   @db.ObjectId
+  projectOwnerId String?   @db.ObjectId
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Module {

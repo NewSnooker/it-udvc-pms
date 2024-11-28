@@ -7,6 +7,7 @@ import {
   AlignHorizontalJustifyEnd,
   Bell,
   CircleUser,
+  Combine,
   DollarSign,
   ExternalLink,
   Handshake,
@@ -21,6 +22,7 @@ import {
   ShoppingCart,
   User2,
   Users,
+  Users2,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -56,26 +58,18 @@ export default function Sidebar() {
           href: "/dashboard/clients",
           icon: Users,
         },
+
         {
           title: "โครงการ",
           href: "/dashboard/projects",
           icon: LayoutGrid,
           // count: 2,
         },
-      ],
-    },
-    {
-      title: "การเงิน",
-      link: [
         {
-          title: "ใบแจ้งหนี้",
-          href: "/dashboard/invoices",
-          icon: DollarSign,
-        },
-        {
-          title: "การชำระเงิน",
-          href: "/dashboard/payments",
-          icon: Handshake,
+          title: "โครงการที่ได้เข้าร่วม",
+          href: "/dashboard/guest-projects",
+          icon: Combine,
+          // count: 2,
         },
       ],
     },
@@ -83,17 +77,23 @@ export default function Sidebar() {
       title: "ทีมงาน",
       link: [
         {
-          title: "สมาชิก",
-          href: "/dashboard/mambers",
+          title: "สมาชิกโครงการ",
+          href: "/dashboard/members",
           icon: User2,
-        },
-        {
-          title: "บทบาท",
-          href: "/dashboard/roles",
-          icon: Lock,
         },
       ],
     },
+    {
+      title: "การเงิน",
+      link: [
+        {
+          title: "การชำระเงิน",
+          href: "/dashboard/payments",
+          icon: Handshake,
+        },
+      ],
+    },
+
     {
       title: "การติดต่อ",
       link: [
@@ -202,11 +202,11 @@ export default function Sidebar() {
           </Button>
         </div>
         <div className="flex-1">
-          <ScrollArea className="h-[550px] w-full p-4">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+          <ScrollArea className="h-auto sm:h-[calc(100vh-10rem)] w-full p-4">
+            <nav className="grid items-start px-2 text-sm space-y-2 font-medium lg:px-4">
               {sidebarLinks.map((item, i) => {
                 return (
-                  <div className="py-1" key={i}>
+                  <div className="" key={i}>
                     <h2 className="pb-1 font-semibold">{item.title}</h2>
                     {item.link.map((item, i) => {
                       const Icon = item.icon;
@@ -215,18 +215,17 @@ export default function Sidebar() {
                         <Link
                           key={i}
                           href={item.href}
-                          className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                            isActive && " bg-muted  text-primary"
-                          )}
+                          className="w-full
+                        "
                         >
-                          <Icon className="h-4 w-4" />
-                          {item.title}
-                          {/* {item.count && (
-                            <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                              {item.count}
-                            </Badge>
-                          )} */}
+                          <Button
+                            variant={isActive ? "default" : "ghost"}
+                            size="icon"
+                            className="w-full flex justify-start gap-2 px-4 mb-1"
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.title}
+                          </Button>
                         </Link>
                       );
                     })}

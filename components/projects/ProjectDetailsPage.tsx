@@ -21,12 +21,11 @@ import {
   Users,
   ArrowLeft,
   X,
-  PlusCircle,
   LogOut,
 } from "lucide-react";
 
 import Link from "next/link";
-import { ProjectData } from "@/types/types";
+import { ExistingUsers, ProjectData } from "@/types/types";
 import DescriptionForm from "@/components/Forms/DescriptionForm";
 import NotesForm from "@/components/Forms/NotesForm";
 import ProjectBanner from "./ProjectBanner";
@@ -42,16 +41,22 @@ import ModuleForm from "@/components/Forms/ModuleForm";
 import InviteClient from "../DataTableColumns/InviteClient";
 import { UserRole } from "@prisma/client";
 import LogoutBtn from "../global/LogoutBtn";
+import InviteMembers from "./InviteMembers";
 
 export default function ProjectDetailsPage({
   projectData,
+  existingUsers,
   session,
 }: {
   projectData: ProjectData;
+  existingUsers: ExistingUsers[];
   session: Session | null;
 }) {
   const user = session?.user;
-  const role = user?.role;
+  let role = user?.role;
+  // if (user.id !== projectData.user?.id) {
+  //   role = UserRole.MEMBER;
+  // }
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [daysDifference, setDaysDifference] = useState(0);
@@ -409,8 +414,10 @@ export default function ProjectDetailsPage({
                                 variant="outline"
                                 className="flex items-center justify-between gap-2 py-2 px-4 cursor-default w-full text-sm"
                               >
-                                <div className="">
-                                  {moment(payment.date).format("L")}{" "}
+                                <div className="flex flex-col justify-start items-start">
+                                  <div className="text-sm">
+                                    {moment(payment.date).format("L")}
+                                  </div>
                                 </div>
 
                                 <div className="line-clamp-1">
@@ -436,12 +443,14 @@ export default function ProjectDetailsPage({
                             </p>
                           </div>
                         )}
-                        {projectData.budget && (
-                          <BudgetProgressBar
-                            budget={projectData.budget ?? 0}
-                            paidAmount={paidAmount ?? 0}
-                          />
-                        )}
+                        <div className="mt-6">
+                          {projectData.budget && (
+                            <BudgetProgressBar
+                              budget={projectData.budget ?? 0}
+                              paidAmount={paidAmount ?? 0}
+                            />
+                          )}
+                        </div>
                       </TabsContent>
                       <TabsContent value="invoices" className="w-full">
                         {projectData.payments.length > 0 ? (
@@ -570,14 +579,12 @@ export default function ProjectDetailsPage({
                         ))
                       ) : (
                         <div className="w-full">
-                          <Button
-                            variant="outline"
-                            size={"sm"}
-                            className="w-full sm:w-auto sm:ml-7"
-                          >
-                            <PlusCircle className="w-4 h-4 mr-1.5" />
-                            เชิญ
-                          </Button>
+                          <InviteMembers
+                            existingUsers={existingUsers.filter(
+                              (member) => member.id !== user.id
+                            )}
+                            projectData={projectData}
+                          />
                         </div>
                       )}
                     </div>

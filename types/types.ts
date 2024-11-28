@@ -48,6 +48,22 @@ export type LoginProps = {
   password: string;
 };
 
+export type ProjectWithPayments = {
+  id: string;
+  name: string;
+  slug: string;
+  thumbnail: string | null;
+  payments: Payment[];
+};
+export type DetailedUserProjects = ProjectWithPayments;
+
+export type ExistingUsers = {
+  id: string;
+  name: string;
+  email: string;
+  image: string | undefined | null;
+};
+
 export type ProjectData = {
   id: string;
   name: string;
@@ -133,6 +149,7 @@ export type Member = {
   createdAt: Date;
   updatedAt: Date;
 };
+
 export interface InvoiceLinkProps {
   invoiceLink?: string;
   preview?: string;

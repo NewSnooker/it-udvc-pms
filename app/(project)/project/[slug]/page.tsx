@@ -1,4 +1,5 @@
 import { getProjectDetailBySlug } from "@/actions/projects";
+import { getExistingUsers } from "@/actions/users";
 import ProjectDetailsPage from "@/components/projects/ProjectDetailsPage";
 import { authOptions } from "@/config/auth";
 import { getServerSession } from "next-auth";
@@ -7,7 +8,10 @@ import React from "react";
 
 export default async function page({ params }: { params: { slug: string } }) {
   const projectData = await getProjectDetailBySlug(params.slug);
-  // console.log(projectData);
+  const existingUsers = await getExistingUsers();
+  if (!existingUsers) {
+    return <div> ไม่พบผู้ใช้ </div>;
+  }
   if (!projectData) {
     return <div> ไม่พบโครงการ </div>;
   }
@@ -16,9 +20,14 @@ export default async function page({ params }: { params: { slug: string } }) {
   if (!session) {
     redirect(`/login?returnUrl=${returnUrl}`);
   }
+
   return (
     <div>
-      <ProjectDetailsPage projectData={projectData} session={session} />
+      <ProjectDetailsPage
+        projectData={projectData}
+        existingUsers={existingUsers}
+        session={session}
+      />
     </div>
   );
 }

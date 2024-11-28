@@ -11,6 +11,7 @@ import DateColumn from "@/components/DataTableColumns/DateColumn";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import NumberColumn from "@/components/DataTableColumns/NumberColumn";
+import ProjectDeadline from "@/components/DataTableColumns/ProjectDeadline";
 export const columns: ColumnDef<Project>[] = [
   {
     id: "select",
@@ -54,7 +55,7 @@ export const columns: ColumnDef<Project>[] = [
     header: ({ column }) => (
       <TitleColumn column={column} title="กำหนดส่ง (วัน)" />
     ),
-    cell: ({ row }) => <NumberColumn row={row} accessorKey="deadline" />,
+    cell: ({ row }) => <ProjectDeadline row={row} />,
   },
   {
     accessorKey: "startDate",

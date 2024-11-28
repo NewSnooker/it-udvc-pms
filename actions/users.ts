@@ -82,6 +82,24 @@ export async function getUserById(id: string) {
     console.log(error);
   }
 }
+export async function getExistingUsers() {
+  try {
+    const users = await db.user.findMany({
+      where: {
+        role: UserRole.USER,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+      },
+    });
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function updateUserById(id: string, data: UserProps) {
   try {
     const updatedUser = await db.user.update({

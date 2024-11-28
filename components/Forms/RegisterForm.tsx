@@ -12,7 +12,7 @@ import TextInput from "../FormInputs/TextInput";
 import PasswordInput from "../FormInputs/PasswordInput";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { Button } from "../ui/button";
-import { FaGithub, FaGitter, FaGoogle } from "react-icons/fa";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { createUser } from "@/actions/users";
 import { signIn } from "next-auth/react";
 export default function RegisterForm() {
@@ -37,11 +37,11 @@ export default function RegisterForm() {
         setEmailErr(res.error);
       } else if (res.status === 200) {
         setLoading(false);
-        toast.success("Account Created successfully");
+        toast.success("สร้างบัญชีสําเร็จ");
         router.push("/login");
       } else {
         setLoading(false);
-        toast.error("Something went wrong");
+        toast.error("เกิดข้อผิดพลาดในการสร้างบัญชี");
       }
     } catch (error) {
       setLoading(false);
@@ -54,9 +54,11 @@ export default function RegisterForm() {
       <div className="">
         <div className="py-4 text-zinc-900">
           <h2 className="text-xl lg:text-2xl font-bold leading-9 tracking-tight  ">
-            Create an account
+            สร้างบัญชีผู้ใช้
           </h2>
-          <p className="text-xs">Join Us, fill in details to login</p>
+          <p className="text-xs">
+            เข้าร่วมกับเรา กรอกรายละเอียดเพื่อสร้างบัญชีผู้ใช้
+          </p>
         </div>
       </div>
       <div className="">
@@ -65,38 +67,38 @@ export default function RegisterForm() {
             <TextInput
               register={register}
               errors={errors}
-              label="First Name"
+              label="ชื่อ"
               name="firstName"
               icon={User}
-              placeholder="first Name"
+              placeholder="ชื่อ"
             />
             <TextInput
               register={register}
               errors={errors}
-              label="Last Name"
+              label="นามสกุล"
               name="lastName"
               icon={User}
-              placeholder="last Name"
+              placeholder="นามสกุล"
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TextInput
               register={register}
               errors={errors}
-              label="Phone"
+              label="เบอร์โทรศัพท์"
               name="phone"
               icon={Headset}
-              placeholder="phone"
+              placeholder="เบอร์โทรศัพท์"
             />
             <div className="">
               <TextInput
                 type="email"
                 register={register}
                 errors={errors}
-                label="Email Address"
+                label="อีเมล"
                 name="email"
                 icon={Mail}
-                placeholder="email"
+                placeholder="อีเมล"
               />
               {emailErr && (
                 <p className="text-red-500 text-xs mt-2">{emailErr}</p>
@@ -107,16 +109,16 @@ export default function RegisterForm() {
           <PasswordInput
             register={register}
             errors={errors}
-            label="Password"
+            label="รหัสผ่าน"
             name="password"
             icon={Lock}
-            placeholder="password"
+            placeholder="รหัสผ่าน"
             type="password"
           />
           <div>
             <SubmitButton
-              title="Sign Up"
-              loadingTitle="Creating Please wait.."
+              title="สร้างบัญชี"
+              loadingTitle="กำลังสร้างบัญชี..."
               loading={loading}
               className="w-full"
               loaderIcon={Loader2}
@@ -131,7 +133,7 @@ export default function RegisterForm() {
           <div className="h-[1px] w-full bg-zinc-200"></div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           <Button
             onClick={() => signIn("google")}
             variant={"outline"}
@@ -150,13 +152,13 @@ export default function RegisterForm() {
           </Button>
         </div>
 
-        <p className="mt-6 text-left text-sm text-zinc-500">
-          Alrealy Registered ?{" "}
+        <p className=" text-center text-sm text-zinc-500">
+          มีบัญชีผู้ใช้อยู่แล้ว?{" "}
           <Link
             href="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Login
+            เข้าสู่ระบบ
           </Link>
         </p>
       </div>

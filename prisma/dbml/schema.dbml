@@ -1,0 +1,251 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Account {
+  id String [pk]
+  userId String [not null]
+  type String [not null]
+  provider String [not null]
+  providerAccountId String [not null]
+  refresh_token String
+  access_token String
+  expires_at Int
+  token_type String
+  scope String
+  id_token String
+  session_state String
+  user User [not null]
+
+  indexes {
+    (provider, providerAccountId) [unique]
+  }
+}
+
+Table Session {
+  id String [pk]
+  sessionToken String [unique, not null]
+  userId String [not null]
+  expires DateTime [not null]
+  user User [not null]
+}
+
+Table User {
+  id String [pk]
+  name String [not null]
+  firstName String [not null]
+  lastName String [not null]
+  phone String [not null]
+  email String [unique, not null]
+  emailVerified DateTime
+  image String
+  userLogo String
+  role UserRole [not null, default: 'USER']
+  location String
+  password String
+  plain String
+  companyName String
+  companyDescription String
+  userId String
+  status Boolean [not null, default: true]
+  accounts Account [not null]
+  guestProject GuestProject [not null]
+  sessions Session [not null]
+  project Project [not null]
+  invoices Invoice [not null]
+  modules Module [not null]
+  portfolioItem PortfolioItem [not null]
+  comments ProjectComment [not null]
+  payment Payment [not null]
+  isVerified Boolean [not null, default: false]
+  token Int
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Project {
+  id String [pk]
+  name String [not null]
+  slug String [unique, not null]
+  notes String
+  description String
+  bannerImage String
+  gradient String
+  thumbnail String
+  budget Int [default: 0]
+  deadline Int
+  startDate DateTime [default: `now()`, not null]
+  endDate DateTime
+  status ProjectStatus [not null, default: 'ONGOING']
+  clientId String [not null]
+  user User [not null]
+  userId String [not null]
+  members Member [not null]
+  modules Module [not null]
+  invoices Invoice [not null]
+  payments Payment [not null]
+  comments ProjectComment [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table ProjectComment {
+  id String [pk]
+  projectId String [not null]
+  project Project [not null]
+  userName String [not null]
+  userRole UserRole [not null]
+  user User [not null]
+  userId String [not null]
+  content String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table GuestProject {
+  id String [pk]
+  projectLink String [not null]
+  projectName String [not null]
+  guestName String [not null]
+  projectOwner String [not null]
+  user User [not null]
+  guestId String [not null]
+  projectOwnerId String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Module {
+  id String [pk]
+  name String [not null]
+  userName String [not null]
+  project Project [not null]
+  projectId String [not null]
+  user User [not null]
+  userId String [not null]
+  tasks Task [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Task {
+  id String [pk]
+  title String [not null]
+  status TaskStatus [not null, default: 'TODO']
+  module Module [not null]
+  moduleId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Member {
+  id String [pk]
+  name String [not null]
+  email String [not null]
+  role String [not null]
+  project Project [not null]
+  projectId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Invoice {
+  id String [pk]
+  invoiceNumber String [unique, not null]
+  amount Float [not null]
+  status String [not null]
+  dueDate DateTime [not null]
+  project Project [not null]
+  projectId String [not null]
+  user User [not null]
+  userId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Payment {
+  id String [pk]
+  title String [not null]
+  amount Float [not null]
+  tax Float [not null]
+  date DateTime [default: `now()`, not null]
+  invoiceNumber String [unique, not null]
+  method String [not null]
+  projectId String [not null]
+  project Project [not null]
+  user User [not null]
+  userId String [not null]
+  clientId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table PortfolioItem {
+  id String [pk]
+  title String [not null]
+  description String [not null]
+  imageUrl String
+  projectUrl String
+  user User [not null]
+  userId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Category {
+  id String [pk]
+  title String [not null]
+  slug String [unique, not null]
+  imageUrl String
+  description String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+}
+
+Enum UserRole {
+  USER
+  ADMIN
+  CLIENT
+  MEMBER
+}
+
+Enum ProjectStatus {
+  COMPLETE
+  ONGOING
+}
+
+Enum TaskStatus {
+  TODO
+  INPROGRESS
+  COMPLETE
+}
+
+Ref: Account.userId > User.id [delete: Cascade]
+
+Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: Project.userId > User.id
+
+Ref: ProjectComment.projectId > Project.id
+
+Ref: ProjectComment.userId > User.id
+
+Ref: GuestProject.guestId > User.id
+
+Ref: Module.projectId > Project.id
+
+Ref: Module.userId > User.id
+
+Ref: Task.moduleId > Module.id
+
+Ref: Member.projectId > Project.id
+
+Ref: Invoice.projectId > Project.id
+
+Ref: Invoice.userId > User.id
+
+Ref: Payment.projectId > Project.id
+
+Ref: Payment.userId > User.id
+
+Ref: PortfolioItem.userId > User.id

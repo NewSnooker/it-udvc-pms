@@ -134,7 +134,9 @@ export default function ProjectBanner({
       <div className="absolute inset-0 flex items-center justify-center flex-col sm:flex-row">
         {!isEditingName ? (
           <div className="mt-6 sm:mt-0 sm:ml-10">
-            <h1 className="text-4xl font-bold text-white">{name}</h1>
+            <h1 className="text-4xl font-bold text-white text-center">
+              {name}
+            </h1>
           </div>
         ) : (
           <form className="" onSubmit={handleSubmit(updateNameProject)}>

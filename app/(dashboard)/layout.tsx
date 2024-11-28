@@ -17,9 +17,9 @@ export default async function DashboardLayout({
   if (!session) {
     redirect("/login");
   }
-  if (role !== UserRole.USER) {
-    return notFound();
-  }
+  // if (role !== UserRole.USER) {
+  //   return notFound();
+  // }
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Sidebar />
