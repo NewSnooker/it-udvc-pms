@@ -143,6 +143,64 @@
             <mxPoint x="25" y="283" as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-33" value="5.0" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e0e0e0;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;align=center;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="-61.28" y="980" width="160" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-34" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;จัดการ&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;แฟ้มผลงาน&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="BSfTipwodXiJnX08Yy5S-33">
+          <mxGeometry y="26" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-35" value="&lt;span style=&quot;font-size: 18px; text-wrap-mode: nowrap;&quot;&gt;ผู้ใช้&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-390" y="1000" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-36" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.003;entryY=0.172;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="BSfTipwodXiJnX08Yy5S-35">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-251.27999999999997" y="1010" as="sourcePoint" />
+            <mxPoint x="-60.79999999999998" y="1015.288" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-37" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.003;exitY=0.826;exitDx=0;exitDy=0;entryX=1;entryY=0.833;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="1" target="BSfTipwodXiJnX08Yy5S-35">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-61.76000000000002" y="1050.604" as="sourcePoint" />
+            <mxPoint x="-251.27999999999997" y="1040" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-38" value="ข้อมูลแฟ้มผลงาน" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="187.526142692745" y="1014.9652696556514" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-39" value="รายงานข้อมูลแฟ้มผลงาน" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="187.526142692745" y="1034.9652696556514" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-40" value="ข้อมูลแฟ้มผลงาน" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-171.47385730725455" y="1009.9652696556514" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-41" value="แสดงข้อมูลแฟ้มผลงาน" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-171.47385730725455" y="1039.9652696556514" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-42" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.992;exitY=0.389;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.242;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="98.72000000000025" y="1022.006" as="sourcePoint" />
+            <mxPoint x="270" y="1022.26" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-43" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.001;exitY=0.799;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.709;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="269.80999999999995" y="1038.97" as="sourcePoint" />
+            <mxPoint x="100" y="1039.286" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-44" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="268.7200000000001" y="1010" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-45" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;D5&lt;/font&gt;" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=left;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];container=0;" vertex="1" parent="BSfTipwodXiJnX08Yy5S-44">
+          <mxGeometry width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BSfTipwodXiJnX08Yy5S-46" value="&lt;div&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;แฟ้มผลงาน&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="BSfTipwodXiJnX08Yy5S-44">
+          <mxGeometry x="35" width="105" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
