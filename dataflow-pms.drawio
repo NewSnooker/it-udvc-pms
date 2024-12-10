@@ -1,0 +1,182 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.8.3">
+  <diagram name="Page-1" id="b520641d-4fe3-3701-9064-5fc419738815">
+    <mxGraphModel dx="1518" dy="655" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="21ea969265ad0168-14">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="293" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21ea969265ad0168-14" value="0" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e0e0e0;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;align=center;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="470" y="210" width="160" height="110" as="geometry">
+            <mxRectangle x="470" y="452" width="50" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21ea969265ad0168-16" value="&lt;span style=&quot;font-size:16.0pt;line-height:&lt;br/&gt;107%;font-family:&amp;quot;TH SarabunPSK&amp;quot;,sans-serif;mso-fareast-font-family:Calibri;&lt;br/&gt;mso-fareast-theme-font:minor-latin;mso-ansi-language:EN-US;mso-fareast-language:&lt;br/&gt;EN-US;mso-bidi-language:TH&quot; lang=&quot;TH&quot;&gt;ระบบบริหาร&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size:16.0pt;line-height:&lt;br/&gt;107%;font-family:&amp;quot;TH SarabunPSK&amp;quot;,sans-serif;mso-fareast-font-family:Calibri;&lt;br/&gt;mso-fareast-theme-font:minor-latin;mso-ansi-language:EN-US;mso-fareast-language:&lt;br/&gt;EN-US;mso-bidi-language:TH&quot; lang=&quot;TH&quot;&gt;จัดการโครงการ&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" parent="21ea969265ad0168-14" vertex="1">
+          <mxGeometry y="26" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-17" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.313;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="0pG0z9xgJLziu9rjb5Ze-18">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="229.92000000000002" y="240" as="sourcePoint" />
+            <mxPoint x="489.99999999999994" y="210" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="250" y="120" />
+              <mxPoint x="489.92" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-46" value="ข้อมูลโครงการ&lt;br&gt;ข้อมูลผู้ใช้&amp;nbsp;&lt;br&gt;ข้อมูลลูกค้า" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-17">
+          <mxGeometry x="-0.0147" relative="1" as="geometry">
+            <mxPoint x="-34" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-18" value="&lt;span style=&quot;font-size: 14px; text-wrap-mode: nowrap;&quot;&gt;ผู้ใช้&lt;/span&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="235" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-20" value="&lt;span style=&quot;font-size: 14px; text-wrap-mode: nowrap;&quot;&gt;สมาชิก&lt;/span&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="790" y="235" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="0pG0z9xgJLziu9rjb5Ze-21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-65" value="ส่งความคิดเห็นโครงการ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-64">
+          <mxGeometry x="-0.2659" y="-2" relative="1" as="geometry">
+            <mxPoint x="-32" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-21" value="&lt;span style=&quot;font-size: 14px; text-wrap-mode: nowrap;&quot;&gt;ลูกค้า&lt;/span&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-22" value="" style="endArrow=classic;html=1;rounded=0;shadow=0;entryX=0.675;entryY=0.02;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="0pG0z9xgJLziu9rjb5Ze-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="850" y="230" as="sourcePoint" />
+            <mxPoint x="610" y="210.00000000000006" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="850" y="120" />
+              <mxPoint x="610" y="118" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-26" value="จัดการข้อมูลโครงการ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-22">
+          <mxGeometry x="0.0551" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-28" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+          <mxGeometry x="0.44" y="90" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="320" as="sourcePoint" />
+            <mxPoint x="570" y="530" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-42" value="รับลิงก์และรหัสผ่านผ่านอีเมลเพื่อล็อกอินเข้าระบบ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-28">
+          <mxGeometry x="0.4128" y="1" relative="1" as="geometry">
+            <mxPoint x="99" y="31" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-33" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="320" as="sourcePoint" />
+            <mxPoint x="249.5" y="295" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="490" y="440" />
+              <mxPoint x="250" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-58" value="&lt;div&gt;&amp;nbsp;รายละเอียดโครงการ&lt;/div&gt;&lt;div&gt;รายละเอียดลูกค้า&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-33">
+          <mxGeometry x="-0.0363" y="2" relative="1" as="geometry">
+            <mxPoint x="-7" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-35" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="21ea969265ad0168-14" target="0pG0z9xgJLziu9rjb5Ze-20">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="320" as="sourcePoint" />
+            <mxPoint x="900" y="330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="590" y="440" />
+              <mxPoint x="850.5" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-38" value="Text" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-35">
+          <mxGeometry x="-0.0467" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-59" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;รับลิงก์โครงการที่ได้รับมอบหมายที่ดูแล&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-35">
+          <mxGeometry x="-0.0449" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-43" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry x="0.44" y="90" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="320" as="sourcePoint" />
+            <mxPoint x="550" y="530" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-44" value="ดูรายละเอียดโครงการหรือรับใบแจ้งหนี้" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-43">
+          <mxGeometry x="0.4128" y="1" relative="1" as="geometry">
+            <mxPoint x="59" y="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-53" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="21ea969265ad0168-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="228" y="236" as="sourcePoint" />
+            <mxPoint x="479.99999999999994" y="190" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="230" y="100" />
+              <mxPoint x="510" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-56" value="ส่งคำเชิญสมาชิก,&lt;br&gt;ส่งคำเชิญลูกค้า" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-53">
+          <mxGeometry x="0.2495" y="2" relative="1" as="geometry">
+            <mxPoint x="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-70" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.168;exitY=0.006;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.386;entryY=0.009;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="0pG0z9xgJLziu9rjb5Ze-18" target="21ea969265ad0168-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="207" y="236" as="sourcePoint" />
+            <mxPoint x="533" y="200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="210" y="74" />
+              <mxPoint x="532" y="74" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-71" value="&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; background-color: rgb(251, 251, 251);&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%22%20style%3D%22edgeLabel%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3Bresizable%3D0%3Bpoints%3D%5B%5D%3B%22%20vertex%3D%221%22%20connectable%3D%220%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22729.726725102486%22%20y%3D%22116.99765326594854%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-70">
+          <mxGeometry x="-0.0127" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-72" value="จัดการข้อมูลโครงการ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-70">
+          <mxGeometry x="-0.0621" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.328;entryY=0.987;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="0pG0z9xgJLziu9rjb5Ze-20">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="318" as="sourcePoint" />
+            <mxPoint x="820.3199999999999" y="294.99999999999994" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="610" y="418" />
+              <mxPoint x="830" y="418" />
+              <mxPoint x="830" y="294" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0pG0z9xgJLziu9rjb5Ze-75" value="&lt;div&gt;&amp;nbsp;รายละเอียดโครงการ&lt;/div&gt;&lt;div&gt;รายละเอียดลูกค้า&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="0pG0z9xgJLziu9rjb5Ze-74">
+          <mxGeometry x="0.2181" y="3" relative="1" as="geometry">
+            <mxPoint x="-56" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
