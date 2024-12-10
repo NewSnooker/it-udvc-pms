@@ -21,7 +21,7 @@ export default function RecentClients({
         <CardTitle>ลูกค้าล่าสุด</CardTitle>
         <Link href="/dashboard/clients">
           <Button size="sm" className="ml-auto gap-1">
-            เพิ่มเติม
+            <span className="hidden sm:inline">เพิ่มเติม</span>
             <ArrowUpRight className="h-4 w-4" />
           </Button>
         </Link>

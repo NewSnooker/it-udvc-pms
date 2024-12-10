@@ -28,7 +28,7 @@ export default function RecentProjects({
         <CardTitle>โครงการล่าสุด</CardTitle>
         <Link href="/dashboard/projects">
           <Button size="sm" className="ml-auto gap-1">
-            เพิ่มเติม
+            <span className="hidden sm:inline">เพิ่มเติม</span>
             <ArrowUpRight className="h-4 w-4" />
           </Button>
         </Link>
