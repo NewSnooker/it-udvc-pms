@@ -3,6 +3,8 @@
 import { updateProjectPublicityById } from "@/actions/projects";
 import React, { useState, useCallback } from "react";
 import toast from "react-hot-toast";
+import { Switch } from "../ui/switch";
+import { Label } from "../ui/label";
 
 interface PublicityBtnProps {
   id: string;
@@ -36,21 +38,19 @@ export default function PublicityBtn({ id, status }: PublicityBtnProps) {
   }, [id, isLoading, isPublic, status]);
 
   return (
-    <div className="flex items-center">
-      <input
-        type="checkbox"
-        aria-label="Toggle project publicity"
+    <div className="flex items-center space-x-2">
+      <Switch
+        id={`project-publicity-${id}`}
         checked={isPublic}
-        onChange={handleToggle}
+        onCheckedChange={handleToggle}
         disabled={isLoading}
-        className={`
-          toggle toggle-accent
-          focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1
-        `}
       />
-      {/* {isLoading && (
-        <span className="ml-2 loading loading-spinner loading-xs text-neutral-content"></span>
-      )} */}
+      <Label
+        htmlFor={`project-publicity-${id}`}
+        className={isPublic ? "" : "text-muted-foreground"}
+      >
+        {isPublic ? "สาธารณะ" : "ส่วนตัว"}
+      </Label>
     </div>
   );
 }

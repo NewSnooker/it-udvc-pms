@@ -22,6 +22,7 @@ import {
   ArrowLeft,
   X,
   LogOut,
+  Eye,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -43,6 +44,7 @@ import { UserRole } from "@prisma/client";
 import LogoutBtn from "../global/LogoutBtn";
 import InviteMembers from "./InviteMembers";
 import ProjectDomainsCard from "./ProjectDomainsCard";
+import PaymentDeleteButton from "./PaymentDeleteButton";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -411,23 +413,24 @@ export default function ProjectDetailsPage({
                         {projectData.payments.length > 0 ? (
                           projectData.payments.map((payment, index) => (
                             <div className="mt-2" key={index}>
-                              <Button
-                                variant="outline"
-                                className="flex items-center justify-between gap-2 py-2 px-4 cursor-default w-full text-sm"
-                              >
-                                <div className="flex flex-col justify-start items-start">
-                                  <div className="text-sm">
-                                    {moment(payment.date).format("L")}
+                              <Card className="flex items-center gap-2 py-2 px-4 cursor-default w-full text-sm">
+                                <div className="flex items-center justify-between gap-2 w-full  ">
+                                  <div className="flex flex-col justify-start items-start">
+                                    <div className="text-sm">
+                                      {moment(payment.date).format("L")}
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="line-clamp-1">
-                                  {payment.title}{" "}
+                                  <div className="line-clamp-1">
+                                    {payment.title}{" "}
+                                  </div>
+                                  <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
+                                    ฿{payment.amount.toLocaleString()}
+                                  </Badge>
                                 </div>
-                                <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
-                                  ฿{payment.amount.toLocaleString()}
-                                </Badge>
-                              </Button>
+                                {/* Delete Button */}
+                                <PaymentDeleteButton paymentId={payment.id} />
+                              </Card>
                             </div>
                           ))
                         ) : (
@@ -457,13 +460,8 @@ export default function ProjectDetailsPage({
                         {projectData.payments.length > 0 ? (
                           projectData.payments.map((invoice, index) => (
                             <div className="mt-2" key={index}>
-                              <Link
-                                href={`/project/invoice/${invoice.id}?project=${projectData.slug}`}
-                              >
-                                <Button
-                                  variant="outline"
-                                  className="flex items-center justify-between gap-2 py-2 px-4  w-full text-sm"
-                                >
+                              <Card className="flex items-center gap-2 py-2 px-4 cursor-default w-full text-sm">
+                                <div className="flex items-center justify-between gap-2 w-full">
                                   <div className="flex flex-col justify-start items-start">
                                     <span className="text-xs">
                                       #{invoice.invoiceNumber}
@@ -479,8 +477,16 @@ export default function ProjectDetailsPage({
                                   <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
                                     ฿{invoice.amount.toLocaleString()}
                                   </Badge>
-                                </Button>
-                              </Link>
+                                </div>
+                                <Link
+                                  href={`/project/invoice/${invoice.id}?project=${projectData.slug}`}
+                                >
+                                  <Button variant="outline" size={"sm"}>
+                                    <Eye className="h-4 w-4 mr-2" />
+                                    ดูใบแจ้งหนี้
+                                  </Button>
+                                </Link>
+                              </Card>
                             </div>
                           ))
                         ) : (
