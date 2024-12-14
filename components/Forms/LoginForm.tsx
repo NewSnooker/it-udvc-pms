@@ -38,15 +38,17 @@ export default function LoginForm() {
       console.log("SignIn response:", loginData);
       if (loginData?.error) {
         setLoading(false);
-        toast.error("Sign-in error: Check your credentials");
-        setPassErr("Wrong Credentials, Check again");
+        toast.error(
+          "ข้อผิดพลาดในการเข้าสู่ระบบ: กรุณาตรวจสอบข้อมูลรับรองของคุณ"
+        );
+        setPassErr("ข้อมูลรับรองไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
         // setShowNotification(true);
       } else {
         // Sign-in was successful
         // setShowNotification(false);
         reset();
         setLoading(false);
-        toast.success("Login Successful");
+        toast.success("เข้าสู่ระบบสำเร็จ");
         setPassErr("");
         router.push(returnUrl);
       }
@@ -134,7 +136,7 @@ export default function LoginForm() {
             href="/register"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            เข้าสู่ระบบ
+            สมัครสมาชิก
           </Link>
         </p>
       </div>

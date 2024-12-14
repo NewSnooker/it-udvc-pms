@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Loader, Plus, PlusCircle } from "lucide-react";
 import React from "react";
 type SubmitButtonProps = {
-  title: string;
+  title?: string;
   loadingTitle?: string;
   className?: string;
   loaderIcon?: any;
@@ -32,7 +32,9 @@ export default function SubmitButton({
           disabled
           className={cn("gap-1", className)}
         >
-          <LoaderIcon className="w-4 h-4 animate-spin mr-2" />
+          <LoaderIcon
+            className={`w-4 h-4 animate-spin ${loadingTitle ? "mr-2" : ""}`}
+          />
           {loadingTitle}
         </Button>
       ) : (

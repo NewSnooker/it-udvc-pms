@@ -85,12 +85,12 @@ export default function PasswordInput({
               required: true,
               minLength: {
                 value: 8,
-                message: "Password must be at least 8 characters",
+                message: "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร",
               },
               pattern: {
                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
                 message:
-                  "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                  "รหัสผ่านต้องมีตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก ตัวเลข และอักขระพิเศษ อย่างน้อยอย่างละ 1 ตัว",
               },
               // setValueAs: (value: string) =>
               //   value === "" ? generatedPassword : value,

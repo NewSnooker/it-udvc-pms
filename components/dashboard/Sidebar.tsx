@@ -158,9 +158,9 @@ export default function Sidebar() {
       title: "ตั้งค่า",
       link: [
         {
-          title: "ตั้งค่าบัญชี",
-          href: "/dashboard/account-settings",
-          icon: User2,
+          title: "เปลี่ยนรหัสผ่าน",
+          href: "/dashboard/change-password",
+          icon: Lock,
         },
         {
           title: "การแจ้งเตือน",

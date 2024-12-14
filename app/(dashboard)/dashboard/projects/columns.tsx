@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import NumberColumn from "@/components/DataTableColumns/NumberColumn";
 import ProjectDeadline from "@/components/DataTableColumns/ProjectDeadline";
+import PublicityBtn from "@/components/DataTableComponents/PublicityBtn";
 export const columns: ColumnDef<Project>[] = [
   {
     id: "select",
@@ -61,6 +62,15 @@ export const columns: ColumnDef<Project>[] = [
     accessorKey: "startDate",
     header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
     cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
+  },
+  {
+    accessorKey: "isPublic",
+    header: "แฟ้มผลงาน",
+
+    cell: ({ row }) => {
+      const project = row.original;
+      return <PublicityBtn id={project.id} status={project.isPublic} />;
+    },
   },
   {
     accessorKey: "startDate",

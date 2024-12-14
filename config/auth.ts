@@ -1,7 +1,5 @@
-import { AuthOptions, NextAuthOptions } from "next-auth";
-// import { PrismaAdapter } from "@auth/prisma-adapter";
+import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import type { Adapter } from "next-auth/adapters";
@@ -65,7 +63,7 @@ export const authOptions: NextAuthOptions = {
           );
           // Check if user credentials are Correct
           if (!credentials?.email || !credentials?.password) {
-            throw { error: "No Inputs Found", status: 401 };
+            throw { error: "ไม่พบข้อความ", status: 401 };
           }
           console.log("Pass 1 checked ");
           //Check if user exists
@@ -75,7 +73,7 @@ export const authOptions: NextAuthOptions = {
 
           if (!existingUser) {
             console.log("No user found");
-            throw { error: "No user found", status: 401 };
+            throw { error: "ไม่พบผู้ใช้", status: 401 };
           }
 
           console.log("Pass 2 Checked");
@@ -91,7 +89,7 @@ export const authOptions: NextAuthOptions = {
           }
           if (!passwordMatch) {
             console.log("Password incorrect");
-            throw { error: "Password Incorrect", status: 401 };
+            throw { error: "รหัสผ่านไม่ถูกต้อง", status: 401 };
           }
           console.log("Pass 3 Checked");
           const user = {

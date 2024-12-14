@@ -71,11 +71,14 @@ Table Project {
   description String
   bannerImage String
   gradient String
+  freeDomain String
+  customDomain String
   thumbnail String
   budget Int [default: 0]
   deadline Int
   startDate DateTime [default: `now()`, not null]
   endDate DateTime
+  isPublic Boolean [not null, default: false]
   status ProjectStatus [not null, default: 'ONGOING']
   clientId String [not null]
   user User [not null]
@@ -142,7 +145,7 @@ Table Member {
   id String [pk]
   name String [not null]
   email String [not null]
-  role String [not null]
+  role UserRole [not null]
   project Project [not null]
   projectId String [not null]
   createdAt DateTime [default: `now()`, not null]

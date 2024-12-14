@@ -35,6 +35,8 @@ export type ProjectProps = {
   bannerImage: string;
   gradient: string;
   thumbnail: string;
+  freeDomain: string;
+  customDomain: string;
   startDate: any;
   endDate: any;
   status: ProjectStatus;
@@ -47,7 +49,6 @@ export type LoginProps = {
   email: string;
   password: string;
 };
-
 export type ProjectWithPayments = {
   id: string;
   name: string;
@@ -56,14 +57,32 @@ export type ProjectWithPayments = {
   payments: Payment[];
 };
 export type DetailedUserProjects = ProjectWithPayments;
-
 export type ExistingUsers = {
   id: string;
   name: string;
   email: string;
   image: string | undefined | null;
 };
-
+export type ProjectWithUser = {
+  id: string;
+  name: string;
+  slug: string;
+  notes: string | undefined | null;
+  description: string | null;
+  bannerImage: string | null;
+  gradient: string | null;
+  thumbnail: string | null;
+  budget: number | null;
+  deadline: number | null;
+  startDate: Date;
+  endDate: Date | null;
+  status: ProjectStatus;
+  clientId: string | null;
+  userId: string | undefined | null;
+  createdAt: Date;
+  updatedAt: Date;
+  user: User | null;
+};
 export type ProjectData = {
   id: string;
   name: string;
@@ -72,6 +91,8 @@ export type ProjectData = {
   description: string | null;
   bannerImage: string | null;
   gradient: string | null;
+  freeDomain: string | null;
+  customDomain: string | null;
   thumbnail: string | null;
   budget: number | null;
   deadline: number | null;
@@ -100,7 +121,6 @@ export type ModuleData = {
   createdAt: Date;
   updatedAt: Date;
 };
-
 export type Task = {
   id: string;
   title: string;
@@ -116,7 +136,6 @@ export type Module = {
   createdAt: Date;
   updatedAt: Date;
 };
-
 export type TasksProps = {
   title: string;
   status: TaskStatus;
@@ -149,14 +168,12 @@ export type Member = {
   createdAt: Date;
   updatedAt: Date;
 };
-
 export interface InvoiceLinkProps {
   invoiceLink?: string;
   preview?: string;
   title?: string;
   username?: string;
 }
-
 export type InvoiceDetails = {
   invoice: IPayment;
   user: IUser;
@@ -188,7 +205,6 @@ export type Invoice = {
   createdAt: Date;
   updatedAt: Date;
 };
-
 export type Payment = {
   title: string;
   id: string;
@@ -219,7 +235,6 @@ export type CommentProps = {
   userRole: UserRole;
   userId: string;
 };
-
 export type ClientData = {
   id: string;
   name: string;

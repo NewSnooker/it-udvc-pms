@@ -13,7 +13,7 @@ import { Input } from "../ui/input";
 type TextInputProps = {
   register: any;
   errors: any;
-  label: string;
+  label?: string;
   type?: string;
   name: string;
   toolTipText?: string;
@@ -36,9 +36,14 @@ export default function TextInput({
   return (
     <div>
       <div className="flex space-x-2 items-center">
-        <Label htmlFor={name} className="block text-sm font-medium leading-6 ">
-          {label}
-        </Label>
+        {label && (
+          <Label
+            htmlFor={name}
+            className="block text-sm font-medium leading-6 "
+          >
+            {label}
+          </Label>
+        )}
         {toolTipText && (
           <TooltipProvider>
             <Tooltip>
@@ -54,7 +59,7 @@ export default function TextInput({
           </TooltipProvider>
         )}
       </div>
-      <div className="mt-2">
+      <div className={label ? "mt-2" : ""}>
         <div className="relative rounded-md ">
           {icon && (
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

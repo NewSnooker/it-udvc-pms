@@ -1,9 +1,11 @@
 "use server";
 
+import { PasswordProps } from "@/components/Forms/ChangPasswordForm";
 import { db } from "@/prisma/db";
 import { UserProps } from "@/types/types";
 import { UserRole } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { compare } from "bcrypt";
 import { revalidatePath } from "next/cache";
 export async function createUser(data: UserProps) {
   const {
@@ -110,6 +112,38 @@ export async function updateUserById(id: string, data: UserProps) {
     });
     revalidatePath("/dashboard/clients");
     return updatedUser;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function updateUserPasswordById(id: string, data: PasswordProps) {
+  try {
+    const existingUser = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    const passwordMatch = existingUser?.password
+      ? await compare(data.oldPassword, existingUser.password)
+      : false;
+    if (!passwordMatch) {
+      return { error: "รหัสผ่านเดิมไม่ถูกต้อง", status: 403 };
+    }
+    if (data.oldPassword === data.newPassword) {
+      return { error: "รหัสผ่านใหม่ต้องไม่เหมือนรหัสผ่านเดิม", status: 403 };
+    }
+    const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+    const updatedUser = await db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: hashedPassword,
+        plain: data.newPassword,
+      },
+    });
+    revalidatePath("/dashboard/change-password");
+    return { error: null, status: 200 };
   } catch (error) {
     console.log(error);
   }

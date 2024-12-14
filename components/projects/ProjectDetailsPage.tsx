@@ -42,6 +42,7 @@ import InviteClient from "../DataTableColumns/InviteClient";
 import { UserRole } from "@prisma/client";
 import LogoutBtn from "../global/LogoutBtn";
 import InviteMembers from "./InviteMembers";
+import ProjectDomainsCard from "./ProjectDomainsCard";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -686,6 +687,8 @@ export default function ProjectDetailsPage({
                 )}
               </CardContent>
             </Card>
+            {/* Domains Card */}
+            <ProjectDomainsCard projectData={projectData} />
           </div>
         </div>
       </div>
