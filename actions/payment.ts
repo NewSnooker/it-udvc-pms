@@ -2,6 +2,7 @@
 
 import { db } from "@/prisma/db";
 import { CategoryProps, InvoiceDetails, PaymentProps } from "@/types/types";
+import { UserRole } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function createPayment(data: PaymentProps) {
@@ -30,7 +31,7 @@ export async function getInvoiceById(id: string) {
     const client = await db.user.findUnique({
       where: {
         id: payment?.clientId,
-        role: "CLIENT",
+        role: UserRole.CLIENT,
       },
       select: {
         name: true,
@@ -43,7 +44,7 @@ export async function getInvoiceById(id: string) {
     const user = await db.user.findUnique({
       where: {
         id: payment?.userId,
-        role: "USER",
+        role: UserRole.USER,
       },
       select: {
         name: true,
@@ -97,7 +98,7 @@ export async function deletePayment(id: string) {
         id,
       },
     });
-
+    revalidatePath("/dashboard/projects");
     return {
       ok: true,
       data: deletedPayment,

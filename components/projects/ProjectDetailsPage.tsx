@@ -63,6 +63,17 @@ export default function ProjectDetailsPage({
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [daysDifference, setDaysDifference] = useState(0);
+
+  const tabs = [
+    { value: "modules", label: "ฟังค์ชั่นโครงการ" },
+    { value: "notes", label: "โน๊ต" },
+    { value: "comments", label: "คอมเมนต์" },
+    {
+      value: "invoicesAndPayments",
+      label: "การชำระเงิน",
+      mobileLabel: "และใบแจ้งหนี้",
+    },
+  ];
   const paidAmount = projectData.payments.reduce((acc, item) => {
     return acc + item.amount;
   }, 0);
@@ -174,13 +185,25 @@ export default function ProjectDetailsPage({
             {/* Tabs */}
             <Tabs defaultValue="modules" className="mb-4">
               <TabsList className="grid grid-cols-2 sm:flex sm:flex-row sm:justify-start h-fit w-full sm:w-fit mb-4">
-                <TabsTrigger value="modules">ฟังค์ชั่นโครงการ</TabsTrigger>
-                <TabsTrigger value="notes">โน๊ต</TabsTrigger>
-                <TabsTrigger value="comments">คอมเมนต์</TabsTrigger>
-                <TabsTrigger value="invoicesAndPayments">
-                  การชำระเงิน{" "}
-                  <span className="hidden sm:inline">ใบแจ้งหนี้</span>
-                </TabsTrigger>
+                {tabs.map((tab) => (
+                  <Link
+                    key={tab.value}
+                    href={`/project/${projectData.slug}#${tab.value}`}
+                    scroll={false}
+                    shallow
+                    className="w-full"
+                  >
+                    <TabsTrigger value={tab.value} className="w-full">
+                      {tab.label}
+                      {tab.mobileLabel && (
+                        <span className="hidden sm:inline">
+                          {" "}
+                          {tab.mobileLabel}
+                        </span>
+                      )}
+                    </TabsTrigger>
+                  </Link>
+                ))}
               </TabsList>
               <TabsContent value="modules">
                 {/* Project Modules */}
@@ -415,7 +438,7 @@ export default function ProjectDetailsPage({
                             <div className="mt-2" key={index}>
                               <Card className="flex items-center gap-2 py-2 px-4 cursor-default w-full text-sm">
                                 <div className="flex items-center justify-between gap-2 w-full  ">
-                                  <div className="flex flex-col justify-start items-start">
+                                  <div className="hidden sm:flex flex-col justify-start items-start ">
                                     <div className="text-sm">
                                       {moment(payment.date).format("L")}
                                     </div>
@@ -471,7 +494,7 @@ export default function ProjectDetailsPage({
                                     </div>
                                   </div>
 
-                                  <div className="line-clamp-1">
+                                  <div className="line-clamp-1 hidden sm:flex">
                                     {invoice.title}{" "}
                                   </div>
                                   <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
@@ -482,8 +505,10 @@ export default function ProjectDetailsPage({
                                   href={`/project/invoice/${invoice.id}?project=${projectData.slug}`}
                                 >
                                   <Button variant="outline" size={"sm"}>
-                                    <Eye className="h-4 w-4 mr-2" />
-                                    ดูใบแจ้งหนี้
+                                    <Eye className="h-4 w-4 sm:mr-2" />
+                                    <span className="hidden sm:inline">
+                                      ดูใบแจ้งหนี้
+                                    </span>
                                   </Button>
                                 </Link>
                               </Card>
