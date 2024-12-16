@@ -57,8 +57,39 @@ Table User {
   portfolioItem PortfolioItem [not null]
   comments ProjectComment [not null]
   payment Payment [not null]
+  portfolioProfile PortfolioProfile
+  subscriber Subscriber
   isVerified Boolean [not null, default: false]
   token Int
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table PortfolioProfile {
+  id String [pk]
+  userId String [unique, not null]
+  user User [not null]
+  name String [not null]
+  profileImage String [not null]
+  location String [not null]
+  email String [not null]
+  description String [not null]
+  xUrl String
+  threadsUrl String
+  facebookUrl String
+  youtubeUrl String
+  linkedinUrl String
+  instagramUrl String
+  githubUrl String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Subscriber {
+  id String [pk]
+  userId String [unique, not null]
+  user User [not null]
+  email String [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
 }
@@ -226,6 +257,10 @@ Enum TaskStatus {
 Ref: Account.userId > User.id [delete: Cascade]
 
 Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: PortfolioProfile.userId - User.id
+
+Ref: Subscriber.userId - User.id
 
 Ref: Project.userId > User.id
 

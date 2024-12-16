@@ -97,7 +97,7 @@ export default function ProjectForm({
         await updateProjectById(editingId, data);
         setLoading(false);
 
-        toast.success("อัพเดตโครงการสําเร็จ!");
+        toast.success("แก้ไขโครงการสําเร็จ!");
         //reset
         reset();
         //route
@@ -115,7 +115,7 @@ export default function ProjectForm({
           return;
         } else if (res?.status === 200) {
           setLoading(false);
-          toast.success("สร้างโครงการสําเร็จ!");
+          toast.success("เพิ่มโครงการสําเร็จ!");
           reset();
           setImageUrl("/thumbnail.png");
           router.push("/dashboard/projects");

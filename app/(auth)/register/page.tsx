@@ -1,6 +1,8 @@
 import RegisterForm from "@/components/Forms/RegisterForm";
 import React from "react";
-
+export const metadata = {
+  title: "สมัครสมาชิก",
+};
 export default function page() {
   return (
     <section>

@@ -36,6 +36,12 @@ export const ourFileRouter = {
       return { uploadedBy: "SK" };
     }
   ),
+  profileImage: f({ image: { maxFileSize: "4MB" } }).onUploadComplete(
+    async ({ metadata, file }) => {
+      console.log("file url", file.url);
+      return { uploadedBy: "SK" };
+    }
+  ),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

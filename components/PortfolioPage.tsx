@@ -3,47 +3,97 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FolderPlus, Github, Instagram, Linkedin, Twitter } from "lucide-react";
+import {
+  Facebook,
+  FolderPlus,
+  Github,
+  Instagram,
+  Layout,
+  Linkedin,
+  Mail,
+  MapPin,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PortfolioCard } from "./projects/PortfolioCard";
 import { ProjectWithUser } from "@/types/types";
+import { PortfolioProfile } from "@prisma/client";
+import Link from "next/link";
+import { RiThreadsFill, RiTwitterXFill } from "react-icons/ri";
+import { Dock, DockIcon } from "./ui/dock";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export default function PortfolioPage({
   projects,
+  profile,
+  count,
 }: {
   projects: ProjectWithUser[];
+  profile: PortfolioProfile;
+  count: number;
 }) {
   const router = useRouter();
+
+  const socialLinks = [
+    { Icon: RiTwitterXFill, href: profile.xUrl, name: "X" },
+    {
+      Icon: Mail,
+      href: `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.email}&su=Your+Subject+Here&body=Your+Body+Text+Here`,
+      name: "Mail",
+    },
+    { Icon: Github, href: profile.githubUrl, name: "GitHub" },
+    { Icon: Linkedin, href: profile.linkedinUrl, name: "LinkedIn" },
+    { Icon: Instagram, href: profile.instagramUrl, name: "Instagram" },
+    { Icon: RiThreadsFill, href: profile.threadsUrl, name: "Threads" },
+    { Icon: Facebook, href: profile.facebookUrl, name: "Facebook" },
+    { Icon: Youtube, href: profile.youtubeUrl, name: "YouTube" },
+  ];
+
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
       <div className="mx-auto max-w-7xl p-4 md:p-8">
         <div className="grid gap-8 lg:grid-cols-[400px_1fr]">
           {/* Sticky Profile Section */}
-          <div className="space-y-6 lg:sticky lg:top-8 lg:self-start">
+          <div className=" lg:sticky lg:top-8 lg:self-start">
             <div className="text-center">
-              <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-lg dark:shadow-xl">
+              <div className=" border-4 mx-auto h-32 w-32 overflow-hidden rounded-full shadow-lg dark:shadow-xl mb-4">
                 <Image
-                  src="/placeholder.svg"
-                  alt="Profile"
+                  src={
+                    profile.profileImage ??
+                    "https://utfs.io/f/59b606d1-9148-4f50-ae1c-e9d02322e834-2558r.png"
+                  }
+                  alt={profile.name}
                   className="object-cover w-full h-full"
                   width={128}
                   height={128}
                 />
               </div>
-              <h1 className="mt-4 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                Your Name
+              <h1 className=" text-2xl mt-6 font-bold text-zinc-900 dark:text-zinc-100">
+                {profile.name}
               </h1>
-              <p className="text-zinc-600 dark:text-zinc-400">
-                📍 Location • $XXX/month
-              </p>
+              <div className="text-zinc-600 dark:text-zinc-400 flex justify-center gap-4 mb-2 md:mb-4">
+                <div className="flex items-center">
+                  <MapPin className="mr-1 h-4 w-4" />
+                  {profile.location}
+                </div>
+                <div className="flex items-center">
+                  <Layout className="mr-1 h-4 w-4" />
+                  {count} โครงการ
+                </div>
+              </div>
             </div>
 
-            <p className="text-zinc-700 dark:text-zinc-300">
-              Share your story here. Make it compelling and authentic.
+            <p className="text-zinc-700 dark:text-zinc-300 text-center">
+              {profile.description}
             </p>
-
-            <div className="space-y-4 rounded-lg bg-zinc-100 dark:bg-zinc-900 p-4 shadow-sm dark:shadow-none">
+            <div className=" border rounded-lg bg-zinc-100 dark:bg-zinc-900 p-4 shadow-sm dark:shadow-none">
               <p className="font-medium text-zinc-900 dark:text-zinc-100">
                 Subscribe to my newsletter
               </p>
@@ -60,30 +110,40 @@ export default function PortfolioPage({
               </div>
             </div>
 
-            <div className="flex justify-center gap-4">
-              {[
-                { Icon: Twitter, href: "#" },
-                { Icon: Github, href: "#" },
-                { Icon: Linkedin, href: "#" },
-                { Icon: Instagram, href: "#" },
-              ].map(({ Icon, href }) => (
-                <a
-                  key={href}
-                  href={href}
-                  className="
-                    text-zinc-500 hover:text-zinc-800
-                    dark:text-zinc-400 dark:hover:text-zinc-100
-                    transition-colors duration-300
-                  "
-                >
-                  <Icon className="h-6 w-6" />
-                </a>
-              ))}
+            <div className="relative flex justify-center">
+              <TooltipProvider>
+                <Dock magnification={60} distance={100} className="mt-4">
+                  {socialLinks.map(
+                    ({ Icon, href, name }) =>
+                      href && (
+                        <DockIcon
+                          key={name}
+                          className="bg-black/10 dark:bg-white/10 p-3"
+                        >
+                          <Link
+                            href={href ?? ""}
+                            target="_blank"
+                            className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors duration-300"
+                          >
+                            <Tooltip delayDuration={200}>
+                              <TooltipTrigger asChild>
+                                <Icon className="size-full" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{name}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </Link>
+                        </DockIcon>
+                      )
+                  )}
+                </Dock>
+              </TooltipProvider>
             </div>
           </div>
           {/* Scrollable Projects Grid */}
           {projects ? (
-            <div className="grid gap-4 md:grid-cols-2 h-[calc(100vh-4rem)] overflow-y-auto">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-8 h-[calc(100vh-4rem)] overflow-y-auto ">
               {projects.map((project, index) => (
                 <PortfolioCard key={index} project={project} />
               ))}

@@ -12,7 +12,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { TaskStatus } from "@prisma/client";
 import TaskBoard from "@/components/projects/modules/TaskBoard";
-
+export const metadata = {
+  title: "ฟังชั่นโครงการ",
+};
 export default async function Page({
   params: { id },
   searchParams,

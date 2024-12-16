@@ -3,7 +3,9 @@ import { getProjectById } from "@/actions/projects";
 import ProjectForm from "@/components/Forms/ProjectForm";
 import { getAuthUser } from "@/config/getAuthUser";
 import React from "react";
-
+export const metadata = {
+  title: "แก้ไขโครงการ",
+};
 export default async function page({
   params: { id },
 }: {

@@ -4,7 +4,9 @@ import { notFound, redirect } from "next/navigation";
 import React from "react";
 import Invoice from "@/components/Invoice";
 import { getAuthUser } from "@/config/getAuthUser";
-
+export const metadata = {
+  title: "ใบแจ้งหนี้",
+};
 export default async function page({
   params: { id },
   searchParams,

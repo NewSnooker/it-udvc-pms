@@ -29,7 +29,7 @@ export default function FormHeader({ title, editingId }: FormHeaderProps) {
           <span className="sr-only">กลับ</span>
         </Button>
         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-          {editingId ? "อัพเดต" : "สร้าง"}
+          {editingId ? "แก้ไข" : "เพิ่ม"}
           {title}
         </h1>
       </div>

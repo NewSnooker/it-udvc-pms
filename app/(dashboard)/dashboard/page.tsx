@@ -5,7 +5,9 @@ import OverViewCard from "@/components/dashboard/overview/OverViewCard";
 import RecentClients from "@/components/dashboard/overview/RecentClients";
 import RecentProjects from "@/components/dashboard/overview/RecentProjects";
 import { getAuthUser } from "@/config/getAuthUser";
-
+export const metadata = {
+  title: "Dashboard",
+};
 export default async function Dashboard() {
   const user = await getAuthUser();
   const recentProjects = await getRecentProjects(user?.id);

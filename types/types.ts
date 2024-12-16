@@ -249,3 +249,18 @@ export type ClientData = {
   companyName: string | undefined | null;
   companyDescription: string | null;
 };
+export type PortfolioProps = {
+  userId: string;
+  name: string;
+  profileImage: string;
+  location: string;
+  email: string;
+  description: string;
+  xUrl?: string;
+  threadsUrl?: string;
+  facebookUrl?: string;
+  youtubeUrl?: string;
+  linkedinUrl?: string;
+  instagramUrl?: string;
+  githubUrl?: string;
+};

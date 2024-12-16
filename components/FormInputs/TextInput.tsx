@@ -20,6 +20,7 @@ type TextInputProps = {
   unit?: string;
   placeholder?: string;
   icon?: any;
+  isRequired?: boolean;
 };
 export default function TextInput({
   register,
@@ -31,6 +32,7 @@ export default function TextInput({
   unit,
   icon,
   placeholder,
+  isRequired = true,
 }: TextInputProps) {
   const Icon = icon;
   return (
@@ -69,7 +71,7 @@ export default function TextInput({
           <Input
             id={name}
             type={type}
-            {...register(`${name}`, { required: true })}
+            {...register(`${name}`, { required: isRequired })}
             className={cn(
               "",
               (errors[`${name}`] && "focus:ring-red-500 pl-8") ||

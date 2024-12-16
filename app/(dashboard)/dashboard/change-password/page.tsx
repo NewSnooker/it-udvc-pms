@@ -2,8 +2,10 @@ import { getUserById } from "@/actions/users";
 import ChangPasswordForm from "@/components/Forms/ChangPasswordForm";
 import { getAuthUser } from "@/config/getAuthUser";
 import React from "react";
-
-export default async function Brand() {
+export const metadata = {
+  title: "เปลี่ยนรหัสผ่าน",
+};
+export default async function page() {
   const user = await getAuthUser();
   const userDetails = await getUserById(user?.id ?? "");
   return (

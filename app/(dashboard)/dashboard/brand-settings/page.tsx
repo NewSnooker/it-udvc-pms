@@ -3,7 +3,9 @@ import BrandForm from "@/components/Forms/BrandForm";
 
 import { getAuthUser } from "@/config/getAuthUser";
 import React from "react";
-
+export const metadata = {
+  title: "ตั้งค่าบริษัท",
+};
 export default async function Brand() {
   const user = await getAuthUser();
   const userDetails = await getUserById(user?.id ?? "");

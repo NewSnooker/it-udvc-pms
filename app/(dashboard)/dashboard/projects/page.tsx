@@ -5,7 +5,9 @@ import DataTable from "@/components/DataTableComponents/DataTable";
 import TableHeader from "../../../../components/dashboard/Tables/TableHeader";
 import { getAuthUser } from "@/config/getAuthUser";
 import { getUserProjects } from "@/actions/projects";
-
+export const metadata = {
+  title: "โครงการ",
+};
 export default async function page() {
   const user = await getAuthUser();
   const projects: Project[] = (await getUserProjects(user?.id)) || [];

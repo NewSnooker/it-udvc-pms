@@ -57,7 +57,7 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
       if (editingId) {
         const res = await updateUserById(editingId, data);
         setLoading(false);
-        toast.success("อัปเดตแบรนด์สําเร็จ!");
+        toast.success("อัปเดตบริษัทสําเร็จ!");
         reset();
       }
     } catch (error) {
@@ -72,7 +72,7 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
         <div className="lg:col-span-8 col-span-full space-y-3">
           <Card>
             <CardHeader>
-              <CardTitle>แบรนด์</CardTitle>
+              <CardTitle>ตั้งค่าบริษัท</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -127,7 +127,7 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
         <div className="lg:col-span-4 col-span-full ">
           <div className="grid auto-rows-max items-start gap-4 ">
             <ImageInput
-              title="รูปภาพ โลโก้แบรนด์"
+              title="รูปภาพ โลโก้บริษัท"
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
               endpoint="userLogo"
@@ -136,10 +136,10 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
         </div>
       </div>
       <FormFooter
-        href=""
+        href="/"
         editingId={editingId}
         loading={loading}
-        title="แบรนด์"
+        title="บริษัท"
         parent=""
       />
     </form>

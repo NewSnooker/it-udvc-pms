@@ -73,6 +73,25 @@ export async function getUserProjects(userId: string | undefined) {
     return null;
   }
 }
+export async function getUserProjectsCount(userId: string | undefined) {
+  try {
+    if (userId) {
+      const projectsCount = await db.project.count({
+        where: {
+          userId,
+          isPublic: true,
+        },
+      });
+
+      return projectsCount;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
 export async function getUserGuestProjects(userId: string | undefined) {
   try {
     if (userId) {
@@ -217,7 +236,7 @@ export async function updateProjectPublicityById(
       },
     });
     revalidatePath("/dashboard/projects");
-    revalidatePath("/portfolio");
+    revalidatePath("/portfolio/[slug]");
     return { data: updatedProject, ok: true };
   } catch (error) {
     console.log(error);

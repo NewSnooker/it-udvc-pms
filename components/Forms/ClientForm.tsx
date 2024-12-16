@@ -85,11 +85,11 @@ export default function ClientForm({
           setEmailErr(res.error);
         } else if (res.status === 200) {
           setLoading(false);
-          toast.success("สร้างลูกค้าสําเร็จ!");
+          toast.success("เพิ่มลูกค้าสําเร็จ!");
           router.push("/dashboard/clients");
         } else {
           setLoading(false);
-          toast.error("เกิดข้อผิดพลาดในการสร้างลูกค้า!");
+          toast.error("เกิดข้อผิดพลาดในการเพิ่มลูกค้า!");
         }
       }
     } catch (error) {

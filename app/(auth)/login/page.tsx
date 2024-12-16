@@ -3,7 +3,9 @@ import { authOptions } from "@/config/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
-
+export const metadata = {
+  title: "เข้าสู่ระบบ",
+};
 export default async function Page({
   searchParams,
 }: {

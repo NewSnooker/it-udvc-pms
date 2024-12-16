@@ -6,6 +6,15 @@ import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import React, { ReactNode } from "react";
+import { Metadata } from "next";
+import { WEBSITE_NAME } from "@/constants";
+
+export const metadata: Metadata = {
+  title: {
+    template: `%s | ${WEBSITE_NAME}`,
+    default: `${WEBSITE_NAME}`,
+  },
+};
 
 export default async function DashboardLayout({
   children,

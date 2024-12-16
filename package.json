@@ -51,7 +51,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.12",
     "emblor": "^1.3.5",
-    "framer-motion": "^11.14.1",
+    "framer-motion": "^11.14.4",
     "howler": "^2.2.4",
     "html-react-parser": "^5.1.18",
     "lottie-react": "^2.4.0",

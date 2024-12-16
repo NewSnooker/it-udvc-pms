@@ -36,11 +36,11 @@ export default function RegisterForm() {
         setEmailErr(res.error);
       } else if (res.status === 200) {
         setLoading(false);
-        toast.success("สร้างบัญชีสําเร็จ");
+        toast.success("สมัครสมาชิกสําเร็จ");
         router.push("/login");
       } else {
         setLoading(false);
-        toast.error("เกิดข้อผิดพลาดในการสร้างบัญชี");
+        toast.error("เกิดข้อผิดพลาดในการสมัครสมาชิก");
       }
     } catch (error) {
       setLoading(false);
@@ -53,10 +53,10 @@ export default function RegisterForm() {
       <div className="">
         <div className="py-4 text-zinc-900">
           <h2 className="text-xl lg:text-2xl font-bold leading-9 tracking-tight  ">
-            สร้างบัญชีผู้ใช้
+            สมัครสมาชิก
           </h2>
           <p className="text-xs">
-            เข้าร่วมกับเรา กรอกรายละเอียดเพื่อสร้างบัญชีผู้ใช้
+            เข้าร่วมกับเรา กรอกรายละเอียดเพื่อสมัครสมาชิกผู้ใช้
           </p>
         </div>
       </div>
@@ -116,8 +116,8 @@ export default function RegisterForm() {
           />
           <div>
             <SubmitButton
-              title="สร้างบัญชี"
-              loadingTitle="กำลังสร้างบัญชี..."
+              title="สมัครสมาชิก"
+              loadingTitle="กำลังสมัครสมาชิก..."
               loading={loading}
               className="w-full"
               loaderIcon={Loader2}

@@ -3,7 +3,9 @@ import ProjectPayments from "@/components/dashboard/ProjectPayments";
 import { getAuthUser } from "@/config/getAuthUser";
 import { DetailedUserProjects } from "@/types/types";
 import React from "react";
-
+export const metadata = {
+  title: "การชําระเงิน",
+};
 export default async function page() {
   const user = await getAuthUser();
   const userProjects = (await getDetailUserProjects(user?.id)) || [];

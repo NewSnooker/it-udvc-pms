@@ -6,26 +6,18 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   AlignHorizontalJustifyEnd,
   Bell,
-  CircleUser,
   Combine,
-  DollarSign,
   ExternalLink,
+  FolderOpen,
   Handshake,
   Home,
   LayoutGrid,
-  LineChart,
   Lock,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
+  Mail,
   User2,
   Users,
-  Users2,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -100,7 +92,7 @@ export default function Sidebar() {
         {
           title: "อีเมล",
           href: "/dashboard/emails",
-          icon: User2,
+          icon: Mail,
         },
         // {
         //   title: "อีเมล",
@@ -110,20 +102,20 @@ export default function Sidebar() {
       ],
     },
     {
-      title: "ผลงาน",
+      title: "แฟ้มสะสมผลงาน",
       link: [
         {
-          title: "ผลงาน",
+          title: "Portfolio",
           href: "/dashboard/portfolio",
-          icon: User2,
+          icon: FolderOpen,
         },
       ],
     },
     {
-      title: "แบรนด์",
+      title: "บริษัท",
       link: [
         {
-          title: "ตั้งค่าแบรนด์",
+          title: "ตั้งค่าบริษัท",
           href: "/dashboard/brand-settings",
           icon: User2,
         },

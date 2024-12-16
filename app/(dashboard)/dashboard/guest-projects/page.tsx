@@ -1,10 +1,11 @@
-"use server";
 import { getUserGuestProjects } from "@/actions/projects";
 import GuestProjects from "@/components/dashboard/GuestProjects";
 import { getAuthUser } from "@/config/getAuthUser";
 import { GuestProject } from "@prisma/client";
 import React from "react";
-
+export const metadata = {
+  title: "โครงการที่ได้เข้าร่วม",
+};
 export default async function page() {
   const user = await getAuthUser();
   const projects = await getUserGuestProjects(user?.id);
