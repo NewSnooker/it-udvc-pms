@@ -26,10 +26,10 @@ export async function generateMetadata({
 }
 
 export default async function page({
-  param,
+  params,
   searchParams,
 }: {
-  param: { slug: string };
+  params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { id = "" } = searchParams;
