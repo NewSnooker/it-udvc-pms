@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Facebook,
   FolderPlus,
@@ -29,6 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import SubscribeForm from "./Forms/SubscribeForm";
 
 export default function PortfolioPage({
   projects,
@@ -95,19 +94,10 @@ export default function PortfolioPage({
             </p>
             <div className=" border rounded-lg bg-zinc-100 dark:bg-zinc-900 p-4 shadow-sm dark:shadow-none">
               <p className="font-medium text-zinc-900 dark:text-zinc-100">
-                Subscribe to my newsletter
+                ติดตามข่าวสารของฉัน
               </p>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Your email..."
-                  className="
-                    bg-white dark:bg-zinc-800
-                    border-zinc-300 dark:border-zinc-700
-                    text-zinc-900 dark:text-zinc-100
-                  "
-                />
-                <Button variant="default">Subscribe</Button>
-              </div>
+
+              <SubscribeForm userId={profile.id} />
             </div>
 
             <div className="relative flex justify-center">
