@@ -42,17 +42,18 @@ export default function PortfolioPage({
 
   const socialLinks = [
     { Icon: RiTwitterXFill, href: profile.xUrl, name: "X" },
+    { Icon: RiThreadsFill, href: profile.threadsUrl, name: "Threads" },
+
+    { Icon: Github, href: profile.githubUrl, name: "GitHub" },
+    { Icon: Instagram, href: profile.instagramUrl, name: "Instagram" },
+    { Icon: Facebook, href: profile.facebookUrl, name: "Facebook" },
+    { Icon: Youtube, href: profile.youtubeUrl, name: "YouTube" },
+    { Icon: Linkedin, href: profile.linkedinUrl, name: "LinkedIn" },
     {
       Icon: Mail,
       href: `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.email}&su=Your+Subject+Here&body=Your+Body+Text+Here`,
       name: "Mail",
     },
-    { Icon: Github, href: profile.githubUrl, name: "GitHub" },
-    { Icon: Linkedin, href: profile.linkedinUrl, name: "LinkedIn" },
-    { Icon: Instagram, href: profile.instagramUrl, name: "Instagram" },
-    { Icon: RiThreadsFill, href: profile.threadsUrl, name: "Threads" },
-    { Icon: Facebook, href: profile.facebookUrl, name: "Facebook" },
-    { Icon: Youtube, href: profile.youtubeUrl, name: "YouTube" },
   ];
 
   return (
@@ -92,12 +93,8 @@ export default function PortfolioPage({
             <p className="text-zinc-700 dark:text-zinc-300 text-center">
               {profile.description}
             </p>
-            <div className=" border rounded-lg bg-zinc-100 dark:bg-zinc-900 p-4 shadow-sm dark:shadow-none">
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">
-                ติดตามข่าวสารของฉัน
-              </p>
-
-              <SubscribeForm userId={profile.id} />
+            <div className="mt-4 p-4 bg-zinc-100 dark:bg-zinc-800 rounded-md">
+              <SubscribeForm userId={profile.userId} />
             </div>
 
             <div className="relative flex justify-center">
@@ -115,11 +112,11 @@ export default function PortfolioPage({
                             target="_blank"
                             className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors duration-300"
                           >
-                            <Tooltip delayDuration={200}>
+                            <Tooltip delayDuration={100}>
                               <TooltipTrigger asChild>
                                 <Icon className="size-full" />
                               </TooltipTrigger>
-                              <TooltipContent>
+                              <TooltipContent sideOffset={4} align="center">
                                 <p>{name}</p>
                               </TooltipContent>
                             </Tooltip>

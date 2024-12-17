@@ -25,7 +25,6 @@ export function PortfolioCard({ project }: { project: ProjectWithUser }) {
               alt={project.name}
               width={300}
               height={300}
-              objectFit="cover"
               className={`w-full h-[200px] group-hover:scale-95 group-hover:rounded-2xl transform object-cover transition duration-200 `}
             />
           </div>

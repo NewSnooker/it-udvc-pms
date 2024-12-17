@@ -94,11 +94,11 @@ export default function Sidebar() {
           href: "/dashboard/emails",
           icon: Mail,
         },
-        // {
-        //   title: "อีเมล",
-        //   href: "/dashboard/bulk-emails",
-        //   icon: Lock,
-        // },
+        {
+          title: "อีเมลผู้ติดตาม",
+          href: "/dashboard/subscribers",
+          icon: Mail,
+        },
       ],
     },
     {

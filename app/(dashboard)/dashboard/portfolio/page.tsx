@@ -1,9 +1,11 @@
 import { getPortfolioByUserId } from "@/actions/portfolio";
+import { ShareLink } from "@/components/dashboard/ShareLink";
 import PortfolioForm from "@/components/Forms/PortfolioForm";
 import { Button } from "@/components/ui/button";
 import { authOptions } from "@/config/auth";
 import { getAuthUser } from "@/config/getAuthUser";
 import { generateSlug } from "@/lib/generateSlug";
+import { Eye, Share } from "lucide-react";
 import { getServerSession, Session } from "next-auth";
 import Link from "next/link";
 import React from "react";
@@ -16,17 +18,21 @@ export default async function page() {
   const user = await getAuthUser();
   const slug = generateSlug(user?.name ?? "");
   const initialData = await getPortfolioByUserId(user?.id ?? "");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <div className="p-8">
-      <div className="flex border-b items-center justify-between pb-3">
-        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
+      <div className="flex flex-col sm:flex-row border-b items-center justify-between pb-3">
+        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 text-center">
           Customize Your Portfolio
         </h2>
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-2 sm:mt-0 ">
           <Link target="_blank" href={`/portfolio/${slug}?id=${user?.id}`}>
-            <Button>Preview</Button>
+            <Button className="">
+              <Eye className="mr-1 sm:mr-2 h-4 w-4" /> Preview
+            </Button>
           </Link>
-          <Button>Copy</Button>
+          <ShareLink link={`${baseUrl}/portfolio/${slug}?id=${user?.id}`} />
         </div>
       </div>
       <div className="pb-6">

@@ -35,23 +35,32 @@ export default function SubscribeForm({ userId }: { userId: string }) {
     data.userId = userId ?? "";
     try {
       setLoading(true);
-      await createSubscription(data);
-      setLoading(false);
-      toast.success("Subscribe สําเร็จ!");
+      const res = await createSubscription(data);
+      if (res?.status === 201) {
+        setLoading(false);
+        toast.success("Subscribe สําเร็จ!");
+        reset();
+      } else if (res?.status === 409) {
+        setLoading(false);
+        toast.error(res.error);
+      } else {
+        setLoading(false);
+        toast.error("เกิดข้อผิดพลาดในการ Subscribe!");
+      }
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast.error("เกิดข้อผิดพลาดในการ Subscribe!");
     }
   }
 
   return (
     <form
-      className="flex items-between gap-2 w-full"
+      className="flex items-between items-end gap-2 w-full"
       onSubmit={handleSubmit(updateSubscribe)}
     >
       <div className="flex-grow min-w-0">
         <TextInput
+          label="ติดตามข่าวสารของฉัน"
           type="email"
           register={register}
           errors={errors}
