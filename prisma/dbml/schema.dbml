@@ -226,16 +226,6 @@ Table PortfolioItem {
   updatedAt DateTime [not null]
 }
 
-Table Category {
-  id String [pk]
-  title String [not null]
-  slug String [unique, not null]
-  imageUrl String
-  description String
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime
-}
-
 Enum UserRole {
   USER
   ADMIN
@@ -258,32 +248,32 @@ Ref: Account.userId > User.id [delete: Cascade]
 
 Ref: Session.userId > User.id [delete: Cascade]
 
-Ref: PortfolioProfile.userId - User.id
+Ref: PortfolioProfile.userId - User.id [delete: Cascade]
 
-Ref: Subscriber.userId > User.id
+Ref: Subscriber.userId > User.id [delete: Cascade]
 
-Ref: Project.userId > User.id
+Ref: Project.userId > User.id [delete: Cascade]
 
-Ref: ProjectComment.projectId > Project.id
+Ref: ProjectComment.projectId > Project.id [delete: Cascade]
 
-Ref: ProjectComment.userId > User.id
+Ref: ProjectComment.userId > User.id [delete: Cascade]
 
 Ref: GuestProject.guestId > User.id
 
-Ref: Module.projectId > Project.id
+Ref: Module.projectId > Project.id [delete: Cascade]
 
 Ref: Module.userId > User.id
 
-Ref: Task.moduleId > Module.id
+Ref: Task.moduleId > Module.id [delete: Cascade]
 
 Ref: Member.projectId > Project.id
 
-Ref: Invoice.projectId > Project.id
+Ref: Invoice.projectId > Project.id [delete: Cascade]
 
 Ref: Invoice.userId > User.id
 
-Ref: Payment.projectId > Project.id
+Ref: Payment.projectId > Project.id [delete: Cascade]
 
 Ref: Payment.userId > User.id
 
-Ref: PortfolioItem.userId > User.id
+Ref: PortfolioItem.userId > User.id [delete: Cascade]

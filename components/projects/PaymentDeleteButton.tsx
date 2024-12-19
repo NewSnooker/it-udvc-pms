@@ -4,6 +4,17 @@ import { Button } from "../ui/button";
 import { Loader, Trash } from "lucide-react";
 import { deletePayment } from "@/actions/payment";
 import toast from "react-hot-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function PaymentDeleteButton({
   paymentId,
@@ -26,17 +37,40 @@ export default function PaymentDeleteButton({
     }
   };
   return (
-    <Button
-      variant="outline"
-      size={"sm"}
-      onClick={handleDelete}
-      disabled={isLoading}
-    >
-      {isLoading ? (
-        <Loader className="h-4 w-4 animate-spin" />
-      ) : (
-        <Trash className="h-4 w-4" />
-      )}
-    </Button>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        {isLoading ? (
+          <Button size="sm" variant="destructive" disabled>
+            <Loader className="h-4 w-4 animate-spin" />
+          </Button>
+        ) : (
+          <Button disabled={isLoading} variant="destructive" size="sm">
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
+      </AlertDialogTrigger>
+      <AlertDialogContent className="py-10">
+        <AlertDialogHeader>
+          <AlertDialogTitle>คุณแน่ใจแล้วหรือไม่?</AlertDialogTitle>
+          <AlertDialogDescription>
+            เมื่อดำเนินการนี้ไม่สามารถยกเลิกได้
+            การดำเนินการนี้จะลบสิ่งนี้อย่างถาวร
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+          <AlertDialogAction className="px-0">
+            <Button
+              variant={"destructive"}
+              className="w-full sm:w-auto"
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
+              ยืนยันการลบ
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
