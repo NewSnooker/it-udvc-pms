@@ -36,7 +36,6 @@ import {
 } from "@/components/ui/dialog";
 import { formatBytes } from "@/lib/formatBytes";
 import { generateSlug } from "@/lib/generateSlug";
-import { createBulkCategories } from "@/actions/categories";
 import toast from "react-hot-toast";
 import exportDataToExcel from "@/lib/exportDataToExcel";
 
@@ -131,31 +130,43 @@ export default function TableHeader({
           const json = XLSX.utils.sheet_to_json(workSheet);
           setJsonData(JSON.stringify(json, null, 2));
 
-          try {
-            setLoading(true);
-            if (model === "category") {
-              const categories = json.map((item: any) => {
-                return {
-                  title: item.Title,
-                  slug: generateSlug(item.Title),
-                  description: item.Description,
-                  imageUrl: item.Image,
-                  mainCategoryId: item.mainCategoryId,
-                  status: true,
-                };
-              });
-              await createBulkCategories(categories);
-            }
-            setLoading(false);
-            setUploadSuccess(true);
-            // window.location.reload();
-            // toast.success("All Data Synced Successfully with No errors 👍");
-          } catch (error) {
-            setUploadSuccess(false);
-            setLoading(false);
-            toast.error("Something went wrong, Please Try again 😢");
-            console.log(error);
-          }
+          // try {
+          //   setLoading(true);
+          //   if (model === "category") {
+          //     const categories = json.map((item: any) => {
+          //       return {
+          //         title: item.Title,
+          //         slug: generateSlug(item.Title),
+          //         description: item.Description,
+          //         imageUrl: item.Image,
+          //         mainCategoryId: item.mainCategoryId,
+          //         status: true,
+          //       };
+          //     });
+          //     await createBulkCategories(categories);
+          //   }
+          //   setLoading(false);
+          //   setUploadSuccess(true);
+          //   window.location.reload();
+          //   toast.success("All Data Synced Successfully with No errors 👍");
+          // } catch (error) {
+          //   setUploadSuccess(false);
+          //   setLoading(false);
+          //   toast.error("Something went wrong, Please Try again 😢");
+          //   console.log(error);
+          // }
+
+          //   หลังบ้านต้องมีสิ่งนี้ เพื่อที่จะอัพโหลดไฟล์
+          // }
+          // export async function createBulkCategories(categories: CategoryProps[]) {
+          //   try {
+          //     for (const category of categories) {
+          //       await createCategory(category);
+          //     }
+          //   } catch (error) {
+          //     console.log(error);
+          //   }
+          // }
         }
       };
       reader.readAsBinaryString(excelFile);

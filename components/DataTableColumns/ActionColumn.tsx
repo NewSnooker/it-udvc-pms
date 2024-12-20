@@ -21,7 +21,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
-import { deleteCategory } from "@/actions/categories";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { deleteUser } from "@/actions/users";
@@ -45,13 +44,7 @@ export default function ActionColumn({
   const isActive = row.isActive;
   async function handleDelete() {
     try {
-      if (model === "category") {
-        const res = await deleteCategory(id);
-        if (res?.ok) {
-          window.location.reload();
-        }
-        toast.success(`ลบ${title} สําเร็จ`);
-      } else if (model === "clients") {
+      if (model === "clients") {
         const res = await deleteUser(id);
         if (res?.ok) {
           window.location.reload();
