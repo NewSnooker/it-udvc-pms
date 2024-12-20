@@ -17,20 +17,7 @@ export async function createComment(data: CommentProps) {
     return null;
   }
 }
-export async function getAllCategories() {
-  try {
-    const categories = await db.category.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
 
-    return categories;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
 export async function updateCommentById(id: string, data: CommentProps) {
   try {
     const updatedComment = await db.projectComment.update({

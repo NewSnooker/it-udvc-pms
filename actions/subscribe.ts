@@ -38,7 +38,6 @@ export async function createSubscription(data: SubscribeFormProps) {
       // 3. สร้าง subscriber
       const subscriber = await db.subscriber.create({ data });
       revalidatePath("/dashboard/subscribers");
-
       return {
         data: subscriber,
         ok: true,
@@ -55,6 +54,7 @@ export async function createSubscription(data: SubscribeFormProps) {
       };
     }
   }
+  revalidatePath("/dashboard/subscribers");
 
   return {
     error: "ไม่พบข้อมูลผู้ใช้",
@@ -69,6 +69,9 @@ export async function getUserSubscribersByUserId(userId: string) {
     const data = await db.subscriber.findMany({
       where: {
         userId,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     revalidatePath("/dashboard/subscribers");
