@@ -6,9 +6,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   AlignHorizontalJustifyEnd,
   Bell,
+  Building2,
   Combine,
   ExternalLink,
   FolderOpen,
+  Folders,
   Handshake,
   Home,
   LayoutGrid,
@@ -117,12 +119,12 @@ export default function Sidebar() {
         {
           title: "ตั้งค่าบริษัท",
           href: "/dashboard/brand-settings",
-          icon: User2,
+          icon: Building2,
         },
         {
           title: "ตัวจัดการไฟล์",
           href: "/dashboard/file-manager",
-          icon: User2,
+          icon: Folders,
         },
       ],
     },
