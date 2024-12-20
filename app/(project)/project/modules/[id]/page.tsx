@@ -44,7 +44,7 @@ export default async function Page({
   }
   const projectData = await getProjectById(searchParams.pid as string);
   if (!projectData) {
-    return <div> ไม่พบโครงการ </div>;
+    return notFound();
   }
   const modules = (await getProjectModules(searchParams.pid as string)) || [];
   const activeModule = modules?.find((module) => module.id === id);

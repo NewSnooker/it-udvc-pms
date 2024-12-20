@@ -3,7 +3,7 @@ import { getExistingUsers } from "@/actions/users";
 import ProjectDetailsPage from "@/components/projects/ProjectDetailsPage";
 import { authOptions } from "@/config/auth";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/constants";
@@ -25,10 +25,10 @@ export default async function page({ params }: { params: { slug: string } }) {
   const existingUsers = await getExistingUsers();
 
   if (!existingUsers) {
-    return <div>ไม่พบผู้ใช้</div>;
+    return notFound();
   }
   if (!projectData) {
-    return <div>ไม่พบโครงการ</div>;
+    return notFound();
   }
 
   const session = await getServerSession(authOptions);
