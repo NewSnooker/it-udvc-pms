@@ -13,7 +13,23 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: WEBSITE_NAME,
-  description: `${WEBSITE_NAME} เป็นแพลตฟอร์มสำหรับผู้เชี่ยวชาญด้านไอทีในการค้นหาและเชื่อมต่อกับผู้เชี่ยวชาญด้านไอทีคนอื่นๆ เป็นสถานที่ที่คุณสามารถเรียนรู้จากผู้อื่นและแบ่งปันความรู้ของคุณกับพวกเขา`,
+  description: `${WEBSITE_NAME} ระบบบริหารจัดการโครงการที่ช่วยเพิ่มประสิทธิภาพการทำงานเป็นทีม ด้วยฟีเจอร์ที่ครบครัน เช่น การติดตามงาน การจัดการทรัพยากร การกำหนดเวลา และการรายงานผล รองรับการทำงานแบบเรียลไทม์ พร้อมปรับแต่งได้ตามความต้องการ เพื่อสนับสนุนความสำเร็จของโครงการทุกขนาดและทุกอุตสาหกรรม`,
+  metadataBase: new URL("https://it-udvc-pms.vercel.app/"),
+  twitter: {
+    card: "summary_large_image",
+    site: "it-udvc-pms.vercel.app",
+    title: WEBSITE_NAME,
+    description: `${WEBSITE_NAME} ระบบบริหารจัดการโครงการที่ครบครันและปรับแต่งได้`,
+    images: ["images/og-image.jpg"],
+  },
+  openGraph: {
+    title: WEBSITE_NAME,
+    description: `${WEBSITE_NAME} ระบบบริหารจัดการโครงการที่ครบครันและปรับแต่งได้`,
+    images: ["images/og-image.jpg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 import dynamic from "next/dynamic";
 import { WEBSITE_NAME } from "@/constants";
