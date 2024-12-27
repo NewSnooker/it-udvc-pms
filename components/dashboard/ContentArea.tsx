@@ -114,9 +114,9 @@ export function ContentArea({
       {/* View Mode Toggle */}
       <div className="flex justify-between items-center mb-4 ">
         {/* progress */}
-        <div className=" w-52 sm:w-96 flex flex-col sm:flex-row items-center gap-x-4 pr-4 sm:pr-0 ">
+        <div className=" w-52 sm:w-96 flex flex-col sm:flex-row items-start sm:items-center gap-x-4 gap-y-1 pr-4 sm:pr-0 ">
           <div
-            className={`flex-auto relative ${getColor(
+            className={`flex-auto w-full sm:w-auto  relative ${getColor(
               parseFloat(percentage)
             )} h-2.5 rounded-full overflow-hidden`}
           >
