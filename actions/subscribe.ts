@@ -63,7 +63,6 @@ export async function createSubscription(data: SubscribeFormProps) {
     data: null,
   };
 }
-
 export async function getUserSubscribersByUserId(userId: string) {
   try {
     const data = await db.subscriber.findMany({
@@ -80,7 +79,6 @@ export async function getUserSubscribersByUserId(userId: string) {
     console.log(error);
   }
 }
-
 export async function deleteSubscribers(id: string) {
   try {
     const deletedSubscribers = await db.subscriber.delete({

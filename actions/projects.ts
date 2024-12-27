@@ -3,6 +3,7 @@
 import { db } from "@/prisma/db";
 import { ProjectData, ProjectProps, ProjectWithPayments } from "@/types/types";
 import { revalidatePath } from "next/cache";
+import { createProjectFolderAtomatically } from "./fileManager";
 
 export async function createProject(data: ProjectProps) {
   const slug = data.slug;
@@ -40,7 +41,12 @@ export async function createProject(data: ProjectProps) {
         budget: data.budget,
       },
     });
-    // console.log(newProject);
+    // create project folder
+    await createProjectFolderAtomatically({
+      userId: data.userId,
+      name: data.name,
+    });
+    revalidatePath("/dashboard/file-manager");
     revalidatePath("/dashboard/projects");
     return {
       status: 200,

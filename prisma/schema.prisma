@@ -84,6 +84,7 @@ model User {
   token              Int?
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
+  folder             Folder[]
 }
 
 model PortfolioProfile {
@@ -256,4 +257,30 @@ model PortfolioItem {
   userId      String   @db.ObjectId
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Folder {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String   @db.ObjectId
+  parentFolder   Folder?  @relation("SubFolders", fields: [parentFolderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parentFolderId String?  @db.ObjectId
+  subFolders     Folder[] @relation("SubFolders")
+  files          File[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model File {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  key            String
+  name           String
+  type           String
+  url            String
+  size           Int
+  parentFolder   Folder   @relation(fields: [parentFolderId], references: [id])
+  parentFolderId String   @db.ObjectId
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

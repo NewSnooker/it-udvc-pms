@@ -4,6 +4,7 @@ import {
   UserRole,
   Payment as IPayment,
   User,
+  File,
 } from "@prisma/client";
 
 export type CategoryProps = {
@@ -147,7 +148,6 @@ export type ModuleProps = {
   projectId: string;
   userId: string;
 };
-
 export type ProjectComment = {
   id: string;
   content: string;
@@ -158,7 +158,6 @@ export type ProjectComment = {
   createdAt: Date;
   updatedAt: Date;
 };
-
 export type Member = {
   id: string;
   name: string;
@@ -263,4 +262,18 @@ export type PortfolioProps = {
   linkedinUrl?: string;
   instagramUrl?: string;
   githubUrl?: string;
+};
+export type FolderProps = {
+  name: string;
+  userId: string;
+  parentFolderId?: string;
+  files?: FileProps[];
+};
+export type FileProps = {
+  key: string;
+  name: string;
+  type: string;
+  url: string;
+  size: number;
+  parentFolderId: string;
 };

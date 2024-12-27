@@ -122,7 +122,7 @@ export default function Sidebar() {
           icon: Building2,
         },
         {
-          title: "ตัวจัดการไฟล์",
+          title: "จัดการไฟล์",
           href: "/dashboard/file-manager",
           icon: Folders,
         },

@@ -63,6 +63,7 @@ Table User {
   token Int
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
+  folder Folder [not null]
 }
 
 Table PortfolioProfile {
@@ -226,6 +227,32 @@ Table PortfolioItem {
   updatedAt DateTime [not null]
 }
 
+Table Folder {
+  id String [pk]
+  name String [not null]
+  user User [not null]
+  userId String [not null]
+  parentFolder Folder
+  parentFolderId String
+  subFolders Folder [not null]
+  files File [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table File {
+  id String [pk]
+  key String [not null]
+  name String [not null]
+  type String [not null]
+  url String [not null]
+  size Int [not null]
+  parentFolder Folder [not null]
+  parentFolderId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
 Enum UserRole {
   USER
   ADMIN
@@ -277,3 +304,9 @@ Ref: Payment.projectId > Project.id [delete: Cascade]
 Ref: Payment.userId > User.id
 
 Ref: PortfolioItem.userId > User.id [delete: Cascade]
+
+Ref: Folder.userId > User.id [delete: Cascade]
+
+Ref: Folder.parentFolderId - Folder.id [delete: No Action]
+
+Ref: File.parentFolderId > Folder.id

@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/prisma/db";
-import { CategoryProps, InvoiceDetails, PaymentProps } from "@/types/types";
+import { InvoiceDetails, PaymentProps } from "@/types/types";
 import { UserRole } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 

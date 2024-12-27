@@ -7,6 +7,7 @@ import { UserRole } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { compare } from "bcrypt";
 import { revalidatePath } from "next/cache";
+import { createDefaultFolderForUser } from "./fileManager";
 export async function createUser(data: UserProps) {
   const {
     email,
@@ -54,9 +55,13 @@ export async function createUser(data: UserProps) {
         companyDescription,
       },
     });
+
+    // Create default folder
+    await createDefaultFolderForUser(newUser.id);
+
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/users");
-    // console.log(newUser);
+    revalidatePath("/dashboard/file-manager");
     return {
       error: null,
       status: 200,
@@ -71,7 +76,6 @@ export async function createUser(data: UserProps) {
     };
   }
 }
-
 export async function getUserById(id: string) {
   try {
     const user = await db.user.findUnique({
