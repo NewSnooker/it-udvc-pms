@@ -20,12 +20,12 @@ export const metadata: Metadata = {
     site: "it-udvc-pms.vercel.app",
     title: WEBSITE_NAME,
     description: `${WEBSITE_NAME} ระบบบริหารจัดการโครงการที่ครบครันและปรับแต่งได้`,
-    images: ["images/og-image.jpg"],
+    images: ["https://it-udvc-pms.vercel.app/images/og-image.jpg"],
   },
   openGraph: {
     title: WEBSITE_NAME,
     description: `${WEBSITE_NAME} ระบบบริหารจัดการโครงการที่ครบครันและปรับแต่งได้`,
-    images: ["images/og-image.jpg"],
+    images: ["https://it-udvc-pms.vercel.app/images/og-image.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
