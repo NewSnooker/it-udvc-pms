@@ -27,12 +27,12 @@ export default async function page() {
           Customize Your Portfolio
         </h2>
         <div className="flex gap-4 mt-2 sm:mt-0 ">
-          <Link target="_blank" href={`/portfolio/${slug}?id=${user?.id}`}>
+          <Link target="_blank" href={`/portfolio/${user?.id}`}>
             <Button className="">
               <Eye className="mr-1 sm:mr-2 h-4 w-4" /> Preview
             </Button>
           </Link>
-          <ShareLink link={`${baseUrl}/portfolio/${slug}?id=${user?.id}`} />
+          <ShareLink link={`${baseUrl}/portfolio/${user?.id}`} />
         </div>
       </div>
       <div className="pb-6">

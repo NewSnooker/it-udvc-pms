@@ -1,10 +1,6 @@
 import { getPortfolioByUserId } from "@/actions/portfolio";
-import {
-  getUserProjectsCount,
-  getUserPublicProjects,
-} from "@/actions/projects";
+import { getUserPublicProjects } from "@/actions/projects";
 import PortfolioPage from "@/components/PortfolioPage";
-import { getAuthUser } from "@/config/getAuthUser";
 import { PortfolioProfile } from "@prisma/client";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -16,21 +12,35 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const portfolioName = decodeURIComponent(params.slug);
+  const profile = await getPortfolioByUserId(params.slug as string);
+
+  const profileImage =
+    profile?.profileImage ??
+    "https://utfs.io/f/59b606d1-9148-4f50-ae1c-e9d02322e834-2558r.png";
+  const name = profile?.name ?? "";
   const baseUrl = "https://it-udvc-pms.vercel.app";
   return {
-    title: `Portfolio ${portfolioName} | ${WEBSITE_NAME}`,
-    description: `Portfolio ${portfolioName} ใน ${WEBSITE_NAME} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา`,
+    title: `Portfolio ${name} | ${WEBSITE_NAME}`,
+    description: `Portfolio ใน ${WEBSITE_NAME} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา`,
     openGraph: {
-      title: `Portfolio ${portfolioName} | ${WEBSITE_NAME}`,
-      description: `Portfolio ${portfolioName} ใน ${WEBSITE_NAME} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา`,
-      url: baseUrl,
+      title: `Portfolio ${name} | ${WEBSITE_NAME}`,
+      description: `Portfolio ใน ${WEBSITE_NAME} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา`,
+      url: `${baseUrl}/portfolio/${params.slug}`,
       type: "profile",
+      images: [
+        {
+          url: profileImage,
+          width: 800,
+          height: 600,
+          alt: "Portfolio",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `Portfolio ${portfolioName} | ${WEBSITE_NAME}`,
-      description: `Portfolio ${portfolioName} ใน ${WEBSITE_NAME} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา`,
+      title: `Portfolio | ${WEBSITE_NAME}`,
+      description: `Portfolio ใน ${WEBSITE_NAME} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา`,
+      images: [profileImage],
     },
   };
 }
@@ -42,14 +52,12 @@ export default async function page({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { id = "" } = searchParams;
-  if (!id) {
+  const profile = await getPortfolioByUserId(params.slug as string);
+  if (!profile) {
     return notFound();
   }
-  const user = await getAuthUser();
-  const profile = await getPortfolioByUserId(id as string);
-  const projects = (await getUserPublicProjects(id as string)) || [];
-  const count = (await getUserProjectsCount(user?.id)) ?? 0;
+  const projects = (await getUserPublicProjects(params.slug as string)) || [];
+  const count = projects.length || 0;
 
   return (
     <div className="">
