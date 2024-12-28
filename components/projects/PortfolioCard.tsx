@@ -9,7 +9,7 @@ moment.locale("th");
 
 export function PortfolioCard({ project }: { project: ProjectWithUser }) {
   return (
-    <div className="w-80 mx-auto">
+    <Link href={`#`} className="w-80 mx-auto">
       <FollowerPointerCard
         title={
           <TitleComponent
@@ -18,7 +18,7 @@ export function PortfolioCard({ project }: { project: ProjectWithUser }) {
           />
         }
       >
-        <div className="relative overflow-hidden h-full rounded-2xl transition duration-200 group bg-white dark:bg-zinc-900  hover:shadow-xl border ">
+        <div className="relative overflow-hidden h-full rounded-2xl transition duration-200 group bg-white dark:bg-zinc-900 hover:shadow-xl border ">
           <div className="w-full aspect-w-16 aspect-h-10 bg-gray-100 dark:bg-background rounded-tr-lg rounded-tl-lg overflow-hidden xl:aspect-w-16 xl:aspect-h-10 relative">
             <Image
               src={project.thumbnail ?? "/placeholder.svg"}
@@ -49,20 +49,9 @@ export function PortfolioCard({ project }: { project: ProjectWithUser }) {
           </div>
         </div>
       </FollowerPointerCard>
-    </div>
+    </Link>
   );
 }
-
-const blogContent = {
-  slug: "amazing-tailwindcss-grid-layouts",
-  author: "Manu Arora",
-  date: "28th March, 2023",
-  title: "Amazing Tailwindcss Grid Layout Examples",
-  description:
-    "Grids are cool, but Tailwindcss grids are cooler. In this article, we will learn how to create amazing Grid layouts with Tailwindcs grid and React.",
-  image: "/demo/thumbnail.png",
-  authorAvatar: "/manu.png",
-};
 
 const TitleComponent = ({
   title,

@@ -4,8 +4,7 @@ import PortfolioForm from "@/components/Forms/PortfolioForm";
 import { Button } from "@/components/ui/button";
 import { authOptions } from "@/config/auth";
 import { getAuthUser } from "@/config/getAuthUser";
-import { generateSlug } from "@/lib/generateSlug";
-import { Eye, Share } from "lucide-react";
+import { Eye } from "lucide-react";
 import { getServerSession, Session } from "next-auth";
 import Link from "next/link";
 import React from "react";
@@ -16,10 +15,8 @@ export const metadata = {
 export default async function page() {
   const session: Session | null = await getServerSession(authOptions);
   const user = await getAuthUser();
-  const slug = generateSlug(user?.name ?? "");
   const initialData = await getPortfolioByUserId(user?.id ?? "");
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
   return (
     <div className="p-8">
       <div className="flex flex-col sm:flex-row border-b items-center justify-between pb-3">

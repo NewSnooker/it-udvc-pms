@@ -147,7 +147,7 @@ export function DetailsPanel({ file, onClose }: DetailsPanelProps) {
                     ) : (
                       <Trash className="h-4 w-4 sm:mr-1.5 " />
                     )}
-                    <p className="hidden sm:inline">ลบโฟลเดอร์</p>
+                    <p className="hidden sm:inline">ลบไฟล์</p>
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="py-10">

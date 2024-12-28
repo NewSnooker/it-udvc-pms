@@ -28,6 +28,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import SubscribeForm from "./Forms/SubscribeForm";
+import { PortfolioCardFooter } from "./projects/PortfolioCardFooter";
 
 export default function PortfolioPage({
   projects,
@@ -55,10 +56,11 @@ export default function PortfolioPage({
       name: "Mail",
     },
   ];
-
+  const fourProjects = projects.slice(0, 2);
+  const otherProjects = projects.slice(2);
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
-      <div className="mx-auto max-w-7xl p-4 md:p-8">
+      <div className="mx-auto max-w-7xl py-8 md:p-8">
         <div className="grid gap-8 lg:grid-cols-[400px_1fr]">
           {/* Sticky Profile Section */}
           <div className=" lg:sticky lg:top-8 lg:self-start">
@@ -130,8 +132,8 @@ export default function PortfolioPage({
           </div>
           {/* Scrollable Projects Grid */}
           {projects ? (
-            <div className="grid md:grid-cols-2 gap-4 md:gap-8 h-[calc(100vh-4rem)] overflow-y-auto ">
-              {projects.map((project, index) => (
+            <div className="grid md:grid-cols-2 gap-2 md:gap-4 my-8 ">
+              {fourProjects.map((project, index) => (
                 <PortfolioCard key={index} project={project} />
               ))}
             </div>
@@ -146,6 +148,12 @@ export default function PortfolioPage({
             </div>
           )}
         </div>
+        {/* Footer */}
+        {otherProjects.length > 0 && (
+          <div className="flex justify-center">
+            <PortfolioCardFooter projects={otherProjects} />
+          </div>
+        )}
       </div>
     </div>
   );
