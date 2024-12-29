@@ -1,12 +1,9 @@
 import { getProjectDetailBySlug } from "@/actions/projects";
-import { getExistingUsers } from "@/actions/users";
-import ProjectDetailsPage from "@/components/projects/ProjectDetailsPage";
-import { authOptions } from "@/config/auth";
-import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/constants";
+import PublicProjectDetailsPage from "@/components/projects/PublicProjectDetailsPage";
 
 export async function generateMetadata({
   params,
@@ -18,7 +15,7 @@ export async function generateMetadata({
   const projectName = projectData?.name ?? "โครงการที่ไม่ระบุชื่อ";
   const title = `${projectName} | ${WEBSITE_NAME}`;
   const thumbnail = projectData?.thumbnail ?? "/thumbnail.png";
-  const url = `${baseUrl}/project/${params.slug}`;
+  const url = `${baseUrl}/public/project/${params.slug}`;
   const description = `รายละเอียดโครงการ ${projectName} เป็นข้อมูลเกี่ยวกับโครงการและผู้มีส่วนเกี่ยวข้องในแพลตฟอร์มของเรา: ${
     projectData?.description ?? "ไม่มีข้อมูลเพิ่มเติม"
   }`;
@@ -46,30 +43,15 @@ export async function generateMetadata({
     },
   };
 }
+
 export default async function page({ params }: { params: { slug: string } }) {
   const projectData = await getProjectDetailBySlug(params.slug);
-  const existingUsers = await getExistingUsers();
-
-  if (!existingUsers) {
-    return notFound();
-  }
   if (!projectData) {
     return notFound();
   }
-
-  const session = await getServerSession(authOptions);
-  const returnUrl = `/project/${params.slug}`;
-  if (!session) {
-    redirect(`/login?returnUrl=${returnUrl}`);
-  }
-
   return (
     <div>
-      <ProjectDetailsPage
-        projectData={projectData}
-        existingUsers={existingUsers}
-        session={session}
-      />
+      <PublicProjectDetailsPage projectData={projectData} />
     </div>
   );
 }

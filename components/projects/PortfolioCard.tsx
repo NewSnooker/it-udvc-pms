@@ -9,7 +9,7 @@ moment.locale("th");
 
 export function PortfolioCard({ project }: { project: ProjectWithUser }) {
   return (
-    <Link href={`#`} className="w-80 mx-auto">
+    <div className="w-80 mx-auto">
       <FollowerPointerCard
         title={
           <TitleComponent
@@ -40,7 +40,7 @@ export function PortfolioCard({ project }: { project: ProjectWithUser }) {
                 {moment(project.startDate).format("L")}
               </span>
               <Link
-                href="#"
+                href={`/public/project/${project.slug}`}
                 className="relative z-10 px-6 py-2 bg-black text-white font-bold rounded-xl block text-xs cursor-none"
               >
                 ดูเพิ่มเติม
@@ -49,7 +49,7 @@ export function PortfolioCard({ project }: { project: ProjectWithUser }) {
           </div>
         </div>
       </FollowerPointerCard>
-    </Link>
+    </div>
   );
 }
 

@@ -9,7 +9,7 @@ moment.locale("th");
 
 const ReviewCard = ({ item }: { item: ProjectWithUser }) => {
   return (
-    <Link href={`#`}>
+    <Link href={`/public/project/${item.slug}`}>
       <figure
         className={cn(
           "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
