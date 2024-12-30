@@ -13,6 +13,8 @@ import MemberInvitation, {
   InvitationDetailsProps,
 } from "@/components/email-templates/MemberInvitation";
 import { db } from "@/prisma/db";
+import { MailProps } from "@/components/dashboard/EmailCompose";
+import GeneralEmailTemplate from "@/components/email-templates/GeneralEmailTemplate";
 
 export async function sendInvoiceLink(
   data: InvoiceDetails,
@@ -54,19 +56,13 @@ export async function sendInvoiceLink(
       },
     };
 
-    await new Promise((resolve, reject) => {
-      transporter.sendMail(options, (err, info) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(info);
-          console.log(info);
-        }
-      });
-    });
+    // ส่งอีเมลและรอผลลัพธ์
+    const info = await transporter.sendMail(options);
+    console.log(info); // ตรวจสอบข้อมูลผลลัพธ์
+    return { info, err: null, status: 200 }; // ส่งผลลัพธ์กลับ
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    console.error(error);
+    return { info: null, err: error, status: 500 }; // ส่ง error กลับ
   }
 }
 export async function sendClientInvitation(data: ClientInvitationProps) {
@@ -182,5 +178,61 @@ export async function sendMemberInvitation({
     });
   } catch (error) {
     return Response.json({ error }, { status: 500 });
+  }
+}
+export async function sendSingleEmail(data: MailProps) {
+  try {
+    // ตรวจสอบข้อมูลสำคัญก่อนดำเนินการ
+    if (!data.to || data.to.length === 0) {
+      throw new Error("ไม่มีผู้รับในอีเมล");
+    }
+    if (
+      !data.html ||
+      data.html.trim() === "" ||
+      data.html.trim() === "<p><br></p>"
+    ) {
+      throw new Error("เนื้อหาอีเมลว่างเปล่า");
+    }
+
+    // ตั้งค่าการเชื่อมต่อ SMTP
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+
+    // สร้างเนื้อหาอีเมลโดยใช้ GeneralEmailTemplate
+    const emailHtml = await render(
+      React.createElement(GeneralEmailTemplate, {
+        name: data.name,
+        from: data.from,
+        to: data.to,
+        subject: data.subject,
+        html: data.html,
+        attachments: data.attachments,
+      })
+    );
+
+    // ตั้งค่าข้อมูลอีเมล
+    const options = {
+      from: `${WEBSITE_NAME} <${data.from}>`,
+      to: data.to,
+      subject: data.subject, // หัวข้ออีเมล
+      html: emailHtml, // เนื้อหา HTML
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "High",
+      },
+    };
+    // ส่งอีเมลและคืนผลลัพธ์
+    const info = await transporter.sendMail(options);
+    console.log("Email sent successfully:", info);
+    return { info, status: 200 };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { error, status: 500 };
   }
 }

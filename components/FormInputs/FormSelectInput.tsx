@@ -13,6 +13,7 @@ type FormSelectInputProps = {
   href?: string;
   labelShown?: boolean;
   toolTipText?: string;
+  isMultiple?: boolean;
 };
 
 export default function FormSelectInput({
@@ -23,6 +24,7 @@ export default function FormSelectInput({
   href,
   toolTipText,
   labelShown = true,
+  isMultiple = false,
 }: FormSelectInputProps) {
   return (
     <div className="dark:text-white">
@@ -34,6 +36,7 @@ export default function FormSelectInput({
       <div className="flex items-center space-x-2">
         <Select
           isSearchable
+          isMultiple={isMultiple}
           primaryColor="zinc"
           value={option}
           onChange={(item) => setOption(item)}

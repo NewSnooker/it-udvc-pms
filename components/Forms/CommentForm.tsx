@@ -55,11 +55,12 @@ export default function CommentForm({
   const [content, setContent] = useState(initialContent);
 
   async function saveComment(data: CommentProps) {
-    if (!content) {
-      toast.error("กรุณาใส่คอมเม้น");
+    setLoading(true);
+    if (!content || content.trim() === "" || content.trim() === "<p><br></p>") {
+      setLoading(false);
+      toast.error("กรุณากรอกเนื้อหา");
       return;
     }
-    setLoading(true);
     data.content = content ?? "";
     data.userName = userName;
     data.projectId = projectId;

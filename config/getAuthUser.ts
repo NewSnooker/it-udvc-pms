@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import { Session } from "next-auth";
 
-interface AuthUser {
+export interface AuthUser {
   id: string;
   email: string;
   role: string;

@@ -14,7 +14,7 @@ import {
 import { MdTextSnippet } from "react-icons/md"; // For .txt files
 import { deleteFileUploadthing } from "@/actions/fileManager";
 
-type MultipleImageInputProps = {
+export type MultipleImageInputProps = {
   label: string;
   files: FileProps[];
   setFiles: any;

@@ -21,13 +21,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
@@ -87,7 +81,6 @@ export default function Sidebar() {
         },
       ],
     },
-
     {
       title: "การติดต่อ",
       link: [
@@ -129,42 +122,12 @@ export default function Sidebar() {
       ],
     },
     {
-      title: "รายงาน",
-      link: [
-        {
-          title: "ความคืบหน้าของโครงการ",
-          href: "/dashboard/project-progress",
-          icon: User2,
-        },
-        {
-          title: "สรุปทางการเงิน",
-          href: "/dashboard/financial-summary",
-          icon: User2,
-        },
-        {
-          title: "การติดตามเวลา",
-          href: "/dashboard/time-tracking",
-          icon: User2,
-        },
-      ],
-    },
-    {
       title: "ตั้งค่า",
       link: [
         {
           title: "เปลี่ยนรหัสผ่าน",
           href: "/dashboard/change-password",
           icon: Lock,
-        },
-        {
-          title: "การแจ้งเตือน",
-          href: "/dashboard/notifications",
-          icon: User2,
-        },
-        {
-          title: "บูรณาการ",
-          href: "/dashboard/integrations",
-          icon: User2,
         },
       ],
     },
@@ -226,34 +189,19 @@ export default function Sidebar() {
                   </div>
                 );
               })}
-              <Link
-                href="/"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                )}
-              >
-                <ExternalLink className="h-4 w-4" />
-                เว็บไซต์
+              <Link href="/">
+                <Button
+                  variant={"ghost"}
+                  size="icon"
+                  className="w-full flex justify-start gap-2 px-4 mb-1"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  เว็บไซต์
+                </Button>
               </Link>
             </nav>
           </ScrollArea>
         </div>
-        {/* <div className="mt-auto p-4">
-          <Card x-chunk="dashboard-02-chunk-0">
-            <CardHeader className="p-2 pt-0 md:p-4">
-              <CardTitle>Upgrade to Pro</CardTitle>
-              <CardDescription>
-                Unlock all features and get unlimited access to our support
-                team.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-              <Button size="sm" className="w-full">
-                Upgrade
-              </Button>
-            </CardContent>
-          </Card>
-        </div> */}
         <div className="mt-auto p-4">
           <Card x-chunk="dashboard-02-chunk-0">
             <Button onClick={handleLogout} size="sm" className="w-full">

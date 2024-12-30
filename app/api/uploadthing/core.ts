@@ -49,6 +49,13 @@ export const ourFileRouter = {
     console.log("file url", file.url);
     return { uploadedBy: "SK" };
   }),
+  // all type
+  mailAttachment: f({
+    blob: { maxFileSize: "4MB", maxFileCount: 4 },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    console.log("file url", file.url);
+    return { uploadedBy: "SK" };
+  }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
