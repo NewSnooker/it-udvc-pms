@@ -11,7 +11,7 @@ import { Edit, Link, Loader, PlusCircle, Type, X } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { updateProjectById } from "@/actions/projects";
+import { updateNameProjectById, updateProjectById } from "@/actions/projects";
 import ImageInput from "@/components/FormInputs/ImageInput";
 import toast from "react-hot-toast";
 import { ProjectProps } from "@/types/types";
@@ -64,6 +64,7 @@ export default function ProjectBanner({
   const [loading, setLoading] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [uunsplashImages, setUnsplashImages] = useState<UnsplashImage[]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -85,6 +86,13 @@ export default function ProjectBanner({
       if (res?.status === 200) {
         setUnsplashImages(res.data);
         setLoading(false);
+      } else if (res?.status === 429) {
+        // ถ้าโดน Rate Limit ก็แสดงข้อความให้ผู้ใช้ทราบ
+        toast.error(
+          "api unsplash เกินจำนวนคำขอที่อนุญาต \nกรุณาลองใหม่ในภายหลัง."
+        );
+        setErrorMessage("api unsplash เกินจำนวนคำขอที่อนุญาต"); // หากมีข้อผิดพลาดจาก rate limit จะตั้งข้อความข้อผิดพลาด
+        setLoading(false);
       }
     } catch (error) {
       setLoading(false);
@@ -99,6 +107,11 @@ export default function ProjectBanner({
       const res = await getUnspalshImages(searchQuery.trim());
       if (res?.status === 200) {
         setUnsplashImages(res.data);
+      } else if (res?.status === 429) {
+        toast.error(
+          "api unsplash เกินจำนวนคำขอที่อนุญาต \nกรุณาลองใหม่ในภายหลัง."
+        );
+        setErrorMessage("api unsplash เกินจำนวนคำขอที่อนุญาต"); // หากมีข้อผิดพลาดจาก rate limit จะตั้งข้อความข้อผิดพลาด
       }
     } catch (error) {
       console.log(error);
@@ -169,9 +182,10 @@ export default function ProjectBanner({
 
   async function updateNameProject(data: ProjectProps) {
     try {
+      const name = data.name;
       setLoading(true);
       if (editingId) {
-        await updateProjectById(editingId, data);
+        await updateNameProjectById(editingId, name);
         setLoading(false);
         setIsEditingName(false);
       }
@@ -199,7 +213,7 @@ export default function ProjectBanner({
       <div className="absolute inset-0 flex items-center justify-center flex-col sm:flex-row">
         {!isEditingName ? (
           <div className="mt-6 sm:mt-0 sm:ml-10">
-            <h1 className="text-4xl font-bold text-white text-center">
+            <h1 className="text-2xl sm:text-4xl font-bold text-white text-center">
               {name}
             </h1>
           </div>
@@ -373,7 +387,12 @@ export default function ProjectBanner({
                         )}
                       </Button>
                     </div>
-
+                    {/* แสดงข้อความข้อผิดพลาดถ้ามี */}
+                    {errorMessage && (
+                      <div className="text-red-500 text-center py-4">
+                        {errorMessage}
+                      </div>
+                    )}
                     {/* Image Grid */}
                     <div className="grid grid-cols-2 gap-4">
                       {loading ? (

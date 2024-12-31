@@ -228,6 +228,22 @@ export async function updateProjectById(id: string, data: ProjectProps) {
     console.log(error);
   }
 }
+export async function updateNameProjectById(id: string, name: string) {
+  try {
+    const updatedProject = await db.project.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+      },
+    });
+    revalidatePath("/dashboard/projects");
+    return updatedProject;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function updateProjectPublicityById(
   id: string,
   isPublic: boolean

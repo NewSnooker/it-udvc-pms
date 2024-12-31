@@ -138,19 +138,29 @@ export default function ProjectDetailsPage({
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto pt-4 pb-10 space-y-6">
         <div className="mb-4 flex items-center justify-between w-full">
-          {role === UserRole.USER ? (
-            <Link href="/dashboard/projects" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto">
-                <ArrowLeft className="mr-2 h-4 w-4 " /> กลับไปยังหน้าโครงการ
-              </Button>
-            </Link>
-          ) : (
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <div className="">
-                <LogOut className="mr-2 h-4 w-4 " /> <LogoutBtn />
-              </div>
-            </Button>
-          )}
+          <div className="flex items-center w-full justify-between sm:justify-start">
+            <Avatar>
+              <AvatarImage
+                src={projectData.thumbnail ?? ""}
+                alt={projectData.name}
+              />
+              <AvatarFallback>
+                <Image
+                  src="/thumbnail.png"
+                  alt="/thumbnail.png"
+                  width={40}
+                  height={40}
+                />
+              </AvatarFallback>
+            </Avatar>
+
+            <div className="ml-4">
+              <h2 className="text-sm sm:text-xl font-semibold">
+                {projectData.name}
+              </h2>
+            </div>
+          </div>
+
           <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-2">
             <ModeToggle />
             <AuthenticatedAvatar session={session} />

@@ -12,6 +12,20 @@ export async function getUnspalshImages(query?: string) {
       },
     });
 
+    // ตรวจสอบสถานะของการตอบกลับ
+    if (!response.ok) {
+      if (response.status === 429) {
+        // Rate Limit Exceeded
+        console.error("เกินจำนวนคำขอที่อนุญาต กรุณาลองใหม่ในภายหลัง.");
+        return {
+          status: response.status,
+          data: "api unsplash เกินจำนวนคำขอที่อนุญาต กรุณาลองใหม่ในภายหลัง.",
+        };
+      }
+      // ถ้าไม่ใช่ 429 ก็โยน error ทั่วไป
+      throw new Error(`การดึงข้อมูลล้มเหลว: ${response.statusText}`);
+    }
+
     const data = await response.json();
 
     return {
@@ -20,7 +34,7 @@ export async function getUnspalshImages(query?: string) {
       data: query ? data.results : data,
     };
   } catch (error) {
-    console.log(error);
-    return null;
+    console.log("Error fetching data:", error);
+    return { status: 500, data: null };
   }
 }
