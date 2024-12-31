@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -18,20 +19,31 @@ import NotesForm from "@/components/Forms/NotesForm";
 import { getInitials } from "@/lib/generateInitials";
 import PublicProjectDomainsCard from "./PublicProjectDomainsCard";
 import PublicProjectBanner from "./PublicProjectBanner";
+import { useSearchParams } from "next/navigation";
 
 export default function PublicProjectDetailsPage({
   projectData,
 }: {
   projectData: ProjectData;
 }) {
+  const searchParams = useSearchParams();
+
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [daysDifference, setDaysDifference] = useState(0);
+  const [currentTab, setCurrentTab] = useState("modules");
 
   const tabs = [
     { value: "modules", label: "ฟังค์ชั่นโครงการ" },
     { value: "notes", label: "โน๊ต" },
     { value: "comments", label: "คอมเมนต์" },
   ];
+  useEffect(() => {
+    // ตรวจสอบค่าจาก URL หรือพารามิเตอร์ query
+    const tab = searchParams.get("tab");
+    if (tab && tabs.some((t) => t.value === tab)) {
+      setCurrentTab(tab); // ตั้งค่าตามพารามิเตอร์
+    }
+  }, [searchParams]); // ใช้ searchParams ใน dependency array เพื่อให้ตรวจสอบทุกครั้งที่ URL เปลี่ยน
 
   function calculateDaysDifference(enDate: string | Date): number {
     const end = new Date(enDate);
@@ -91,12 +103,16 @@ export default function PublicProjectDetailsPage({
               </CardContent>
             </Card>
             {/* Tabs */}
-            <Tabs defaultValue="modules" className="mb-4">
+            <Tabs
+              value={currentTab}
+              onValueChange={setCurrentTab}
+              className="mb-4"
+            >
               <TabsList className="grid grid-cols-2 sm:flex sm:flex-row sm:justify-start h-fit w-full sm:w-fit mb-4">
                 {tabs.map((tab) => (
                   <Link
                     key={tab.value}
-                    href={`/public/project/${projectData.slug}#${tab.value}`}
+                    href={`/public/project/${projectData.slug}?tab=${tab.value}`}
                     scroll={false}
                     shallow
                     className="w-full"
