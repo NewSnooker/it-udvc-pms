@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -45,6 +46,7 @@ import LogoutBtn from "../global/LogoutBtn";
 import InviteMembers from "./InviteMembers";
 import ProjectDomainsCard from "./ProjectDomainsCard";
 import PaymentDeleteButton from "./PaymentDeleteButton";
+import { useSearchParams } from "next/navigation";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -55,6 +57,7 @@ export default function ProjectDetailsPage({
   existingUsers: ExistingUsers[];
   session: Session | null;
 }) {
+  const searchParams = useSearchParams();
   const user = session?.user;
   let role = user?.role;
   // if (user.id !== projectData.user?.id) {
@@ -63,6 +66,15 @@ export default function ProjectDetailsPage({
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [daysDifference, setDaysDifference] = useState(0);
+  const [currentTab, setCurrentTab] = useState("modules");
+
+  useEffect(() => {
+    // ตรวจสอบค่าจาก URL หรือพารามิเตอร์ query
+    const tab = searchParams.get("tab");
+    if (tab && tabs.some((t) => t.value === tab)) {
+      setCurrentTab(tab); // ตั้งค่าตามพารามิเตอร์
+    }
+  }, [searchParams]); // ใช้ searchParams ใน dependency array เพื่อให้ตรวจสอบทุกครั้งที่ URL เปลี่ยน
 
   const tabs = [
     { value: "modules", label: "ฟังค์ชั่นโครงการ" },
@@ -183,12 +195,16 @@ export default function ProjectDetailsPage({
               </CardContent>
             </Card>
             {/* Tabs */}
-            <Tabs defaultValue="modules" className="mb-4">
+            <Tabs
+              value={currentTab}
+              onValueChange={setCurrentTab}
+              className="mb-4"
+            >
               <TabsList className="grid grid-cols-2 sm:flex sm:flex-row sm:justify-start h-fit w-full sm:w-fit mb-4">
                 {tabs.map((tab) => (
                   <Link
                     key={tab.value}
-                    href={`/project/${projectData.slug}#${tab.value}`}
+                    href={`/project/${projectData.slug}?tab=${tab.value}`}
                     scroll={false}
                     shallow
                     className="w-full"
