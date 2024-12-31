@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Edit, Link, Loader, PlusCircle, Type, X } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { updateProjectById } from "@/actions/projects";
 import ImageInput from "@/components/FormInputs/ImageInput";
@@ -19,8 +19,19 @@ import { useForm } from "react-hook-form";
 import TextInput from "@/components/FormInputs/TextInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import { Button } from "@/components/ui/button";
-import { generateSlug } from "@/lib/generateSlug";
-import { redirect } from "next/navigation";
+import { getUnspalshImages } from "@/actions/unspalsh";
+import { Input } from "../ui/input";
+
+interface UnsplashImage {
+  id: string;
+  urls: {
+    regular: string;
+  };
+  alt_description: string;
+  user: {
+    name: string;
+  };
+}
 export default function ProjectBanner({
   banner,
   name,
@@ -52,7 +63,7 @@ export default function ProjectBanner({
   const [imageUrl, setImageUrl] = useState(initialImage);
   const [loading, setLoading] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
-
+  const [uunsplashImages, setUnsplashImages] = useState<UnsplashImage[]>([]);
   const {
     register,
     handleSubmit,
@@ -64,6 +75,37 @@ export default function ProjectBanner({
       name: name || "",
     },
   });
+
+  // เพิ่ม state สำหรับ search query
+  const [searchQuery, setSearchQuery] = useState("");
+  async function handleUnsplashImage() {
+    try {
+      setLoading(true);
+      const res = await getUnspalshImages();
+      if (res?.status === 200) {
+        setUnsplashImages(res.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }
+  // เพิ่มฟังก์ชัน handleSearch
+  async function handleSearch() {
+    if (!searchQuery.trim()) return;
+    try {
+      setLoading(true);
+      const res = await getUnspalshImages(searchQuery.trim());
+      if (res?.status === 200) {
+        setUnsplashImages(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
   async function handleGradientChange(bgColor: string) {
     setGradient(bgColor);
     const data: any = { gradient: bgColor };
@@ -75,7 +117,25 @@ export default function ProjectBanner({
       console.log(error);
     }
   }
-  async function handleBannerUpdate() {
+  // click handler สำหรับรูปภาพ Unsplash
+  const handleUnsplashImageSelect = async (imageUrl: string) => {
+    setImageUrl(imageUrl);
+    try {
+      setLoading(true);
+      const data: any = { bannerImage: imageUrl };
+      if (editingId) {
+        await updateProjectById(editingId, data);
+        toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ！");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
+    } finally {
+      setLoading(false);
+    }
+  };
+  //  click handler สำหรับรูปภาพ Upload
+  async function handleBannerUpdateUpload() {
     setLoading(true);
     const data: any = { bannerImage: imageUrl };
     try {
@@ -85,12 +145,14 @@ export default function ProjectBanner({
         toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ！");
       }
     } catch (error) {
-      setLoading(false);
       console.log(error);
+      toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
+    } finally {
+      setLoading(false);
     }
   }
 
-  async function updateBannerByUrl(data: ProjectProps) {
+  async function updateBannerByUrlLink(data: ProjectProps) {
     try {
       setImageUrl(data.bannerImage);
       setLoading(true);
@@ -118,6 +180,9 @@ export default function ProjectBanner({
       console.log(error);
     }
   }
+  useEffect(() => {
+    handleUnsplashImage();
+  }, []);
   return (
     <div className="relative  h-60 rounded-lg overflow-hidden group">
       <Image
@@ -150,7 +215,7 @@ export default function ProjectBanner({
                 icon={Type}
               />
               <SubmitButton
-                title="ยืนยันการอัพเดต"
+                title="ยืนยัน"
                 loading={loading}
                 loadingTitle="กำลังอัพเดต..."
                 className="w-full sm:w-auto"
@@ -229,7 +294,7 @@ export default function ProjectBanner({
                     className={`py-3 px-6 mt-2 cursor-pointer text-center bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg text-sm font-normal transition-colors ${
                       loading ? "opacity-50 cursor-none" : "opacity-100"
                     }`}
-                    onClick={handleBannerUpdate}
+                    onClick={handleBannerUpdateUpload}
                   >
                     <div>
                       {loading ? (
@@ -247,7 +312,10 @@ export default function ProjectBanner({
                   </div>
                 </TabsContent>
                 <TabsContent value="link">
-                  <form className="" onSubmit={handleSubmit(updateBannerByUrl)}>
+                  <form
+                    className=""
+                    onSubmit={handleSubmit(updateBannerByUrlLink)}
+                  >
                     <div className="grid gap-3">
                       <TextInput
                         register={register}
@@ -266,17 +334,81 @@ export default function ProjectBanner({
                   </form>
                 </TabsContent>
                 <TabsContent value="unspalsh">
-                  <div className="grid grid-cols-2 lg:grid-cols-4 px-4 mt-4 justify-center items-center gap-x-10 sm:gap-x-8 gap-y-4 w-full">
-                    {gradients.map((item, index) => (
-                      <div
-                        key={index}
-                        onClick={() => handleGradientChange(item)}
-                        className={`${cn(
-                          "h-16 rounded-2xl shadow-lg cursor-pointer hover:scale-95 transition-all"
-                        )} ${item}
-                        ${gradient === item ? "border-2 border-red-600 " : ""}`}
-                      />
-                    ))}
+                  <div className="space-y-4">
+                    {/* Search Input */}
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Input
+                          type="text"
+                          placeholder="ค้นหารูปภาพ..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleSearch();
+                            }
+                          }}
+                        />
+                        {searchQuery && (
+                          <button
+                            onClick={() => {
+                              setSearchQuery("");
+                              handleUnsplashImage();
+                            }}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
+                      <Button
+                        onClick={handleSearch}
+                        disabled={loading}
+                        className="flex items-center gap-2"
+                      >
+                        {loading ? (
+                          <Loader className="h-4 w-4 animate-spin" />
+                        ) : (
+                          "ค้นหา"
+                        )}
+                      </Button>
+                    </div>
+
+                    {/* Image Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                      {loading ? (
+                        <div className="col-span-2 flex justify-center items-center py-8">
+                          <Loader className="w-6 h-6 animate-spin" />
+                        </div>
+                      ) : uunsplashImages.length === 0 ? (
+                        <div className="col-span-2 text-center py-8 text-gray-500">
+                          ไม่พบรูปภาพที่ค้นหา
+                        </div>
+                      ) : (
+                        uunsplashImages.map((image) => (
+                          <div
+                            key={image.id}
+                            className="relative h-32 rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                            onClick={() =>
+                              handleUnsplashImageSelect(image.urls.regular)
+                            }
+                          >
+                            <Image
+                              src={image.urls.regular}
+                              alt={image.alt_description || "Unsplash image"}
+                              className="object-cover"
+                              fill
+                              sizes="(max-width: 768px) 50vw, 33vw"
+                            />
+                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2">
+                              <p className="text-white text-xs truncate">
+                                Photo by {image.user.name}
+                              </p>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
                   </div>
                 </TabsContent>
               </Tabs>
