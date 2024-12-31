@@ -29,6 +29,7 @@ import {
 } from "./ui/tooltip";
 import SubscribeForm from "./Forms/SubscribeForm";
 import { PortfolioCardFooter } from "./projects/PortfolioCardFooter";
+import emptyFolder from "@/public/images/empty-folder.png";
 
 export default function PortfolioPage({
   projects,
@@ -131,19 +132,25 @@ export default function PortfolioPage({
             </div>
           </div>
           {/* Scrollable Projects Grid */}
-          {projects ? (
+          {projects.length > 0 ? (
             <div className="grid md:grid-cols-2 gap-2 md:gap-4 my-8 ">
               {fourProjects.map((project, index) => (
                 <PortfolioCard key={index} project={project} />
               ))}
             </div>
           ) : (
-            <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
-              <div className="text-center space-y-4 p-8">
-                <div className="flex justify-center">
-                  <FolderPlus className="h-16 w-16 text-muted-foreground" />
-                </div>
-                <h2 className="text-2xl font-semibold">ไม่พบโครงการ</h2>
+            <div className="w-full flex flex-col justify-center items-center min-h-[calc(100vh-16rem)] ">
+              <div className=" flex flex-col justify-center items-center">
+                <Image
+                  src={emptyFolder}
+                  alt="empty"
+                  height={224}
+                  width={224}
+                  className="h-24 w-24  object-cover "
+                />
+                <p className="text-lg text-muted-foreground mt-4 mb-6">
+                  ไม่พบโครงการ
+                </p>
               </div>
             </div>
           )}

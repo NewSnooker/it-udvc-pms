@@ -154,14 +154,14 @@ export default function ProjectDetailsPage({
               </AvatarFallback>
             </Avatar>
 
-            <div className="ml-4">
+            <div className=" hidden lg:block ml-4">
               <h2 className="text-sm sm:text-xl font-semibold">
                 {projectData.name}
               </h2>
             </div>
           </div>
 
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-2">
+          <div className="flex items-center lg:flex-1 lg:justify-end space-x-2">
             <ModeToggle />
             <AuthenticatedAvatar session={session} />
           </div>

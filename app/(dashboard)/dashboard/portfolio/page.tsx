@@ -21,16 +21,20 @@ export default async function page() {
     <div className="p-8">
       <div className="flex flex-col sm:flex-row border-b items-center justify-between pb-3">
         <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 text-center">
-          Customize Your Portfolio
+          {initialData?.id
+            ? "Customize Your Portfolio"
+            : "Generate Your Portfolio"}
         </h2>
-        <div className="flex gap-4 mt-2 sm:mt-0 ">
-          <Link target="_blank" href={`/portfolio/${user?.id}`}>
-            <Button className="">
-              <Eye className="mr-1 sm:mr-2 h-4 w-4" /> Preview
-            </Button>
-          </Link>
-          <ShareLink link={`${baseUrl}/portfolio/${user?.id}`} />
-        </div>
+        {initialData?.id && (
+          <div className="flex gap-4 mt-2 sm:mt-0 ">
+            <Link target="_blank" href={`/portfolio/${user?.id}`}>
+              <Button className="">
+                <Eye className="mr-1 sm:mr-2 h-4 w-4" /> Preview
+              </Button>
+            </Link>
+            <ShareLink link={`${baseUrl}/portfolio/${user?.id}`} />
+          </div>
+        )}
       </div>
       <div className="pb-6">
         <PortfolioForm
