@@ -1,3 +1,4 @@
+import PublicNavbar from "@/components/PublicNavbar";
 import { WEBSITE_NAME } from "@/constants";
 import { Metadata } from "next";
 import React, { ReactNode } from "react";
@@ -12,5 +13,10 @@ export default async function ProjectLayout({
 }: {
   children: ReactNode;
 }) {
-  return <div className="">{children}</div>;
+  return (
+    <div className="">
+      <PublicNavbar />
+      {children}
+    </div>
+  );
 }

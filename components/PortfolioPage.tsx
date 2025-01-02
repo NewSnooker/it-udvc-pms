@@ -61,7 +61,7 @@ export default function PortfolioPage({
   const otherProjects = projects.slice(2);
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
-      <div className="mx-auto max-w-7xl py-8 md:p-8">
+      <div className="mx-auto sm:max-w-7xl py-8 md:p-8">
         <div className="grid gap-8 lg:grid-cols-[400px_1fr]">
           {/* Sticky Profile Section */}
           <div className=" lg:sticky lg:top-8 lg:self-start">
@@ -100,7 +100,7 @@ export default function PortfolioPage({
               <SubscribeForm userId={profile.userId} />
             </div>
 
-            <div className="relative flex justify-center">
+            <div className="relative flex justify-center w-full">
               <TooltipProvider>
                 <Dock magnification={60} distance={100} className="mt-4">
                   {socialLinks.map(

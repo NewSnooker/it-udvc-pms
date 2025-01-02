@@ -21,6 +21,7 @@ type TextInputProps = {
   placeholder?: string;
   forgotPasswordLink?: string;
   icon?: any;
+  buttonEye?: boolean;
 };
 export default function PasswordInput({
   register,
@@ -32,6 +33,7 @@ export default function PasswordInput({
   icon,
   placeholder,
   forgotPasswordLink,
+  buttonEye = true,
 }: TextInputProps) {
   const Icon = icon;
   const [passType, setPassType] = useState(type);
@@ -101,19 +103,23 @@ export default function PasswordInput({
             )}
             placeholder={placeholder || label}
           />
-          <button
-            type="button"
-            onClick={() =>
-              setPassType((prev) => (prev === "password" ? "text" : "password"))
-            }
-            className=" py-2 px-3 rounded-tr-md rounded-br-md absolute inset-y-0 right-1 my-[2px] flex items-center"
-          >
-            {passType === "password" ? (
-              <Eye className="w-4 h-4 text-zinc-600" />
-            ) : (
-              <EyeOff className="w-4 h-4 text-zinc-600" />
-            )}
-          </button>
+          {buttonEye && (
+            <button
+              type="button"
+              onClick={() =>
+                setPassType((prev) =>
+                  prev === "password" ? "text" : "password"
+                )
+              }
+              className=" py-2 px-3 rounded-tr-md rounded-br-md absolute inset-y-0 right-1 my-[2px] flex items-center"
+            >
+              {passType === "password" ? (
+                <Eye className="w-4 h-4 text-zinc-600" />
+              ) : (
+                <EyeOff className="w-4 h-4 text-zinc-600" />
+              )}
+            </button>
+          )}
         </div>
         {errors[name] && (
           <span className="text-xs text-red-600">{errors[name].message}</span>

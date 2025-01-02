@@ -3,64 +3,73 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import TextInput from "../FormInputs/TextInput";
-import { changeUserPasswordById } from "@/actions/users";
+import { resetUserPasswordById } from "@/actions/users";
 import { Info, KeyRound, Lock, User as UserIcon } from "lucide-react";
-import { User } from "@prisma/client";
-import PasswordInput from "../FormInputs/PasswordInput";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import SubmitButton from "../FormInputs/SubmitButton";
-import CloseButton from "../FormInputs/CloseButton";
-
-export type PasswordProps = {
-  oldPassword: string;
+import PasswordInput from "./FormInputs/PasswordInput";
+import SubmitButton from "./FormInputs/SubmitButton";
+import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
+import { useRouter } from "next/navigation";
+export type ResetPasswordProps = {
   newPassword: string;
+  confirmPassword: string;
 };
 export type SelectOptionProps = {
   label: string;
   value: string;
 };
-type ChangPasswordFormProps = {
-  editingId?: string | undefined;
-  initialData?: User | undefined | null;
+type ResetPasswordFormProps = {
+  userId: string;
+  session: Session | null;
 };
-export default function ChangPasswordForm({
-  editingId,
-  initialData,
-}: ChangPasswordFormProps) {
+export default function ResetPasswordForm({
+  userId,
+  session,
+}: ResetPasswordFormProps) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<PasswordProps>({
-    defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-    },
-  });
+  } = useForm<ResetPasswordProps>();
   const [passErr, setPassErr] = useState("");
   const [loading, setLoading] = useState(false);
-  async function onSubmit(data: PasswordProps) {
+  const router = useRouter();
+  async function onSubmit(data: ResetPasswordProps) {
     setLoading(true);
+    if (data.newPassword !== data.confirmPassword) {
+      setLoading(false);
+      setPassErr("รหัสผ่านไม่ตรงกัน");
+      return;
+    }
     try {
-      if (editingId) {
-        const res = await changeUserPasswordById(editingId, data);
-        if (res?.status === 403) {
-          setLoading(false);
-          setPassErr(res?.error || "เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน");
-          return;
-        }
-        if (res?.status === 404) {
-          setLoading(false);
-          setPassErr(res?.error || "เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน");
-          return;
-        }
-        if (res?.status === 200) {
+      const res = await resetUserPasswordById(userId, data);
+      if (res?.status === 403) {
+        setLoading(false);
+        setPassErr(res?.error || "เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน");
+        return;
+      }
+      if (res?.status === 404) {
+        setLoading(false);
+        setPassErr(res?.error || "เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน");
+        return;
+      }
+      if (res?.status === 200) {
+        if (session) {
           setLoading(false);
           setPassErr("");
-          toast.success("อัปเดตรหัสผ่านสำเร็จ!");
           reset();
+          toast.success("อัปเดตรหัสผ่านสำเร็จ!");
+          await signOut();
+          router.push("/login");
+          return;
+        } else {
+          setLoading(false);
+          setPassErr("");
+          reset();
+          toast.success("อัปเดตรหัสผ่านสำเร็จ!");
+          router.push("/login");
           return;
         }
       }
@@ -76,31 +85,30 @@ export default function ChangPasswordForm({
         <div className="lg:col-span-8 col-span-full space-y-3">
           <Card>
             <CardHeader>
-              <CardTitle>เปลี่ยนรหัสผ่านใหม่</CardTitle>
+              <CardTitle>รีเซ็ตรหัสผ่านใหม่</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-2">
               <div className="space-y-4">
-                <TextInput
-                  register={register}
-                  errors={errors}
-                  label="รหัสผ่านเดิม"
-                  name="oldPassword"
-                  icon={KeyRound}
-                  placeholder="กรอกรหัสผ่านเดิม"
-                />
                 <PasswordInput
                   register={register}
                   errors={errors}
                   label="รหัสผ่านใหม่"
                   name="newPassword"
-                  icon={Lock}
+                  icon={KeyRound}
                   placeholder="กรอกรหัสผ่านใหม่"
-                  forgotPasswordLink="/forgot-password"
+                />
+                <PasswordInput
+                  register={register}
+                  errors={errors}
+                  label="ยืนยันรหัสผ่าน"
+                  name="confirmPassword"
+                  icon={Lock}
+                  type="password"
+                  buttonEye={false}
+                  placeholder="กรอกรหัสผ่านเพื่อยืนยัน"
                 />
                 {passErr && <p className="text-red-500 text-xs">{passErr}</p>}
-
-                <div className="flex items-center gap-2 justify-between ">
-                  <CloseButton href="/" />
+                <div className="flex items-center gap-2 justify-end ">
                   <SubmitButton
                     title="เปลี่ยนรหัสผ่าน"
                     loading={loading}
@@ -120,7 +128,7 @@ export default function ChangPasswordForm({
               หากคุณเข้าสู่ระบบด้วย <b>Google</b> หรือ <b>GitHub</b> คุณจะ
               <span className="text-red-600 dark:text-red-500">
                 {" "}
-                ไม่สามารถเปลี่ยนรหัสผ่าน
+                ไม่สามารถรีเซ็ตรหัสผ่าน
               </span>{" "}
               ในหน้านี้ เนื่องจากระบบใช้การตรวจสอบสิทธิ์ผ่านผู้ให้บริการดังกล่าว
             </AlertDescription>

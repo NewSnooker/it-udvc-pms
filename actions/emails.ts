@@ -1,4 +1,7 @@
 "use server";
+import { v4 as uuidv4 } from "uuid";
+import base64url from "base64url";
+
 import { getNormalDate } from "@/lib/getNormalDate";
 import { ExistingUsers, InvoiceDetails } from "@/types/types";
 import { render } from "@react-email/render";
@@ -17,6 +20,8 @@ import { MailProps } from "@/components/dashboard/EmailCompose";
 import GeneralEmailTemplate from "@/components/email-templates/GeneralEmailTemplate";
 import { SendClientInvitationCreateUserProps } from "@/components/dashboard/Tables/DialogInviteClient";
 import { ClientInvitationCreateUser } from "@/components/email-templates/ClientInvitationCreateUser";
+import { SendForgotPasswordEmailProps } from "@/components/ForgotPasswordForm";
+import ResetPasswordEmailTemplate from "@/components/email-templates/ResetPasswordEmailTemplate";
 
 export async function sendInvoiceLink(
   data: InvoiceDetails,
@@ -279,6 +284,64 @@ export async function sendSingleEmail(data: MailProps) {
       from: `${WEBSITE_NAME} <${data.from}>`,
       to: data.to,
       subject: data.subject, // หัวข้ออีเมล
+      html: emailHtml, // เนื้อหา HTML
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "High",
+      },
+    };
+    // ส่งอีเมลและคืนผลลัพธ์
+    const info = await transporter.sendMail(options);
+    console.log("Email sent successfully:", info);
+    return { info, status: 200 };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { error, status: 500 };
+  }
+}
+export async function sendForgotPasswordEmail(
+  data: SendForgotPasswordEmailProps
+) {
+  try {
+    const existingUser = await db.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (!existingUser) {
+      return {
+        error: "ไม่พบอีเมลนี้ในระบบ",
+        status: 404,
+      };
+    }
+    const rawToken = uuidv4();
+    const token = base64url.encode(rawToken);
+    const subject = "รีเซ็ตรหัสผ่าน";
+    const resetLink = `${process.env.NEXTAUTH_URL}/reset-password/${existingUser.id}?token=${token}`;
+
+    // ตั้งค่าการเชื่อมต่อ SMTP
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+
+    // สร้างเนื้อหาอีเมลโดยใช้ ResetPasswordEmailTemplate
+    const emailHtml = await render(
+      React.createElement(ResetPasswordEmailTemplate, {
+        name: existingUser.name,
+        subject,
+        resetLink,
+      })
+    );
+
+    // ตั้งค่าข้อมูลอีเมล
+    const options = {
+      from: `${WEBSITE_NAME} <${process.env.NODEMAILER_USER}>`,
+      to: existingUser.email,
+      subject: subject, // หัวข้ออีเมล
       html: emailHtml, // เนื้อหา HTML
       headers: {
         "X-Priority": "1",

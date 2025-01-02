@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 import { compare } from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { createDefaultFolderForUser } from "./fileManager";
+import { ResetPasswordProps } from "@/components/ResetPasswordForm";
 export async function createUser(data: UserProps) {
   const {
     email,
@@ -120,13 +121,20 @@ export async function updateUserById(id: string, data: UserProps) {
     console.log(error);
   }
 }
-export async function updateUserPasswordById(id: string, data: PasswordProps) {
+export async function changeUserPasswordById(id: string, data: PasswordProps) {
   try {
     const existingUser = await db.user.findUnique({
       where: {
         id,
       },
     });
+    // เช็คว่ามี user และ password หรือไม่
+    if (!existingUser?.password) {
+      return {
+        error: "คุณไม่สามารถรีเซ็ตรหัสผ่านได้ กรุณาอ่านคําแนะนําที่หมายเหตุ",
+        status: 404,
+      };
+    }
     const passwordMatch = existingUser?.password
       ? await compare(data.oldPassword, existingUser.password)
       : false;
@@ -147,6 +155,57 @@ export async function updateUserPasswordById(id: string, data: PasswordProps) {
       },
     });
     revalidatePath("/dashboard/change-password");
+    return { error: null, status: 200 };
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function resetUserPasswordById(
+  id: string,
+  data: ResetPasswordProps
+) {
+  try {
+    if (data.newPassword !== data.confirmPassword) {
+      return { error: "รหัสผ่านไม่ตรงกัน", status: 403 };
+    }
+    const existingUser = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    // เช็คว่ามี user และ password หรือไม่
+    if (!existingUser?.password) {
+      return {
+        error: "คุณไม่สามารถรีเซ็ตรหัสผ่านได้ กรุณาอ่านคําแนะนําที่หมายเหตุ",
+        status: 404,
+      };
+    }
+
+    // เปรียบเทียบรหัสผ่านใหม่กับรหัสผ่านเดิม
+    const passwordMatch = await compare(
+      data.newPassword,
+      existingUser.password
+    );
+
+    if (passwordMatch) {
+      return { error: "รหัสผ่านใหม่ต้องไม่เหมือนรหัสผ่านเดิม", status: 403 };
+    }
+    console.log(passwordMatch);
+
+    const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+    const updatedUser = await db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+    revalidatePath("/dashboard/reset-password");
+    console.log(hashedPassword);
+
+    console.log(updatedUser);
+
     return { error: null, status: 200 };
   } catch (error) {
     console.log(error);
