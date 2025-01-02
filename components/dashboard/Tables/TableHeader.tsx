@@ -22,7 +22,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { RiFileExcel2Line } from "react-icons/ri";
 import { SiMicrosoftexcel } from "react-icons/si";
-import Select from "react-tailwindcss-select";
 import {
   Options,
   SelectValue,
@@ -38,8 +37,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { formatBytes } from "@/lib/formatBytes";
-import { generateSlug } from "@/lib/generateSlug";
-import toast from "react-hot-toast";
 import exportDataToExcel from "@/lib/exportDataToExcel";
 import DialogInviteClient from "./DialogInviteClient";
 
@@ -50,7 +47,7 @@ type TableHeaderProps = {
   data: any;
   model: string;
   showImport?: boolean;
-  userId: string | null | undefined;
+  userId?: string | null | undefined;
 };
 export default function TableHeader({
   title,
