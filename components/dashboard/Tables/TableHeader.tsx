@@ -11,8 +11,11 @@ import {
   File,
   ListFilter,
   Loader2,
+  Mail,
   PlusCircle,
   Search,
+  Send,
+  SendHorizonal,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -38,6 +41,7 @@ import { formatBytes } from "@/lib/formatBytes";
 import { generateSlug } from "@/lib/generateSlug";
 import toast from "react-hot-toast";
 import exportDataToExcel from "@/lib/exportDataToExcel";
+import DialogInviteClient from "./DialogInviteClient";
 
 type TableHeaderProps = {
   title: string;
@@ -46,6 +50,7 @@ type TableHeaderProps = {
   data: any;
   model: string;
   showImport?: boolean;
+  userId: string | null | undefined;
 };
 export default function TableHeader({
   title,
@@ -54,6 +59,7 @@ export default function TableHeader({
   data,
   model,
   showImport = true,
+  userId,
 }: TableHeaderProps) {
   const [status, setStatus] = useState<SelectValue>(null);
   const [date, setDate] = useState<SelectValue>(null);
@@ -396,6 +402,7 @@ export default function TableHeader({
               )}
             </Dialog>
           )}
+          {model === "clients" && <DialogInviteClient userId={userId ?? ""} />}
           <Button size="sm" asChild className="h-8 gap-1">
             <Link href={href}>
               <PlusCircle className="h-3.5 w-3.5" />

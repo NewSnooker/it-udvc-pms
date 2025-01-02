@@ -1,5 +1,5 @@
 import { getProjectDetailBySlug } from "@/actions/projects";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import React from "react";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/constants";

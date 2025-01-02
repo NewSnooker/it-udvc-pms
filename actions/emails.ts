@@ -15,6 +15,8 @@ import MemberInvitation, {
 import { db } from "@/prisma/db";
 import { MailProps } from "@/components/dashboard/EmailCompose";
 import GeneralEmailTemplate from "@/components/email-templates/GeneralEmailTemplate";
+import { SendClientInvitationCreateUserProps } from "@/components/dashboard/Tables/DialogInviteClient";
+import { ClientInvitationCreateUser } from "@/components/email-templates/ClientInvitationCreateUser";
 
 export async function sendInvoiceLink(
   data: InvoiceDetails,
@@ -110,6 +112,63 @@ export async function sendClientInvitation(data: ClientInvitationProps) {
     });
   } catch (error) {
     return Response.json({ error }, { status: 500 });
+  }
+}
+export async function sendClientInvitationCreateUser({
+  userId,
+  email,
+  invitationLink,
+}: SendClientInvitationCreateUserProps) {
+  try {
+    const inviter = await db.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!inviter) {
+      throw new Error("Inviter not found");
+    }
+
+    const inviterName = inviter.name;
+    const inviterEmail = inviter.email;
+    const inviterCompanyName = inviter.companyName;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+
+    const emailHtml = await render(
+      React.createElement(ClientInvitationCreateUser, {
+        inviterName,
+        inviterEmail,
+        inviterCompanyName,
+        websiteName: WEBSITE_NAME,
+        invitationLink: invitationLink + `?email=${email}`,
+        toEmail: email,
+      })
+    );
+
+    const options = {
+      from: `${WEBSITE_NAME} <${process.env.NODEMAILER_USER}>`,
+      to: email,
+      subject: `คำเชิญเข้าร่วมใช้งาน ${WEBSITE_NAME}`,
+      html: emailHtml,
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "High",
+      },
+    };
+    // ส่งอีเมลและคืนผลลัพธ์
+    const info = await transporter.sendMail(options);
+    console.log("Email sent successfully:", info);
+    return { info, status: 200 };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { error, status: 500 };
   }
 }
 export async function sendMemberInvitation({

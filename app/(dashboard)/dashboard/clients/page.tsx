@@ -20,8 +20,9 @@ export default async function page() {
         href="/dashboard/clients/new"
         data={clients}
         model="clients"
+        userId={user?.id ?? ""}
       />
-      <div className="py-8">
+      <div className="py-8 overflow-x-auto">
         <DataTable data={clients} columns={columns} />
       </div>
     </div>
