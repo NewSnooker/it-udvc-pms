@@ -111,9 +111,11 @@ model Subscriber {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  email     String   @unique
+  email     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, email]) // เพิ่ม composite unique constraint
 }
 
 enum ProjectStatus {

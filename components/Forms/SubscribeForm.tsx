@@ -52,9 +52,12 @@ export default function SubscribeForm({ userId }: { userId: string }) {
       } else if (res?.status === 400) {
         setLoading(false);
         toast.error(res.error ?? "Unknown error");
-      } else if (res?.status === 409) {
+      } else if (res?.status === 404) {
         setLoading(false);
         toast.error(res.error ?? "Unknown error");
+      } else if (res?.status === 409) {
+        setLoading(false);
+        toast.success(res.error ?? "Unknown error");
       } else {
         console.log(res);
         setLoading(false);

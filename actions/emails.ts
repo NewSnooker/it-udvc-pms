@@ -22,6 +22,9 @@ import { SendClientInvitationCreateUserProps } from "@/components/dashboard/Tabl
 import { ClientInvitationCreateUser } from "@/components/email-templates/ClientInvitationCreateUser";
 import { SendForgotPasswordEmailProps } from "@/components/ForgotPasswordForm";
 import ResetPasswordEmailTemplate from "@/components/email-templates/ResetPasswordEmailTemplate";
+import { ThankYouSubscribe } from "@/components/email-templates/ThankYouSubscribe";
+import { User } from "@prisma/client";
+import NotificationToFollowed from "@/components/email-templates/NotificationToFollowed";
 
 export async function sendInvoiceLink(
   data: InvoiceDetails,
@@ -221,6 +224,100 @@ export async function sendMemberInvitation({
       from: `${WEBSITE_NAME} <${process.env.NODEMAILER_USER}>`,
       to: mails,
       subject: `เชิญชวนร่วมมือในโครงการ ${projectData.projectName} `,
+      html: emailHtml,
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "High",
+      },
+    };
+
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(options, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(info);
+          console.log(info);
+        }
+      });
+    });
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
+  }
+}
+export async function sendThankYouSubscribe({
+  user,
+  email,
+}: {
+  user: User;
+  email: string;
+}) {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+
+    const emailHtml = await render(
+      React.createElement(ThankYouSubscribe, { user, email })
+    );
+
+    const options = {
+      from: `${WEBSITE_NAME} <${process.env.NODEMAILER_USER}>`,
+      to: email,
+      subject: `ขอบคุณสําหรับการติดตาม ${user.name}`,
+      html: emailHtml,
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "High",
+      },
+    };
+
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(options, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(info);
+          console.log(info);
+        }
+      });
+    });
+  } catch (error) {
+    return Response.json({ error }, { status: 500 });
+  }
+}
+export async function sendNotificationToFollowed({
+  user,
+  email,
+}: {
+  user: User;
+  email: string;
+}) {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+
+    const emailHtml = await render(
+      React.createElement(NotificationToFollowed, { user, email })
+    );
+
+    const options = {
+      from: `${WEBSITE_NAME} <${process.env.NODEMAILER_USER}>`,
+      to: user.email,
+      subject: `${email} ได้ติดตามคุณ`,
       html: emailHtml,
       headers: {
         "X-Priority": "1",

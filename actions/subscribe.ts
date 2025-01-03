@@ -4,12 +4,21 @@ import { SubscribeFormProps } from "@/components/Forms/SubscribeForm";
 import { validateEmail } from "@/lib/validateEmail";
 import { db } from "@/prisma/db";
 import { revalidatePath } from "next/cache";
+import { sendNotificationToFollowed, sendThankYouSubscribe } from "./emails";
 
 export async function createSubscription(data: SubscribeFormProps) {
-  const { userId, email } = data;
+  try {
+    const { userId, email } = data;
+    const user = await db.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return {
+        error: "ไม่พบผู้ใช้คนนี้ในระบบ",
+        ok: false,
+        status: 404,
+        data: null,
+      };
+    }
 
-  if (userId) {
-    // 1. ตรวจสอบอีเมล
     const emailValidation = validateEmail(email);
     if (!emailValidation.isValid) {
       return {
@@ -20,48 +29,40 @@ export async function createSubscription(data: SubscribeFormProps) {
       };
     }
 
-    try {
-      // 2. ตรวจสอบอีเมลซ้ำ
-      const existingEmail = await db.subscriber.findUnique({
-        where: { email: data.email },
-      });
+    // ตรวจสอบอีเมลซ้ำ
+    const existingEmail = await db.subscriber.findUnique({
+      where: { userId_email: { userId, email } },
+    });
 
-      if (existingEmail) {
-        return {
-          error: `มีอีเมลนี้ในระบบแล้ว`,
-          ok: false,
-          status: 409,
-          data: null,
-        };
-      }
-
-      // 3. สร้าง subscriber
-      const subscriber = await db.subscriber.create({ data });
-      revalidatePath("/dashboard/subscribers");
+    if (existingEmail) {
       return {
-        data: subscriber,
-        ok: true,
-        error: null,
-        status: 201,
-      };
-    } catch (error) {
-      console.error("Subscription creation error:", error);
-      return {
-        error: error as string,
+        error: `คุณได้ติดตาม ${user.name} แล้ว`,
         ok: false,
-        status: 500,
+        status: 409,
         data: null,
       };
     }
-  }
-  revalidatePath("/dashboard/subscribers");
 
-  return {
-    error: "ไม่พบข้อมูลผู้ใช้",
-    ok: false,
-    status: 400,
-    data: null,
-  };
+    const subscriber = await db.subscriber.create({ data });
+    await sendNotificationToFollowed({ user, email });
+    await sendThankYouSubscribe({ user, email });
+
+    revalidatePath("/dashboard/subscribers");
+    return {
+      data: subscriber,
+      ok: true,
+      error: null,
+      status: 201,
+    };
+  } catch (error) {
+    console.error("Subscription creation error:", error);
+    return {
+      error: error as string,
+      ok: false,
+      status: 500,
+      data: null,
+    };
+  }
 }
 export async function getUserSubscribersByUserId(userId: string) {
   try {
