@@ -1,7 +1,5 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
 import { ColumnDef } from "@tanstack/react-table";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
@@ -14,29 +12,6 @@ import NumberColumn from "@/components/DataTableColumns/NumberColumn";
 import ProjectDeadline from "@/components/DataTableColumns/ProjectDeadline";
 import PublicityBtn from "@/components/DataTableComponents/PublicityBtn";
 export const columns: ColumnDef<Project>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-
   {
     accessorKey: "thumbnail",
     header: "รูปภาพ",

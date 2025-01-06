@@ -1,38 +1,12 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
 import { ColumnDef } from "@tanstack/react-table";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
 import { User } from "@prisma/client";
 import TitleColumn from "@/components/DataTableColumns/TitleColumn";
 import DateColumn from "@/components/DataTableColumns/DateColumn";
-import InviteClient from "@/components/DataTableColumns/InviteClient";
 export const columns: ColumnDef<User>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-
   {
     accessorKey: "image",
     header: "รูปภาพ",
