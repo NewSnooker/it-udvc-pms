@@ -35,7 +35,7 @@ export default function Column({ moduleId, tasks, status }: ColumnProps) {
           {(provided) => (
             <ScrollArea
               ref={provided.innerRef}
-              className="h-[calc(100vh-17rem)] sm:h-[calc(100vh-22rem)] "
+              className="h-[calc(100vh-20rem)] sm:h-[calc(100vh-22rem)] "
               {...provided.droppableProps}
             >
               {tasks
