@@ -258,7 +258,7 @@ export async function updateProjectPublicityById(
       },
     });
     revalidatePath("/dashboard/projects");
-    revalidatePath("/portfolio/[slug]");
+    revalidatePath("/portfolio/[slug]", "page");
     return { data: updatedProject, ok: true };
   } catch (error) {
     console.log(error);

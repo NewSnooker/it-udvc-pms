@@ -47,7 +47,7 @@ export default function ProjectDeadline({ row }: ProjectDeadlineProps) {
   }, [projectData.endDate]);
 
   return (
-    <div className="pl-7 text-sm flex">
+    <div className=" text-sm flex">
       <div
         className={` font-medium ${
           daysDifference <= 0 ? "text-red-600" : "text-green-600"

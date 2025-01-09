@@ -75,8 +75,10 @@ export default function Subscribers({
     <Card className="">
       <CardHeader className="flex flex-row items-center justify-between border-b ">
         <div className="flex flex-col gap-2">
-          <CardTitle>อีเมลผู้ติดตาม</CardTitle>
-          <CardDescription>แสดงรายข้อมูลอีเมลผู้ติดตามของคุณ</CardDescription>
+          <CardTitle>ผู้ติดตาม</CardTitle>
+          <CardDescription>
+            แสดงรายชื่อข้อมูลอีเมลผู้ติดตามของคุณ
+          </CardDescription>
         </div>
       </CardHeader>
       <CardContent>

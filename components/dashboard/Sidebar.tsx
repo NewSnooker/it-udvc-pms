@@ -86,7 +86,7 @@ const sidebarLinks = [
         icon: Mail,
       },
       {
-        title: "อีเมลผู้ติดตาม",
+        title: "ผู้ติดตาม",
         href: "/dashboard/subscribers",
         icon: Mail,
       },

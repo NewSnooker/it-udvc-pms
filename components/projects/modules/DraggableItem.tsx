@@ -1,48 +1,42 @@
-import React, { CSSProperties, memo } from "react";
-import { useDraggable } from "@dnd-kit/core";
+import React, { memo } from "react";
+import { Draggable } from "@hello-pangea/dnd";
 import TaskForm from "@/components/Forms/TaskForm";
 import { Task } from "@/types/types";
 
-interface DraggableProps {
-  id: string;
+interface DraggableItemProps {
   task: Task;
-  isDragging: boolean;
+  index: number;
 }
 
 export default memo(function DraggableItem({
-  id,
   task,
-  isDragging,
-}: DraggableProps) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
-  });
-
-  const style: CSSProperties | undefined = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
-
+  index,
+}: DraggableItemProps) {
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
-      className={` transition-all duration-200 cursor-grabbing ${
-        isDragging ? "opacity-0" : ""
-      }`}
-    >
-      <div className="flex items-center justify-between pl-4 pr-1 py-1 bg-background rounded-lg border shadow-sm mb-2">
-        <span className="text-sm font-medium line-clamp-1">{task.title}</span>
-        <TaskForm
-          moduleId={task.moduleId}
-          initialStatus={task.status}
-          initialTitle={task.title}
-          editingId={task.id}
-        />
-      </div>
-    </div>
+    <Draggable draggableId={task.id} index={index}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          className={`transition-all duration-200 ${
+            snapshot.isDragging ? "opacity-50 rotate-3 scale-105" : ""
+          } ${snapshot.isDropAnimating ? "opacity-50 rotate-3 scale-105" : ""}
+          }`}
+        >
+          <div className="flex items-center justify-between pl-4 pr-1 py-1 bg-card hover:bg-accent/5 rounded-lg border border-border/40 hover:border-border/80 shadow-sm mb-2 transition-all group">
+            <span className="text-xs sm:text-sm font-medium line-clamp-1">
+              {task.title}
+            </span>
+            <TaskForm
+              moduleId={task.moduleId}
+              initialStatus={task.status}
+              initialTitle={task.title}
+              editingId={task.id}
+            />
+          </div>
+        </div>
+      )}
+    </Draggable>
   );
 });

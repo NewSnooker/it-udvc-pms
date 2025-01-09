@@ -69,8 +69,8 @@ export default async function Page({
             <AuthenticatedAvatar session={session} />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:gap-4 lg:grid-cols-12 bg-background rounded-lg border text-card-foreground shadow-xl overflow-hidden sm:min-h-[38rem] w-full">
-          <div className="hidden sm:block lg:col-span-3 p-2 sm:p-8 lg:border-r lg:shadow-xl lg:rounded-lg ">
+        <div className="grid grid-cols-1 sm:gap-4 lg:grid-cols-12 bg-background rounded-3xl border text-card-foreground shadow-xl overflow-hidden sm:min-h-[38rem] w-full">
+          <div className="hidden sm:block lg:col-span-3 p-2 sm:p-8 lg:border-r lg:shadow-xl ">
             <div className="flex flex-col justify-between h-full ">
               <div className="">
                 <div className="w-full text-xl text-center sm:text-left sm:text-2xl font-bold mb-4 mt-4 sm:mt-0 sm:mb-6">

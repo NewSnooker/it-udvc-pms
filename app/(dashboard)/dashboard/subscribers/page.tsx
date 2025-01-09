@@ -3,7 +3,7 @@ import Subscribers from "@/components/dashboard/Subscribers";
 import { getAuthUser } from "@/config/getAuthUser";
 import React from "react";
 export const metadata = {
-  title: "อีเมลผู้ติดตาม",
+  title: "ผู้ติดตาม",
 };
 export default async function page() {
   const user = await getAuthUser();
