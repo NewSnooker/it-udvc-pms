@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import Link from "next/link";
+import React, { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
@@ -27,6 +26,9 @@ import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import { WEBSITE_NAME } from "@/constants";
 export default function Sidebar() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const sidebarLinks = [
     {
       title: "แดชบอร์ด",
@@ -132,8 +134,7 @@ export default function Sidebar() {
       ],
     },
   ];
-  const pathname = usePathname();
-  const router = useRouter();
+
   async function handleLogout() {
     try {
       await signOut();
@@ -142,17 +143,21 @@ export default function Sidebar() {
       console.log(error);
     }
   }
+
+  function handleNavigation(href: string) {
+    setIsLoading(true);
+    try {
+      router.push(href); // ดำเนินการนำทาง
+    } catch (err) {
+      console.error(err); // จัดการข้อผิดพลาด
+    } finally {
+      setIsLoading(false); // เปลี่ยนสถานะกลับ
+    }
+  }
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 font-semibold"
-          >
-            <AlignHorizontalJustifyEnd className="h-6 w-6" />
-            <span className="">{WEBSITE_NAME}</span>
-          </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />
             <span className="sr-only">Toggle notifications</span>
@@ -161,49 +166,43 @@ export default function Sidebar() {
         <div className="flex-1">
           <ScrollArea className="h-auto sm:h-[calc(100vh-10rem)] w-full p-4">
             <nav className="grid items-start px-2 text-sm space-y-2 font-medium lg:px-4">
-              {sidebarLinks.map((item, i) => {
-                return (
-                  <div className="" key={i}>
-                    <h2 className="pb-1 font-semibold">{item.title}</h2>
-                    {item.link.map((item, i) => {
-                      const Icon = item.icon;
-                      const isActive = item.href === pathname;
-                      return (
-                        <Link
-                          key={i}
-                          href={item.href}
-                          className="w-full
-                        "
-                        >
-                          <Button
-                            variant={isActive ? "default" : "ghost"}
-                            size="icon"
-                            className="w-full flex justify-start gap-2 px-4 mb-1"
-                          >
-                            <Icon className="h-4 w-4" />
-                            {item.title}
-                          </Button>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-              <Link href="/">
-                <Button
-                  variant={"ghost"}
-                  size="icon"
-                  className="w-full flex justify-start gap-2 px-4 mb-1"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  เว็บไซต์
-                </Button>
-              </Link>
+              {sidebarLinks.map((item, i) => (
+                <div key={i}>
+                  <h2 className="pb-1 font-semibold">{item.title}</h2>
+                  {item.link.map((link, index) => {
+                    const Icon = link.icon;
+                    const isActive = link.href === pathname;
+                    return (
+                      <Button
+                        key={index}
+                        variant={isActive ? "default" : "ghost"}
+                        size="icon"
+                        className="w-full flex justify-start gap-2 px-4 mb-1"
+                        onClick={() => handleNavigation(link.href)}
+                        disabled={isLoading}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {link.title}
+                      </Button>
+                    );
+                  })}
+                </div>
+              ))}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-full flex justify-start gap-2 px-4 mb-1"
+                onClick={() => handleNavigation("/")}
+                disabled={isLoading}
+              >
+                <ExternalLink className="h-4 w-4" />
+                เว็บไซต์
+              </Button>
             </nav>
           </ScrollArea>
         </div>
         <div className="mt-auto p-4">
-          <Card x-chunk="dashboard-02-chunk-0">
+          <Card>
             <Button onClick={handleLogout} size="sm" className="w-full">
               ออกจากระบบ
             </Button>

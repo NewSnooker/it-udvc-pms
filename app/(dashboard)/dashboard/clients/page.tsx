@@ -13,7 +13,7 @@ export default async function page() {
   const clients: User[] = (await getUserClient(user?.id)) || [];
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <TableHeader
         title="ลูกค้า"
         linkTitle="เพิ่มลูกค้า"
@@ -22,7 +22,7 @@ export default async function page() {
         model="clients"
         userId={user?.id ?? ""}
       />
-      <div className="py-8 overflow-x-auto">
+      <div className="py-8  ">
         <DataTable data={clients} columns={columns} />
       </div>
     </div>

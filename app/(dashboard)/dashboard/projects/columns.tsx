@@ -26,40 +26,40 @@ export const columns: ColumnDef<Project>[] = [
     header: ({ column }) => <TitleColumn column={column} title="งบประมาณ" />,
     cell: ({ row }) => <NumberColumn row={row} accessorKey="budget" />,
   },
-  {
-    accessorKey: "deadline",
-    header: ({ column }) => (
-      <TitleColumn column={column} title="กำหนดส่ง (วัน)" />
-    ),
-    cell: ({ row }) => <ProjectDeadline row={row} />,
-  },
-  {
-    accessorKey: "startDate",
-    header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
-    cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
-  },
-  {
-    accessorKey: "isPublic",
-    header: "แฟ้มผลงาน",
+  // {
+  //   accessorKey: "deadline",
+  //   header: ({ column }) => (
+  //     <TitleColumn column={column} title="กำหนดส่ง (วัน)" />
+  //   ),
+  //   cell: ({ row }) => <ProjectDeadline row={row} />,
+  // },
+  // {
+  //   accessorKey: "startDate",
+  //   header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
+  //   cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
+  // },
+  // {
+  //   accessorKey: "isPublic",
+  //   header: "แฟ้มผลงาน",
 
-    cell: ({ row }) => {
-      const project = row.original;
-      return <PublicityBtn id={project.id} status={project.isPublic} />;
-    },
-  },
-  {
-    accessorKey: "startDate",
-    header: "เพิ่มเติม",
+  //   cell: ({ row }) => {
+  //     const project = row.original;
+  //     return <PublicityBtn id={project.id} status={project.isPublic} />;
+  //   },
+  // },
+  // {
+  //   accessorKey: "startDate",
+  //   header: "เพิ่มเติม",
 
-    cell: ({ row }) => {
-      const project = row.original;
-      return (
-        <Button asChild size={"sm"}>
-          <Link href={`/project/${project.slug}`}>เพิ่มเติม</Link>
-        </Button>
-      );
-    },
-  },
+  //   cell: ({ row }) => {
+  //     const project = row.original;
+  //     return (
+  //       <Button asChild size={"sm"}>
+  //         <Link href={`/project/${project.slug}`}>เพิ่มเติม</Link>
+  //       </Button>
+  //     );
+  //   },
+  // },
   // {
   //   accessorKey: "createdAt",
   //   header: ({ column }) => <TitleColumn column={column} title="วันที่สร้าง" />,

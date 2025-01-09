@@ -87,21 +87,20 @@ export default function DataTable<TData, TValue>({
   // console.log(searchResults);
   // const finalData = isSearch ? searchResults : filteredData;
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       {model && model === "project" ? (
         <ProjectSummary data={isSearch ? searchResults : filteredData} />
-      ) : (
-        <></>
-      )}{" "}
-      <div className="flex justify-between items-center gap-8">
-        <div className="flex-1 w-full">
+      ) : null}
+
+      <div className="flex justify-between items-center sm:gap-8 w-full">
+        <div className=" w-full">
           <SearchBar
             data={data}
             onSearch={setSearchResults}
             setIsSearch={setIsSearch}
           />
         </div>
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center gap-2">
           <DateRangeFilter
             data={data}
             onFilter={setFilteredData}
@@ -134,23 +133,23 @@ export default function DataTable<TData, TValue>({
           <DataTableViewOptions table={table} />
         </div>
       </div>
-      <div className="rounded-md border">
-        <Table>
+
+      {/* Adjust table container */}
+      <div className="rounded-md border max-w-full overflow-x-auto">
+        <Table className="table-auto w-full min-w-[700px] ">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -184,6 +183,7 @@ export default function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
       <DataTablePagination table={table} />
     </div>
   );
