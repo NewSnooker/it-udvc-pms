@@ -96,12 +96,18 @@ export default function TaskBoard({ activeModule, status }: TaskBoardProps) {
 
   return (
     <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="text-xl sm:text-3xl text-center sm:text-left font-bold mb-2">
+      <div className="text-xl sm:text-3xl text-center sm:text-left font-bold ">
         {`${activeModule.name} (${
           (activeModule.tasks && activeModule.tasks.length) || 0
         })`}
       </div>
-      <div className="w-full flex flex-col sm:flex-row items-center mb-4 sm:mb-4">
+      <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
+        {`แสดงสถานะการทำงานของ ${activeModule.name}`}{" "}
+        <span className="hidden sm:inline">
+          {`สามารถลากและวางเพื่อเปลี่ยนสถานะการทำงาน`}
+        </span>
+      </p>
+      <div className="w-full flex flex-col sm:flex-row items-center my-1 sm:my2 ">
         <div className="flex items-center w-full">
           <Progress value={percentageCompletion} />
           <span className="ml-4 text-sm text-muted-foreground">{`${percentageCompletion}%`}</span>

@@ -17,7 +17,7 @@ interface ColumnProps {
 export default function Column({ moduleId, tasks, status }: ColumnProps) {
   return (
     <div className="bg-background rounded-lg border shadow-inner bg-zinc-100 dark:bg-zinc-900">
-      <div className="flex justify-between items-center rounded-t-lg overflow-hidden font-normal pl-5 pr-4 py-2 bg-zinc-900/90 dark:bg-zinc-950/50 text-white border-b">
+      <div className="flex justify-between items-center rounded-t-lg overflow-hidden font-normal pl-4 pr-1 py-1 sm:pl-5 sm:pr-4 sm:py-2 bg-zinc-900/90 dark:bg-zinc-950/50 text-white border-b">
         <div className="flex items-center gap-2">
           <span className="text-xs sm:text-sm font-bold">{status.title}</span>
           <span className="text-xs sm:text-sm font-medium">
@@ -35,7 +35,7 @@ export default function Column({ moduleId, tasks, status }: ColumnProps) {
           {(provided) => (
             <ScrollArea
               ref={provided.innerRef}
-              className="h-[calc(100vh-22rem)] "
+              className="h-[calc(100vh-17rem)] sm:h-[calc(100vh-22rem)] "
               {...provided.droppableProps}
             >
               {tasks

@@ -24,7 +24,7 @@ export default memo(function DraggableItem({
           } ${snapshot.isDropAnimating ? "opacity-50 rotate-3 scale-105" : ""}
           }`}
         >
-          <div className="flex items-center justify-between pl-4 pr-1 py-1 bg-card hover:bg-accent/5 rounded-lg border border-border/40 hover:border-border/80 shadow-sm mb-2 transition-all group">
+          <div className="flex items-center justify-between pl-3 pr-0.5 py-0.5 sm:pl-4 sm:pr-1 sm:py-1 bg-card hover:bg-accent/5 rounded-lg border border-border/80 hover:border-border/80 shadow-sm mb-2 transition-all group">
             <span className="text-xs sm:text-sm font-medium line-clamp-1">
               {task.title}
             </span>

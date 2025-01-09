@@ -54,8 +54,8 @@ export default async function Page({
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="container mx-auto pt-4 pb-10 space-y-6">
-        <div className="mb-4 flex items-center justify-between w-full">
+      <div className="px-4 sm:container mx-auto pt-4 space-y-2 sm:space-y-6">
+        <div className="mb-2 sm:mb-4 flex items-center justify-between w-full">
           <Link
             href={`/project/${projectData.slug}`}
             className="w-full sm:w-auto"
@@ -69,11 +69,11 @@ export default async function Page({
             <AuthenticatedAvatar session={session} />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:gap-4 lg:grid-cols-12 bg-background rounded-3xl border text-card-foreground shadow-xl overflow-hidden sm:min-h-[38rem] w-full">
+        <div className="grid grid-cols-1 sm:gap-4 lg:grid-cols-12 bg-background rounded-sm sm:rounded-3xl border text-card-foreground shadow-xl overflow-hidden sm:min-h-[38rem] w-full">
           <div className="hidden sm:block lg:col-span-3 p-2 sm:p-8 lg:border-r lg:shadow-xl ">
             <div className="flex flex-col justify-between h-full ">
               <div className="">
-                <div className="w-full text-xl text-center sm:text-left sm:text-2xl font-bold mb-4 mt-4 sm:mt-0 sm:mb-6">
+                <div className="w-full text-xl text-center sm:text-left sm:text-2xl font-bold mb-2 mt-4 sm:mt-0 sm:mb-2">
                   ฟังก์ชั่นโครงการ
                 </div>
                 {modules?.length > 0 ? (
