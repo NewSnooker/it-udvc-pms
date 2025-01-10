@@ -90,9 +90,9 @@ export default function PasswordInput({
                 message: "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร",
               },
               pattern: {
-                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
+                value: /^(?=.*[a-zA-Z])(?=.*\d)/,
                 message:
-                  "รหัสผ่านต้องมีตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก ตัวเลข และอักขระพิเศษ อย่างน้อยอย่างละ 1 ตัว",
+                  "รหัสผ่านต้องมีตัวอักษรและตัวเลข อย่างน้อยอย่างละ 1 ตัว",
               },
               // setValueAs: (value: string) =>
               //   value === "" ? generatedPassword : value,

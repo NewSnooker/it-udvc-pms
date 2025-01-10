@@ -278,7 +278,7 @@ export default function ProjectBanner({
                     URL
                   </TabsTrigger>
                   <TabsTrigger className="w-full" value="unspalsh">
-                    unspalsh
+                    อื่นๆ
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="gradient" className="w-full">
