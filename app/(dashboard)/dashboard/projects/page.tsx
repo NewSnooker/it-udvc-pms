@@ -13,16 +13,18 @@ export default async function page() {
   const projects: Project[] = (await getUserProjects(user?.id)) || [];
 
   return (
-    <div className="p-8">
-      <TableHeader
-        title="โครงการ"
-        linkTitle="เพิ่มโครงการ"
-        href="/dashboard/projects/new"
-        data={projects}
-        model="projects"
-      />
-      <div className="pb-8 pt-4">
-        <DataTable data={projects} columns={columns} model={"project"} />
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full">
+        <TableHeader
+          title="โครงการ"
+          linkTitle="เพิ่มโครงการ"
+          href="/dashboard/projects/new"
+          data={projects}
+          model="projects"
+        />
+        <div className="py-4 sm:py-8">
+          <DataTable data={projects} columns={columns} />
+        </div>
       </div>
     </div>
   );

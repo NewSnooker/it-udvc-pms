@@ -13,17 +13,19 @@ export default async function page() {
   const clients: User[] = (await getUserClient(user?.id)) || [];
 
   return (
-    <div className="p-4 sm:p-8">
-      <TableHeader
-        title="ลูกค้า"
-        linkTitle="เพิ่มลูกค้า"
-        href="/dashboard/clients/new"
-        data={clients}
-        model="clients"
-        userId={user?.id ?? ""}
-      />
-      <div className="py-8  ">
-        <DataTable data={clients} columns={columns} />
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full">
+        <TableHeader
+          title="ลูกค้า"
+          linkTitle="เพิ่มลูกค้า"
+          href="/dashboard/clients/new"
+          data={clients}
+          model="clients"
+          userId={user?.id ?? ""}
+        />
+        <div className="py-4 sm:py-8">
+          <DataTable data={clients} columns={columns} />
+        </div>
       </div>
     </div>
   );

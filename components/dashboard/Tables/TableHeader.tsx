@@ -183,22 +183,20 @@ export default function TableHeader({
     exportDataToExcel(data, filename);
   }
   return (
-    <div className=" mb-3">
-      <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-600 py-3">
-        <h2 className="scroll-m-20  text-2xl font-semibold tracking-tight first:mt-0">
+    <div className="w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-zinc-200 dark:border-zinc-600 py-3">
+        <h2 className="scroll-m-20 text-center sm:text-left text-2xl font-semibold tracking-tight">
           {title}({data.length})
         </h2>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 sm:ml-auto">
           <Button
             onClick={handleExportData}
             size="sm"
             variant="outline"
-            className="h-8 gap-1"
+            className="h-8"
           >
-            <SiMicrosoftexcel className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Export
-            </span>
+            <SiMicrosoftexcel className="h-3.5 w-3.5 sm:mr-1" />
+            <span className="hidden sm:inline whitespace-nowrap">Export</span>
           </Button>
 
           {showImport && (
@@ -208,10 +206,10 @@ export default function TableHeader({
                   onClick={() => setUploadSuccess(false)}
                   size="sm"
                   variant="outline"
-                  className="h-8 gap-1"
+                  className="h-8"
                 >
-                  <RiFileExcel2Line className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  <RiFileExcel2Line className="h-3.5 w-3.5 sm:mr-1" />
+                  <span className="hidden sm:inline whitespace-nowrap">
                     Import
                   </span>
                 </Button>
@@ -399,11 +397,13 @@ export default function TableHeader({
               )}
             </Dialog>
           )}
+
           {model === "clients" && <DialogInviteClient userId={userId ?? ""} />}
-          <Button size="sm" asChild className="h-8 gap-1">
+
+          <Button size="sm" asChild className="h-8">
             <Link href={href}>
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              <PlusCircle className="h-3.5 w-3.5 sm:mr-1" />
+              <span className="hidden sm:inline whitespace-nowrap">
                 {linkTitle}
               </span>
             </Link>

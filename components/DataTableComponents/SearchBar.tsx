@@ -26,8 +26,8 @@ export default function SearchBar({
     onSearch(filteredData);
   };
   return (
-    <div className="flex justify-between items-center gap-8 w-full">
-      <div className="mt-2 relative clear-start">
+    <div className="w-full">
+      <div className="relative clear-start">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <Search className="text-zinc-300 w-4 h-4" />
         </div>

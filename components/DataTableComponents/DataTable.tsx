@@ -87,20 +87,21 @@ export default function DataTable<TData, TValue>({
   // console.log(searchResults);
   // const finalData = isSearch ? searchResults : filteredData;
   return (
-    <div className="space-y-4 w-full">
+    <div className="w-full space-y-4">
       {model && model === "project" ? (
         <ProjectSummary data={isSearch ? searchResults : filteredData} />
       ) : null}
 
-      <div className="flex justify-between items-center sm:gap-8 w-full">
-        <div className=" w-full">
+      {/* ปรับ layout ของ filters */}
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center w-full">
+        <div className="w-full sm:max-w-sm">
           <SearchBar
             data={data}
             onSearch={setSearchResults}
             setIsSearch={setIsSearch}
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:ml-auto">
           <DateRangeFilter
             data={data}
             onFilter={setFilteredData}
@@ -115,7 +116,7 @@ export default function DataTable<TData, TValue>({
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8 gap-1">
                 <ListFilter className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                <span className="hidden sm:inline-block whitespace-nowrap">
                   การกรอง
                 </span>
               </Button>
@@ -134,54 +135,56 @@ export default function DataTable<TData, TValue>({
         </div>
       </div>
 
-      {/* Adjust table container */}
-      <div className="rounded-md border max-w-full overflow-x-auto">
-        <Table className="table-auto w-full min-w-[700px] ">
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+      {/* ปรับ table container */}
+      <div className="relative w-full">
+        <div className="rounded-md border overflow-auto">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  ไม่พบข้อมูล
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    ไม่พบข้อมูล
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <DataTablePagination table={table} />

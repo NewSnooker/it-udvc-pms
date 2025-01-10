@@ -61,7 +61,7 @@ export default function DateFilters({
 
   return (
     <Select onValueChange={handleChange}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[205px] sm:w-[180px]">
         <SelectValue placeholder="Select a filter" />
       </SelectTrigger>
       <SelectContent>
