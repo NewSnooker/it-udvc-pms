@@ -93,8 +93,8 @@ export default function DataTable<TData, TValue>({
       ) : null}
 
       {/* ปรับ layout ของ filters */}
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center w-full">
-        <div className="w-full sm:max-w-sm">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center">
+        <div className="w-full flex justify-center sm:justify-start sm:max-w-sm">
           <SearchBar
             data={data}
             onSearch={setSearchResults}

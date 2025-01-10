@@ -23,7 +23,7 @@ export default async function page() {
           model="clients"
           userId={user?.id ?? ""}
         />
-        <div className="py-4 sm:py-8">
+        <div className="py-4">
           <DataTable data={clients} columns={columns} />
         </div>
       </div>

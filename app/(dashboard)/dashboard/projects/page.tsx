@@ -22,7 +22,7 @@ export default async function page() {
           data={projects}
           model="projects"
         />
-        <div className="py-4 sm:py-8">
+        <div className="py-4 ">
           <DataTable data={projects} columns={columns} />
         </div>
       </div>
