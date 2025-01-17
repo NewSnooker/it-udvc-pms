@@ -5,6 +5,7 @@ import {
   Payment as IPayment,
   User,
   File,
+  GuestProject,
 } from "@prisma/client";
 
 export type CategoryProps = {
@@ -62,7 +63,7 @@ export type ExistingUsers = {
   id: string;
   name: string;
   email: string;
-  image: string | undefined | null;
+  image: string;
 };
 export type ProjectWithUser = {
   id: string;
@@ -111,6 +112,7 @@ export type ProjectData = {
   updatedAt: Date;
   client: ClientData | null;
   user: User | null;
+  guestProject: GuestProject[] | null;
 };
 export type ModuleData = {
   id: string;
@@ -276,4 +278,15 @@ export type FileProps = {
   url: string;
   size: number;
   parentFolderId: string;
+};
+export type GuestProjectUserProps = {
+  id: string;
+  projectName: string;
+  projectImage: string;
+  ownerName: string;
+  ownerImage: string;
+  guestName: string;
+  guestImage: string;
+  projectLink: string;
+  createdAt: Date;
 };

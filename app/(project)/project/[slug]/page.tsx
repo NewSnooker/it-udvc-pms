@@ -7,6 +7,7 @@ import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/constants";
+import { ExistingUsers } from "@/types/types";
 
 export async function generateMetadata({
   params,
@@ -67,7 +68,7 @@ export default async function page({ params }: { params: { slug: string } }) {
     <div>
       <ProjectDetailsPage
         projectData={projectData}
-        existingUsers={existingUsers}
+        existingUsers={existingUsers as ExistingUsers[]}
         session={session}
       />
     </div>

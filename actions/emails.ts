@@ -25,6 +25,7 @@ import ResetPasswordEmailTemplate from "@/components/email-templates/ResetPasswo
 import { ThankYouSubscribe } from "@/components/email-templates/ThankYouSubscribe";
 import { User } from "@prisma/client";
 import NotificationToFollowed from "@/components/email-templates/NotificationToFollowed";
+import { SendMemberInvitationProps } from "@/components/projects/InviteMembers";
 
 export async function sendInvoiceLink(
   data: InvoiceDetails,
@@ -180,29 +181,13 @@ export async function sendClientInvitationCreateUser({
   }
 }
 export async function sendMemberInvitation({
-  members,
-  projectData,
-}: {
-  members: ExistingUsers[];
-  projectData: InvitationDetailsProps;
-}) {
+  memberMails,
+  memberNames,
+  ownerName,
+  projectName,
+  loginLink,
+}: SendMemberInvitationProps) {
   try {
-    const mails = members.map((user) => user.email);
-    const promises = members.map((member) => {
-      return db.guestProject.create({
-        data: {
-          projectLink: projectData.loginLink,
-          projectName: projectData.projectName,
-          guestName: member.name,
-          projectOwner: projectData.projectOwner,
-          guestId: member.id,
-          projectOwnerId: projectData.projectOwnerId,
-        },
-      });
-    });
-
-    await Promise.all(promises);
-
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -213,17 +198,17 @@ export async function sendMemberInvitation({
 
     const emailHtml = await render(
       React.createElement(MemberInvitation, {
-        memberName: projectData.memberName,
-        projectName: projectData.projectName,
-        projectOwner: projectData.projectOwner,
-        loginLink: projectData.loginLink,
+        memberNames,
+        ownerName,
+        projectName,
+        loginLink,
       })
     );
 
     const options = {
       from: `${WEBSITE_NAME} <${process.env.NODEMAILER_USER}>`,
-      to: mails,
-      subject: `เชิญชวนร่วมมือในโครงการ ${projectData.projectName} `,
+      to: memberMails.join(", "),
+      subject: `เชิญชวนร่วมมือในโครงการ ${projectName} `,
       html: emailHtml,
       headers: {
         "X-Priority": "1",

@@ -42,8 +42,8 @@ import DialogInviteClient from "./DialogInviteClient";
 
 type TableHeaderProps = {
   title: string;
-  href: string;
-  linkTitle: string;
+  href?: string;
+  linkTitle?: string;
   data: any;
   model: string;
   showImport?: boolean;
@@ -400,14 +400,16 @@ export default function TableHeader({
 
           {model === "clients" && <DialogInviteClient userId={userId ?? ""} />}
 
-          <Button size="sm" asChild className="h-8">
-            <Link href={href}>
-              <PlusCircle className="h-3.5 w-3.5 sm:mr-1" />
-              <span className="hidden sm:inline whitespace-nowrap">
-                {linkTitle}
-              </span>
-            </Link>
-          </Button>
+          {href && linkTitle && (
+            <Button size="sm" asChild className="h-8">
+              <Link href={href}>
+                <PlusCircle className="h-3.5 w-3.5 sm:mr-1" />
+                <span className="hidden sm:inline whitespace-nowrap">
+                  {linkTitle}
+                </span>
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </div>

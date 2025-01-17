@@ -98,48 +98,6 @@ export async function getUserProjectsCount(userId: string | undefined) {
     return null;
   }
 }
-export async function getUserGuestProjects(userId: string | undefined) {
-  try {
-    if (userId) {
-      const projects = await db.guestProject.findMany({
-        orderBy: {
-          createdAt: "desc",
-        },
-        where: {
-          guestId: userId,
-        },
-      });
-
-      return projects;
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
-export async function getUserMemberProjects(userId: string | undefined) {
-  try {
-    if (userId) {
-      const projects = await db.guestProject.findMany({
-        orderBy: {
-          createdAt: "desc",
-        },
-        where: {
-          projectOwnerId: userId,
-        },
-      });
-
-      return projects;
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
 export async function getRecentProjects(userId: string | undefined) {
   try {
     if (userId) {
@@ -289,6 +247,7 @@ export async function getProjectDetailBySlug(
         invoices: true,
         comments: true,
         payments: true,
+        guestProject: true,
         user: true,
       },
     });

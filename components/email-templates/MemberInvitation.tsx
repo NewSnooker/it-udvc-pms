@@ -12,18 +12,17 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-export interface InvitationDetailsProps {
-  memberName: string;
+export type InvitationDetailsProps = {
+  memberNames: string[];
+  ownerName: string;
   projectName: string;
-  projectOwner: string;
-  projectOwnerId?: string;
   loginLink: string;
-}
+};
 
 export const MemberInvitation: React.FC<InvitationDetailsProps> = ({
-  memberName,
+  memberNames,
+  ownerName,
   projectName,
-  projectOwner,
   loginLink,
 }) => (
   <Html>
@@ -32,10 +31,10 @@ export const MemberInvitation: React.FC<InvitationDetailsProps> = ({
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>คำเชิญเข้าร่วมดูแลโครงการ {projectName}</Heading>
-        <Text style={text}>เรียน {memberName}</Text>
+        <Text style={text}>เรียน {memberNames}</Text>
         <Text style={text}>
           เรามีความยินดีที่จะเชิญคุณเข้าร่วมดูแลโครงการ {projectName}{" "}
-          ที่ดำเนินการโดย คุณ{projectOwner}{" "}
+          ที่ดำเนินการโดย คุณ{ownerName}{" "}
           ความคิดเห็นและข้อเสนอแนะของคุณมีค่าสำหรับเรา
           และเราหวังว่าจะได้ทำงานร่วมกันได้ดี
         </Text>

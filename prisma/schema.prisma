@@ -52,39 +52,40 @@ enum UserRole {
 }
 
 model User {
-  id                 String            @id @default(auto()) @map("_id") @db.ObjectId
-  name               String
-  firstName          String
-  lastName           String
-  phone              String
-  email              String            @unique
-  emailVerified      DateTime?
-  image              String?
-  userLogo           String?
-  role               UserRole          @default(USER)
-  location           String?
-  password           String?
-  plain              String?
-  companyName        String?
-  companyDescription String?
-  userId             String?           @db.ObjectId
-  status             Boolean           @default(true)
-  accounts           Account[]
-  guestProject       GuestProject[]
-  sessions           Session[]
-  project            Project[]
-  invoices           Invoice[]
-  modules            Module[]
-  portfolioItem      PortfolioItem[]
-  comments           ProjectComment[]
-  payment            Payment[]
-  portfolioProfile   PortfolioProfile?
-  subscriber         Subscriber[]
-  isVerified         Boolean           @default(false)
-  token              Int?
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  folder             Folder[]
+  id                   String            @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
+  firstName            String
+  lastName             String
+  phone                String
+  email                String            @unique
+  emailVerified        DateTime?
+  image                String?
+  userLogo             String?
+  role                 UserRole          @default(USER)
+  location             String?
+  password             String?
+  plain                String?
+  companyName          String?
+  companyDescription   String?
+  userId               String?           @db.ObjectId
+  status               Boolean           @default(true)
+  accounts             Account[]
+  sessions             Session[]
+  project              Project[]
+  invoices             Invoice[]
+  modules              Module[]
+  portfolioItem        PortfolioItem[]
+  comments             ProjectComment[]
+  payment              Payment[]
+  portfolioProfile     PortfolioProfile?
+  subscriber           Subscriber[]
+  isVerified           Boolean           @default(false)
+  token                Int?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  folder               Folder[]
+  guestProjectsAsGuest GuestProject[]    @relation("GuestProjectsAsGuest")
+  guestProjectsAsOwner GuestProject[]    @relation("GuestProjectsAsOwner")
 }
 
 model PortfolioProfile {
@@ -148,6 +149,7 @@ model Project {
   invoices     Invoice[]
   payments     Payment[]
   comments     ProjectComment[]
+  guestProject GuestProject[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
 }
@@ -166,16 +168,15 @@ model ProjectComment {
 }
 
 model GuestProject {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  projectLink    String
-  projectName    String
-  guestName      String
-  projectOwner   String
-  user           User     @relation(fields: [guestId], references: [id])
-  guestId        String   @db.ObjectId
-  projectOwnerId String?  @db.ObjectId
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  guestId   String   @db.ObjectId
+  ownerId   String   @db.ObjectId
+  projectId String   @db.ObjectId
+  guest     User     @relation("GuestProjectsAsGuest", fields: [guestId], references: [id])
+  owner     User     @relation("GuestProjectsAsOwner", fields: [ownerId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Module {
