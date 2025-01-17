@@ -1,9 +1,7 @@
 import { getUserMemberProjects } from "@/actions/guestProject";
-import GuestProjects from "@/components/dashboard/GuestProjects";
 import TableHeader from "@/components/dashboard/Tables/TableHeader";
 import { getAuthUser } from "@/config/getAuthUser";
 import { GuestProjectUserProps } from "@/types/types";
-import { GuestProject } from "@prisma/client";
 import React from "react";
 import { columns } from "./columns";
 import DataTable from "@/components/DataTableComponents/DataTable";
