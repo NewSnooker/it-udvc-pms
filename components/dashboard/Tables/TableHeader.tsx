@@ -79,7 +79,6 @@ export default function TableHeader({
   } else if (model === "product") {
     excelDownload = "/Products.xlsx";
   }
-  console.log(excelFile);
   const options: Options = [
     { value: "true", label: "Active" },
     { value: "false", label: "Disabled" },

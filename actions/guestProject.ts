@@ -65,6 +65,8 @@ export async function getUserGuestProjects(userId: string | undefined) {
           guestName: project.guest.name,
           guestImage: project.guest.image ?? "",
           projectLink: `/project/${project.project.slug}`,
+          guestEmail: project.guest.email,
+          ownerEmail: project.owner.email,
           createdAt: project.createdAt,
         };
       });
@@ -104,7 +106,69 @@ export async function getUserMemberProjects(userId: string | undefined) {
           guestName: project.guest.name,
           guestImage: project.guest.image ?? "",
           projectLink: `/project/${project.project.slug}`,
+          guestEmail: project.guest.email,
+          ownerEmail: project.owner.email,
           createdAt: project.createdAt,
+        };
+      });
+      return list;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function getUserMemberProjectsEmail(userId: string | undefined) {
+  // หาอีเมลของผู้ร่วมโครงการ ที่เราเป็นเจ้าของ
+  try {
+    if (userId) {
+      const projects = await db.guestProject.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          ownerId: userId,
+        },
+        include: {
+          guest: true,
+        },
+      });
+
+      const list = projects.map((project) => {
+        return {
+          email: project.guest.email,
+        };
+      });
+      return list;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function getUserGuestProjectsEmail(userId: string | undefined) {
+  // หาอีเมลของผู้ร่วมโครงการ ที่เราเป็นสมาชิก
+  try {
+    if (userId) {
+      const projects = await db.guestProject.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          guestId: userId,
+        },
+        include: {
+          owner: true,
+        },
+      });
+
+      const list = projects.map((project) => {
+        return {
+          email: project.owner.email,
         };
       });
       return list;

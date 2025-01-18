@@ -6,6 +6,9 @@ import ActionColumn from "@/components/DataTableColumns/ActionColumn";
 import { User } from "@prisma/client";
 import TitleColumn from "@/components/DataTableColumns/TitleColumn";
 import DateColumn from "@/components/DataTableColumns/DateColumn";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Send } from "lucide-react";
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "image",
@@ -37,6 +40,21 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "createdAt",
     header: ({ column }) => <TitleColumn column={column} title="วันที่สร้าง" />,
     cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
+  },
+  {
+    accessorKey: "email",
+    header: "ส่งอีเมล",
+
+    cell: ({ row }) => {
+      const original = row.original;
+      return (
+        <Link href={`/dashboard/emails?mail=${original.email}&role=client`}>
+          <Button size="sm">
+            <Send className="h-4 w-4" />
+          </Button>
+        </Link>
+      );
+    },
   },
   {
     id: "จัดการ",

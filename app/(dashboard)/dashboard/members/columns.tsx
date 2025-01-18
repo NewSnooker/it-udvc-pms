@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GuestProjectUserProps } from "@/types/types";
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
+import { Send } from "lucide-react";
 
 export const columns: ColumnDef<GuestProjectUserProps>[] = [
   {
@@ -35,6 +36,23 @@ export const columns: ColumnDef<GuestProjectUserProps>[] = [
       <TitleColumn column={column} title="วันที่เข้าร่วม" />
     ),
     cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
+  },
+  {
+    accessorKey: "email",
+    header: "ส่งอีเมล",
+
+    cell: ({ row }) => {
+      const original = row.original;
+      return (
+        <Link
+          href={`/dashboard/emails?mail=${original.guestEmail}&role=member`}
+        >
+          <Button size="sm">
+            <Send className="h-4 w-4" />
+          </Button>
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "projectLink",

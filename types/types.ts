@@ -289,4 +289,6 @@ export type GuestProjectUserProps = {
   guestImage: string;
   projectLink: string;
   createdAt: Date;
+  guestEmail: string;
+  ownerEmail: string;
 };

@@ -50,13 +50,21 @@ export type MailProps = {
 interface EmailComposeProps {
   clients: User[];
   subscribers: Subscriber[];
+  members: { email: string }[];
+  owners: { email: string }[];
   user: AuthUser;
+  mail: string | undefined | null;
+  role: string | undefined | null;
 }
 
 export default function EmailCompose({
   clients,
   subscribers,
+  members,
+  owners,
   user,
+  mail,
+  role,
 }: EmailComposeProps) {
   const {
     register,
@@ -70,6 +78,16 @@ export default function EmailCompose({
     },
   });
   const router = useRouter();
+  const mailListOwners =
+    owners?.map((item) => ({
+      value: item.email,
+      label: item.email + " - " + "เจ้าของโครงการ",
+    })) || [];
+  const mailListMembers =
+    members?.map((item) => ({
+      value: item.email,
+      label: item.email + " - " + "สมาชิก",
+    })) || [];
   const mailListSubs =
     subscribers?.map((item) => ({
       value: item.email,
@@ -83,18 +101,47 @@ export default function EmailCompose({
     })) || [];
 
   const allPeople = [{ value: "all-people", label: "@ทุกคน" }];
-  const allClients = [{ value: "all-clients", label: "@ลูกค้าทั้งหมด" }];
-  const allSubs = [{ value: "all-subs", label: "@ผู้ติดตามทั้งหมด" }];
+  const allMembers = [{ value: "all-members", label: "@สมาชิก[ทั้งหมด]" }];
+  const allClients = [{ value: "all-clients", label: "@ลูกค้า[ทั้งหมด]" }];
+  const allOwners = [
+    { value: "all-owners", label: "@เจ้าของโครงการ[ทั้งหมด]" },
+  ];
+  const allSubs = [{ value: "all-subs", label: "@ผู้ติดตาม[ทั้งหมด]" }];
 
   const allEmails = [
     ...allPeople,
+    ...(mailListOwners.length > 0 ? allOwners : []),
     ...(mailListClients.length > 0 ? allClients : []), // เพิ่มเฉพาะถ้ามีข้อมูล
+    ...(mailListMembers.length > 0 ? allMembers : []), // เพิ่มเฉพาะถ้ามีข้อมูล
     ...(mailListSubs.length > 0 ? allSubs : []), // เพิ่มเฉพาะถ้ามีข้อมูล
+    ...mailListOwners,
     ...mailListClients,
+    ...mailListMembers,
     ...mailListSubs,
   ];
-
-  const [selectedRecipients, setSelectedRecipients] = useState<any>(null);
+  let labelRole;
+  switch (role) {
+    case "subscriber":
+      labelRole = "ผู้ติดตาม";
+      break;
+    case "owner":
+      labelRole = "เจ้าของโครงการ";
+      break;
+    case "client":
+      labelRole = "ลูกค้า";
+      break;
+    case "member":
+      labelRole = "สมาชิก";
+      break;
+    default:
+      labelRole = "";
+  }
+  const existsSelectedRecipients = mail
+    ? { value: mail, label: mail + " - " + labelRole }
+    : null;
+  const [selectedRecipients, setSelectedRecipients] = useState<any>(
+    existsSelectedRecipients
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<FileProps[]>([]);
   const [content, setContent] = useState<string>("");
@@ -134,33 +181,60 @@ export default function EmailCompose({
     data.to = selectedRecipients.value;
 
     // ตรวจสอบประเภทของผู้รับ
-    if (data?.to === "all-subs") {
-      if (mailListSubs.length > 0) {
-        data.to = mailListSubs.map((item) => item.value).join(",");
-      } else {
-        setIsLoading(false);
-        toast.error("ไม่มีรายชื่อผู้ติดตามในระบบ");
-        return;
-      }
-    } else if (data?.to === "all-clients") {
-      if (mailListClients.length > 0) {
-        data.to = mailListClients.map((item) => item.value).join(",");
-      } else {
-        setIsLoading(false);
-        toast.error("ไม่มีรายชื่อลูกค้าในระบบ");
-        return;
-      }
-    } else if (data?.to === "all-people") {
-      const validEmails = [...mailListSubs, ...mailListClients].map(
-        (item) => item.value
-      );
-      if (validEmails.length > 0) {
-        data.to = validEmails.join(",");
-      } else {
-        setIsLoading(false);
-        toast.error("ไม่มีรายชื่อผู้รับในระบบ");
-        return;
-      }
+    switch (data?.to) {
+      case "all-subs":
+        if (mailListSubs.length > 0) {
+          data.to = mailListSubs.map((item) => item.value).join(",");
+        } else {
+          setIsLoading(false);
+          toast.error("ไม่มีรายชื่อผู้ติดตามในระบบ");
+          return;
+        }
+        break;
+      case "all-members":
+        if (mailListMembers.length > 0) {
+          data.to = mailListMembers.map((item) => item.value).join(",");
+        } else {
+          setIsLoading(false);
+          toast.error("ไม่มีรายชื่อสมาชิกในระบบ");
+          return;
+        }
+        break;
+      case "all-clients":
+        if (mailListClients.length > 0) {
+          data.to = mailListClients.map((item) => item.value).join(",");
+        } else {
+          setIsLoading(false);
+          toast.error("ไม่มีรายชื่อลูกค้าในระบบ");
+          return;
+        }
+        break;
+      case "all-owners":
+        if (mailListOwners.length > 0) {
+          data.to = mailListOwners.map((item) => item.value).join(",");
+        } else {
+          setIsLoading(false);
+          toast.error("ไม่มีรายชื่อเจ้าของโครงการในระบบ");
+          return;
+        }
+        break;
+      case "all-people":
+        const validEmails = [
+          ...mailListSubs,
+          ...mailListClients,
+          ...mailListMembers,
+          ...mailListOwners,
+        ].map((item) => item.value);
+        if (validEmails.length > 0) {
+          data.to = validEmails.join(",");
+        } else {
+          setIsLoading(false);
+          toast.error("ไม่มีรายชื่อผู้รับในระบบ");
+          return;
+        }
+        break;
+      default:
+        break;
     }
 
     try {

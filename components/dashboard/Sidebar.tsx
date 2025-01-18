@@ -44,16 +44,10 @@ const sidebarLinks = [
         href: "/dashboard/clients",
         icon: Users,
       },
-
       {
         title: "โครงการ",
         href: "/dashboard/projects",
         icon: LayoutGrid,
-      },
-      {
-        title: "โครงการที่ได้เข้าร่วม",
-        href: "/dashboard/guest-projects",
-        icon: Combine,
       },
     ],
   },
@@ -64,6 +58,11 @@ const sidebarLinks = [
         title: "สมาชิกโครงการ",
         href: "/dashboard/members",
         icon: User2,
+      },
+      {
+        title: "โครงการที่ได้เข้าร่วม",
+        href: "/dashboard/guest-projects",
+        icon: Combine,
       },
     ],
   },
