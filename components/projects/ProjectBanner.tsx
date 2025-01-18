@@ -107,15 +107,16 @@ export default function ProjectBanner({
       const res = await getUnspalshImages(searchQuery.trim());
       if (res?.status === 200) {
         setUnsplashImages(res.data);
+        setLoading(false);
       } else if (res?.status === 429) {
         toast.error(
           "api unsplash เกินจำนวนคำขอที่อนุญาต \nกรุณาลองใหม่ในภายหลัง."
         );
         setErrorMessage("api unsplash เกินจำนวนคำขอที่อนุญาต"); // หากมีข้อผิดพลาดจาก rate limit จะตั้งข้อความข้อผิดพลาด
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
-    } finally {
       setLoading(false);
     }
   }
@@ -138,12 +139,12 @@ export default function ProjectBanner({
       const data: any = { bannerImage: imageUrl };
       if (editingId) {
         await updateProjectById(editingId, data);
-        toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ！");
+        toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ!");
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
       toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
-    } finally {
       setLoading(false);
     }
   };
@@ -155,13 +156,12 @@ export default function ProjectBanner({
       if (editingId) {
         await updateProjectById(editingId, data);
         setLoading(false);
-        toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ！");
+        toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ!");
       }
     } catch (error) {
       console.log(error);
-      toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
-    } finally {
       setLoading(false);
+      toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
     }
   }
 
@@ -177,6 +177,7 @@ export default function ProjectBanner({
     } catch (error) {
       setLoading(false);
       console.log(error);
+      toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
     }
   }
 
@@ -192,6 +193,7 @@ export default function ProjectBanner({
     } catch (error) {
       setLoading(false);
       console.log(error);
+      toast.error("เกิดข้อผิดพลาดในการอัพเดตชื่อโครงการ");
     }
   }
   useEffect(() => {

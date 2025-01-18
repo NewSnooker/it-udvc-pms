@@ -26,7 +26,6 @@ export default async function page({
     const subscribers = (await getUserSubscribersByUserId(user.id ?? "")) || [];
     const members = (await getUserMemberProjectsEmail(user.id ?? "")) || [];
     const owners = (await getUserGuestProjectsEmail(user.id ?? "")) || [];
-    console.log(owners);
     return (
       <div>
         <EmailCompose
