@@ -117,7 +117,6 @@ export default function InviteMembers({
       console.error(error);
     }
   };
-  console.log(resentMember.length);
 
   return (
     <div className="flex flex-col-reverse sm:flex-row items-center sm:ml-7 gap-4">

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Dialog,
   DialogContent,
@@ -19,8 +20,8 @@ import { useForm } from "react-hook-form";
 import TextInput from "@/components/FormInputs/TextInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import { Button } from "@/components/ui/button";
-import { getUnspalshImages } from "@/actions/unspalsh";
 import { Input } from "../ui/input";
+import { cleanUpExpiredCache, getUnsplashImages } from "@/actions/unsplash";
 
 interface UnsplashImage {
   id: string;
@@ -63,7 +64,7 @@ export default function ProjectBanner({
   const [imageUrl, setImageUrl] = useState(initialImage);
   const [loading, setLoading] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [uunsplashImages, setUnsplashImages] = useState<UnsplashImage[]>([]);
+  const [unsplashImages, setUnsplashImages] = useState<UnsplashImage[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
@@ -82,7 +83,7 @@ export default function ProjectBanner({
   async function handleUnsplashImage() {
     try {
       setLoading(true);
-      const res = await getUnspalshImages();
+      const res = await getUnsplashImages();
       if (res?.status === 200) {
         setUnsplashImages(res.data);
         setLoading(false);
@@ -93,6 +94,9 @@ export default function ProjectBanner({
         );
         setErrorMessage("api unsplash เกินจำนวนคำขอที่อนุญาต"); // หากมีข้อผิดพลาดจาก rate limit จะตั้งข้อความข้อผิดพลาด
         setLoading(false);
+      } else {
+        setLoading(false);
+        console.log(res);
       }
     } catch (error) {
       setLoading(false);
@@ -104,19 +108,18 @@ export default function ProjectBanner({
     if (!searchQuery.trim()) return;
     try {
       setLoading(true);
-      const res = await getUnspalshImages(searchQuery.trim());
+      const res = await getUnsplashImages(searchQuery.trim());
       if (res?.status === 200) {
         setUnsplashImages(res.data);
-        setLoading(false);
       } else if (res?.status === 429) {
         toast.error(
           "api unsplash เกินจำนวนคำขอที่อนุญาต \nกรุณาลองใหม่ในภายหลัง."
         );
         setErrorMessage("api unsplash เกินจำนวนคำขอที่อนุญาต"); // หากมีข้อผิดพลาดจาก rate limit จะตั้งข้อความข้อผิดพลาด
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);
+    } finally {
       setLoading(false);
     }
   }
@@ -140,11 +143,11 @@ export default function ProjectBanner({
       if (editingId) {
         await updateProjectById(editingId, data);
         toast.success("อัพเดตรูปภาพแบนเนอร์สําเร็จ!");
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);
       toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
+    } finally {
       setLoading(false);
     }
   };
@@ -160,8 +163,9 @@ export default function ProjectBanner({
       }
     } catch (error) {
       console.log(error);
-      setLoading(false);
       toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -177,7 +181,6 @@ export default function ProjectBanner({
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast.error("เกิดข้อผิดพลาดในการอัพเดตรูปภาพ");
     }
   }
 
@@ -193,11 +196,12 @@ export default function ProjectBanner({
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast.error("เกิดข้อผิดพลาดในการอัพเดตชื่อโครงการ");
     }
   }
+  // เรียกใช้ `cleanUpExpiredCache` ใน `useEffect` ทุกครั้งที่มีการอัปเดต
   useEffect(() => {
-    handleUnsplashImage();
+    cleanUpExpiredCache(); // ลบแคชที่หมดอายุ
+    handleUnsplashImage(); // ดึงข้อมูลใหม่
   }, []);
   return (
     <div className="relative  h-60 rounded-lg overflow-hidden group">
@@ -401,12 +405,12 @@ export default function ProjectBanner({
                         <div className="col-span-2 flex justify-center items-center py-8">
                           <Loader className="w-6 h-6 animate-spin" />
                         </div>
-                      ) : uunsplashImages.length === 0 ? (
+                      ) : unsplashImages.length === 0 ? (
                         <div className="col-span-2 text-center py-8 text-gray-500">
                           ไม่พบรูปภาพที่ค้นหา
                         </div>
                       ) : (
-                        uunsplashImages.map((image) => (
+                        unsplashImages.map((image) => (
                           <div
                             key={image.id}
                             className="relative h-32 rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
