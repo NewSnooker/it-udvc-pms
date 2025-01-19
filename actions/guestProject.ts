@@ -180,3 +180,69 @@ export async function getUserGuestProjectsEmail(userId: string | undefined) {
     return null;
   }
 }
+export async function getProjectAndGuestByPaymentId(id: string) {
+  try {
+    const paymentResult = await db.payment.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!paymentResult) {
+      console.log("payment not found");
+
+      return null;
+    }
+    const project = await db.project.findUnique({
+      where: {
+        id: paymentResult.projectId,
+      },
+      include: {
+        guestProject: true,
+      },
+    });
+
+    if (!project) {
+      console.log("project not found");
+      return null;
+    }
+
+    return project;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function getProjectAndGuestByModuleId(id: string) {
+  try {
+    const moduleResult = await db.module.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!moduleResult) {
+      console.log("module not found");
+
+      return null;
+    }
+    const project = await db.project.findUnique({
+      where: {
+        id: moduleResult.projectId,
+      },
+      include: {
+        guestProject: true,
+      },
+    });
+
+    if (!project) {
+      console.log("project not found");
+      return null;
+    }
+
+    return project;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

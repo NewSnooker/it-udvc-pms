@@ -12,6 +12,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { TaskStatus } from "@prisma/client";
 import TaskBoard from "@/components/projects/modules/TaskBoard";
+import { getProjectAndGuestByModuleId } from "@/actions/guestProject";
 export const metadata = {
   title: "ฟังชั่นโครงการ",
 };
@@ -42,10 +43,20 @@ export default async function Page({
   if (!session) {
     redirect(`/login?returnUrl=${returnUrl}`);
   }
-  const projectData = await getProjectById(searchParams.pid as string);
+  const projectData = await getProjectAndGuestByModuleId(id as string);
   if (!projectData) {
     return notFound();
   }
+  const isGuest = projectData.guestProject
+    ?.map((gp) => gp.guestId)
+    .includes(session.user.id);
+  const isOwner = projectData.userId === session.user.id;
+  const isClient = projectData.clientId === session.user.id;
+
+  if (!isGuest && !isOwner && !isClient) {
+    return notFound();
+  }
+
   const modules = (await getProjectModules(searchParams.pid as string)) || [];
   const activeModule = modules?.find((module) => module.id === id);
   if (!activeModule || modules.length === 0) {
