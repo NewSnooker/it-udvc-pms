@@ -624,17 +624,36 @@ export default function ProjectDetailsPage({
                       <span className="font-medium">สมาชิก:</span>
                     </div>
                     <div className=" flex -space-x-2">
-                      {projectData.members.length > 0 ? (
-                        projectData.members.map((member, index) => (
-                          <Avatar
-                            key={index}
-                            className="h-8 w-8 border-2 border-background"
-                          >
-                            <AvatarFallback>
-                              {member.name.substring(0, 2)}
-                            </AvatarFallback>
-                          </Avatar>
-                        ))
+                      {projectData.guestProject &&
+                      projectData.guestProject.length > 0 ? (
+                        projectData.guestProject.map((member, index) => {
+                          const user = existingUsers.find(
+                            (user) => user.id === member.guestId
+                          );
+                          return (
+                            <Avatar
+                              key={index}
+                              className="h-8 w-8 border-2 border-background"
+                            >
+                              <AvatarImage
+                                src={
+                                  user?.image ||
+                                  "https://utfs.io/f/59b606d1-9148-4f50-ae1c-e9d02322e834-2558r.png"
+                                }
+                              />
+                              <AvatarFallback>
+                                <Image
+                                  src={
+                                    "https://utfs.io/f/59b606d1-9148-4f50-ae1c-e9d02322e834-2558r.png"
+                                  }
+                                  alt={user?.name ?? "avatar"}
+                                  width={28}
+                                  height={28}
+                                />
+                              </AvatarFallback>
+                            </Avatar>
+                          );
+                        })
                       ) : (
                         <div className="w-full">
                           <InviteMembers

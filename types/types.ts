@@ -105,7 +105,6 @@ export type ProjectData = {
   userId: string | undefined | null;
   modules: Module[];
   comments: ProjectComment[];
-  members: Member[];
   invoices: Invoice[];
   payments: Payment[];
   createdAt: Date;
@@ -160,15 +159,7 @@ export type ProjectComment = {
   createdAt: Date;
   updatedAt: Date;
 };
-export type Member = {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  projectId: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+
 export interface InvoiceLinkProps {
   invoiceLink?: string;
   preview?: string;
