@@ -243,7 +243,6 @@ export async function getProjectDetailBySlug(
       where: { slug },
       include: {
         modules: true,
-        members: true,
         invoices: true,
         comments: true,
         payments: true,
