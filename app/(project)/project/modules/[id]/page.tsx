@@ -1,5 +1,4 @@
 import { getProjectModules } from "@/actions/module";
-import { getProjectById } from "@/actions/projects";
 import ModuleForm from "@/components/Forms/ModuleForm";
 import AuthenticatedAvatar from "@/components/global/AuthenticatedAvatar";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -13,6 +12,7 @@ import { notFound, redirect } from "next/navigation";
 import { TaskStatus } from "@prisma/client";
 import TaskBoard from "@/components/projects/modules/TaskBoard";
 import { getProjectAndGuestByModuleId } from "@/actions/guestProject";
+import { Card } from "@/components/ui/card";
 export const metadata = {
   title: "ฟังชั่นโครงการ",
 };
@@ -84,42 +84,45 @@ export default async function Page({
           <div className="hidden sm:block lg:col-span-3 p-2 sm:p-8 lg:border-r lg:shadow-xl ">
             <div className="flex flex-col justify-between h-full ">
               <div className="">
-                <div className="w-full text-xl text-center sm:text-left sm:text-2xl font-bold mb-2 mt-4 sm:mt-0 sm:mb-2">
-                  ฟังก์ชั่นโครงการ
+                <div className="w-full text-xl text-center sm:text-left sm:text-2xl font-bold mb-2 mt-6 sm:mt-0 sm:mb-2">
+                  ฟีเจอร์โครงการ
                 </div>
                 {modules?.length > 0 ? (
                   modules.map((module: Module) => (
-                    <div key={module.id} className="ease-in-out">
+                    <div key={module.id} className="ease-in-out mb-1">
                       <Link
                         href={`/project/modules/${module.id}?pid=${searchParams.pid}`}
                       >
-                        <Button
-                          variant={module.id === id ? "default" : "ghost"}
-                          size="sm"
-                          className="w-full px-2 sm:px-3 flex items-center justify-start sm:h-11 "
+                        <Card
+                          className={`w-full px-2 sm:px-3 flex items-center justify-start sm:h-11 ${
+                            module.id === id
+                              ? "bg-zinc-800 dark:bg-zinc-800 text-white dark:text-zinc-200"
+                              : ""
+                          }`}
                         >
                           {module.id === id ? (
                             <Circle className="mr-1.5 sm:mr-2 h-4 w-4" />
                           ) : (
                             <CircleDashed className="mr-1.5 sm:mr-2 h-4 w-4" />
                           )}
-                          <span className=" text-sm sm:text-base ">
-                            {" "}
+                          <span className="text-sm sm:text-base line-clamp-1">
                             {module.name}
                           </span>
-                        </Button>
+                        </Card>
                       </Link>
                     </div>
                   ))
                 ) : (
-                  <div>ไม่พบฟังก์ชั่นโครงการ</div>
+                  <div>ไม่พบฟีเจอร์โครงการ</div>
                 )}
               </div>
-              <ModuleForm
-                projectId={projectData.id}
-                userId={user.id}
-                userName={user.name}
-              />
+              {isOwner && (
+                <ModuleForm
+                  projectId={projectData.id}
+                  userId={user.id}
+                  userName={user.name}
+                />
+              )}
             </div>
           </div>
           <div className="lg:col-span-9 py-4 sm:py-8 px-4 sm:px-16 bg-zinc-50 dark:bg-zinc-950  ">

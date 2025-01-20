@@ -224,7 +224,7 @@ export type CommentProps = {
   content: string;
   projectId: string;
   userName: string;
-  userRole: UserRole;
+  userRole: string;
   userId: string;
 };
 export type ClientData = {

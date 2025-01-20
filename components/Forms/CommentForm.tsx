@@ -35,7 +35,7 @@ export default function CommentForm({
 }: {
   projectId: string;
   userId: string;
-  userRole: UserRole;
+  userRole: string;
   userName: string;
   initialContent?: string;
   editingId?: string;
@@ -71,12 +71,12 @@ export default function CommentForm({
       if (editingId) {
         await updateCommentById(editingId, data);
         setLoading(false);
-        toast.success("อัปเดตคอมเม้นสําเร็จ!");
+        toast.success("อัปเดตความคิดเห็นสําเร็จ!");
         reset();
       } else {
         await createComment(data);
         setLoading(false);
-        toast.success("ส่งคอมเม้นสําเร็จ!");
+        toast.success("แสดงความคิดเห็นสําเร็จ!");
         reset();
       }
     } catch (error) {
@@ -93,15 +93,17 @@ export default function CommentForm({
             <Pen className="h-4 w-4" />
           </Button>
         ) : (
-          <Button size="sm" className="w-full sm:w-auto">
-            <MessageSquareText className="w-4 h-4 mr-1.5" />
-            คอมเม้นโครงการ
+          <Button size="sm" className="w-full  ">
+            <MessageSquareText className="w-5 h-5" />
+            {/* ความคิดเห็น */}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{editingId ? "แก้ไขคอมเม้น" : "ส่งคอมเม้น"}</DialogTitle>
+          <DialogTitle>
+            {editingId ? "แก้ไขความคิดเห็น" : "แสดงความคิดเห็น"}
+          </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(saveComment)}>
           <div className="grid gap-6">
@@ -109,15 +111,15 @@ export default function CommentForm({
               <QuillEditor
                 label={
                   editingId
-                    ? "แก้ไขคอมเม้นสําหรับโครงการนี้"
-                    : "เพิ่มคอมเม้นและตอบกลับสําหรับโครงการนี้"
+                    ? "แก้ไขความคิดเห็นสําหรับโครงการนี้"
+                    : "แสดงความคิดเห็นและตอบกลับสําหรับโครงการนี้"
                 }
                 className=""
                 value={content}
                 onChange={setContent}
               />
               <SubmitButton
-                title={editingId ? "อัปเดตคอมเม้น" : "ส่งคอมเม้น"}
+                title={editingId ? "แก้ไข" : "ส่ง"}
                 loading={loading}
                 className="mt-2"
                 buttonIcon={Send}

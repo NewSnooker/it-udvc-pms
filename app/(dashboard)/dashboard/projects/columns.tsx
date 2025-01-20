@@ -55,7 +55,9 @@ export const columns: ColumnDef<Project>[] = [
       const project = row.original;
       return (
         <Button asChild size={"sm"}>
-          <Link href={`/project/${project.slug}`}>เพิ่มเติม</Link>
+          <Link target="_blank" href={`/project/${project.slug}`}>
+            เพิ่มเติม
+          </Link>
         </Button>
       );
     },

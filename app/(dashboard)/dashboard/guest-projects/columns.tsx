@@ -55,7 +55,9 @@ export const columns: ColumnDef<GuestProjectUserProps>[] = [
       const guestProject = row.original;
       return (
         <Button asChild size={"sm"}>
-          <Link href={guestProject.projectLink}>เพิ่มเติม</Link>
+          <Link target="_blank" href={guestProject.projectLink}>
+            เพิ่มเติม
+          </Link>
         </Button>
       );
     },

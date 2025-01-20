@@ -8,7 +8,6 @@ import { ModuleProps } from "@/types/types";
 import TextInput from "../FormInputs/TextInput";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -68,13 +67,13 @@ export default function ModuleForm({
         await updateModuleById(editingId, data);
         setLoading(false);
         reset();
-        toast.success("อัพเดตฟังก์ชั่นโครงการสําเร็จ!");
+        toast.success("อัพเดตฟีเจอร์โครงการสําเร็จ!");
         setOpen(false);
       } else {
         await createModule(data);
         setLoading(false);
         reset();
-        toast.success("เพิ่มฟังก์ชั่นโครงการสําเร็จ!");
+        toast.success("เพิ่มฟีเจอร์โครงการสําเร็จ!");
         setOpen(false);
       }
     } catch (error) {
@@ -88,7 +87,7 @@ export default function ModuleForm({
       const res = await deleteModule(id);
       if (res && res.ok) {
         setLoading(false);
-        toast.success("ลบฟังก์ชั่นโครงการสําเร็จ!");
+        toast.success("ลบฟีเจอร์โครงการสําเร็จ!");
         setOpen(false);
       }
     } catch (error) {
@@ -107,7 +106,7 @@ export default function ModuleForm({
         ) : (
           <Button size="sm" className="w-full sm:w-auto">
             <Package className="w-4 h-4 mr-1.5" />
-            เพิ่มฟังก์ชั่นโครงการ
+            เพิ่มฟีเจอร์โครงการ
           </Button>
         )}
       </DialogTrigger>
@@ -116,7 +115,7 @@ export default function ModuleForm({
           <DialogTitle>
             {editingId
               ? `แก้ไขฟังก์ชั่น: ${initialModule}`
-              : "เพิ่มฟังก์ชั่นโครงการ"}
+              : "เพิ่มฟีเจอร์โครงการ"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(saveModule)}>
@@ -125,7 +124,7 @@ export default function ModuleForm({
               register={register}
               errors={errors}
               label=""
-              placeholder="กรอกชื่อฟังก์ชั่นโครงการ"
+              placeholder="กรอกชื่อฟีเจอร์โครงการ"
               name="name"
               icon={Package}
             />
@@ -146,7 +145,7 @@ export default function ModuleForm({
                     className="w-full "
                   >
                     <Trash className="h-4 w-4  mr-1.5 " />
-                    ลบ<p className="hidden sm:inline">ฟังก์ชั่นโครงการ</p>
+                    ลบ<p className="hidden sm:inline">ฟีเจอร์โครงการ</p>
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="py-10">
@@ -174,9 +173,7 @@ export default function ModuleForm({
             )}
 
             <SubmitButton
-              title={
-                editingId ? "แก้ไขฟังก์ชั่นโครงการ" : "เพิ่มฟังก์ชั่นโครงการ"
-              }
+              title={editingId ? "แก้ไขฟีเจอร์โครงการ" : "เพิ่มฟีเจอร์โครงการ"}
               loading={loading}
               className="w-full"
             />

@@ -19,7 +19,6 @@ import { Badge } from "../ui/badge";
 import { ExistingUsers, ProjectData } from "@/types/types";
 import { sendMemberInvitation } from "@/actions/emails";
 import toast from "react-hot-toast";
-import { InvitationDetailsProps } from "../email-templates/MemberInvitation";
 import { createGuestProject } from "@/actions/guestProject";
 
 export type SendMemberInvitationProps = {
@@ -46,9 +45,11 @@ export function useSearch(members: ExistingUsers[]) {
 export default function InviteMembers({
   existingUsers,
   projectData,
+  isGuest,
 }: {
   existingUsers: ExistingUsers[];
   projectData: ProjectData;
+  isGuest?: boolean;
 }) {
   const [selectedMembers, setSelectedMembers] = useState<ExistingUsers[]>([]);
   const [loading, setLoading] = useState(false);
@@ -159,105 +160,107 @@ export default function InviteMembers({
         )}
       </div>
 
-      <Dialog open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
-        <DialogTrigger asChild>
-          <Button variant="outline" size={"sm"} className="w-full sm:w-auto ">
-            <UserPlus className=" h-4 w-4 mr-1.5" />
-            เชิญสมาชิก
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>เชิญสมาชิก</DialogTitle>
-            <DialogDescription>
-              เลือกสมาชิกที่ต้องการเชิญเพื่อเข้ามาร่วมงานกับคุณ
-              ระบบจะส่งอีเมลแจ้งเตือนการเข้าร่วมกับสมาชิก
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 pb-4">
-            <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="ค้นหาสมาชิก..."
-                className="pl-8"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <h4 className="text-sm text-muted-foreground">
-              เลือกสมาชิก({selectedMembers.length})
-            </h4>
-            {selectedMembers.length > 0 && (
-              <ScrollArea className="h-[100px] overflow-y-auto">
-                <div className="flex flex-wrap gap-2 px-2">
-                  {selectedMembers.map((member) => (
-                    <Badge
-                      key={member.id}
-                      variant="secondary"
-                      className="py-1 px-2"
-                    >
-                      {member.name}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-4 w-4 ml-2 p-0"
-                        onClick={() => removeMember(member.id)}
-                      >
-                        <X className="h-3 w-3" />
-                        <span className="sr-only">Remove {member.name}</span>
-                      </Button>
-                    </Badge>
-                  ))}
-                </div>
-              </ScrollArea>
-            )}
-            <ScrollArea className="h-[200px] overflow-y-auto">
-              {availableMembers.map((member) => (
-                <div
-                  key={member.id}
-                  className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-md cursor-pointer"
-                  onClick={() => toggleMemberSelection(member)}
-                >
-                  <div className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage
-                        src={member?.image ?? "/placeholder.svg"}
-                        alt={member.name}
-                      />
-                      <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm font-medium leading-none">
-                        {member.name}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {member.email}
-                      </p>
-                    </div>
-                  </div>
-                  {selectedMembers.some((m) => m.id === member.id) && (
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                  )}
-                </div>
-              ))}
-            </ScrollArea>
-          </div>
-          <Button
-            onClick={sendInvitations}
-            className="w-full"
-            disabled={selectedMembers.length === 0 || loading}
-          >
-            {loading ? (
-              <div className="w-full flex items-center justify-center">
-                <Loader className="w-4 h-4 animate-spin mr-2" />
-                กำลังดำเนินการ...
+      {isGuest ? null : (
+        <Dialog open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
+          <DialogTrigger asChild>
+            <Button variant="outline" size={"sm"} className="w-full sm:w-auto ">
+              <UserPlus className=" h-4 w-4 mr-1.5" />
+              เชิญสมาชิก
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>เชิญสมาชิก</DialogTitle>
+              <DialogDescription>
+                เลือกสมาชิกที่ต้องการเชิญเพื่อเข้ามาร่วมงานกับคุณ
+                ระบบจะส่งอีเมลแจ้งเตือนการเข้าร่วมกับสมาชิก
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 pb-4">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="ค้นหาสมาชิก..."
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
-            ) : (
-              ` ยืนยันการเชิญ(${selectedMembers.length})`
-            )}
-          </Button>
-        </DialogContent>
-      </Dialog>
+              <h4 className="text-sm text-muted-foreground">
+                เลือกสมาชิก({selectedMembers.length})
+              </h4>
+              {selectedMembers.length > 0 && (
+                <ScrollArea className="h-[100px] overflow-y-auto">
+                  <div className="flex flex-wrap gap-2 px-2">
+                    {selectedMembers.map((member) => (
+                      <Badge
+                        key={member.id}
+                        variant="secondary"
+                        className="py-1 px-2"
+                      >
+                        {member.name}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-4 w-4 ml-2 p-0"
+                          onClick={() => removeMember(member.id)}
+                        >
+                          <X className="h-3 w-3" />
+                          <span className="sr-only">Remove {member.name}</span>
+                        </Button>
+                      </Badge>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
+              <ScrollArea className="h-[200px] overflow-y-auto">
+                {availableMembers.map((member) => (
+                  <div
+                    key={member.id}
+                    className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-md cursor-pointer"
+                    onClick={() => toggleMemberSelection(member)}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <Avatar>
+                        <AvatarImage
+                          src={member?.image ?? "/placeholder.svg"}
+                          alt={member.name}
+                        />
+                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-medium leading-none">
+                          {member.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {member.email}
+                        </p>
+                      </div>
+                    </div>
+                    {selectedMembers.some((m) => m.id === member.id) && (
+                      <CheckCircle2 className="h-5 w-5 text-primary" />
+                    )}
+                  </div>
+                ))}
+              </ScrollArea>
+            </div>
+            <Button
+              onClick={sendInvitations}
+              className="w-full"
+              disabled={selectedMembers.length === 0 || loading}
+            >
+              {loading ? (
+                <div className="w-full flex items-center justify-center">
+                  <Loader className="w-4 h-4 animate-spin mr-2" />
+                  กำลังดำเนินการ...
+                </div>
+              ) : (
+                ` ยืนยันการเชิญ(${selectedMembers.length})`
+              )}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

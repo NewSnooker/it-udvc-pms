@@ -120,7 +120,6 @@ Table Project {
   clientId String [not null]
   user User [not null]
   userId String [not null]
-  members Member [not null]
   modules Module [not null]
   invoices Invoice [not null]
   payments Payment [not null]
@@ -135,7 +134,7 @@ Table ProjectComment {
   projectId String [not null]
   project Project [not null]
   userName String [not null]
-  userRole UserRole [not null]
+  userRole String [not null]
   user User [not null]
   userId String [not null]
   content String [not null]
@@ -174,17 +173,6 @@ Table Task {
   status TaskStatus [not null, default: 'TODO']
   module Module [not null]
   moduleId String [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-}
-
-Table Member {
-  id String [pk]
-  name String [not null]
-  email String [not null]
-  role UserRole [not null]
-  project Project [not null]
-  projectId String [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
 }
@@ -301,8 +289,6 @@ Ref: Module.projectId > Project.id [delete: Cascade]
 Ref: Module.userId > User.id
 
 Ref: Task.moduleId > Module.id [delete: Cascade]
-
-Ref: Member.projectId > Project.id
 
 Ref: Invoice.projectId > Project.id [delete: Cascade]
 

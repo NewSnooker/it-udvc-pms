@@ -15,17 +15,7 @@ import moment from "moment";
 import "moment/locale/th";
 moment.locale("th");
 import parse from "html-react-parser";
-import {
-  CalendarDays,
-  Banknote,
-  Edit,
-  Users,
-  ArrowLeft,
-  X,
-  LogOut,
-  Eye,
-} from "lucide-react";
-
+import { CalendarDays, Banknote, Edit, Users, X, Eye } from "lucide-react";
 import Link from "next/link";
 import { ExistingUsers, ProjectData } from "@/types/types";
 import DescriptionForm from "@/components/Forms/DescriptionForm";
@@ -40,13 +30,13 @@ import BudgetProgressBar from "./BudgetProgressBar";
 import CommentForm from "@/components/Forms/CommentForm";
 import { getInitials } from "@/lib/generateInitials";
 import ModuleForm from "@/components/Forms/ModuleForm";
-import InviteClient from "../DataTableColumns/InviteClient";
-import { UserRole } from "@prisma/client";
-import LogoutBtn from "../global/LogoutBtn";
 import InviteMembers from "./InviteMembers";
 import ProjectDomainsCard from "./ProjectDomainsCard";
 import PaymentDeleteButton from "./PaymentDeleteButton";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
+import PublicProjectBanner from "./PublicProjectBanner";
+import CardUserDetail from "./CardUserDetail";
+import PublicProjectDomainsCard from "./PublicProjectDomainsCard";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -59,10 +49,6 @@ export default function ProjectDetailsPage({
 }) {
   const searchParams = useSearchParams();
   const user = session?.user;
-  let role = user?.role;
-  // if (user.id !== projectData.user?.id) {
-  //   role = UserRole.MEMBER;
-  // }
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [daysDifference, setDaysDifference] = useState(0);
@@ -76,16 +62,66 @@ export default function ProjectDetailsPage({
     }
   }, [searchParams]); // ใช้ searchParams ใน dependency array เพื่อให้ตรวจสอบทุกครั้งที่ URL เปลี่ยน
 
+  useEffect(() => {
+    if (projectData.endDate) {
+      setDaysDifference(calculateDaysDifference(projectData.endDate));
+    }
+    const interval = setInterval(() => {
+      if (projectData.endDate) {
+        setDaysDifference(calculateDaysDifference(projectData.endDate));
+      }
+    }, 24 * 60 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [projectData.endDate]);
+
   const tabs = [
     { value: "modules", label: "ฟังค์ชั่นโครงการ" },
     { value: "notes", label: "โน๊ต" },
-    { value: "comments", label: "คอมเมนต์" },
+    { value: "comments", label: "แสดงความคิดเห็น" },
     {
       value: "invoicesAndPayments",
       label: "การชำระเงิน",
       mobileLabel: "และใบแจ้งหนี้",
     },
   ];
+
+  const isGuest = projectData.guestProject
+    ?.map((gp) => gp.guestId)
+    .includes(user.id);
+  const isOwner = projectData.user?.id === user.id;
+  const isClient = projectData.clientId === user.id;
+  const showLogUserRole = isOwner
+    ? "isOwner"
+    : isClient
+    ? "isClient"
+    : isGuest
+    ? "isGuest"
+    : "ผู้ไม่เกี่ยวข้อง";
+
+  console.log("User Information:", {
+    id: user.id,
+    name: user.name,
+    role: showLogUserRole,
+  });
+
+  const getUserRoleLabel = (role: string) => {
+    switch (role) {
+      case "isOwner":
+        return "(ผู้ดูแลโครงการ)";
+      case "isClient":
+        return "(ลูกค้า)";
+      case "isGuest":
+        return "(สมาชิกโครงการ)";
+      default:
+        return "(ผู้ไม่เกี่ยวข้อง)";
+    }
+  };
+
+  const userRoleLabel = getUserRoleLabel(showLogUserRole);
+  if (!isGuest && !isOwner && !isClient) {
+    return notFound();
+  }
+
   const paidAmount = projectData.payments.reduce((acc, item) => {
     return acc + item.amount;
   }, 0);
@@ -122,18 +158,6 @@ export default function ProjectDetailsPage({
     event.stopPropagation();
   };
 
-  useEffect(() => {
-    if (projectData.endDate) {
-      setDaysDifference(calculateDaysDifference(projectData.endDate));
-    }
-    const interval = setInterval(() => {
-      if (projectData.endDate) {
-        setDaysDifference(calculateDaysDifference(projectData.endDate));
-      }
-    }, 24 * 60 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, [projectData.endDate]);
-
   return (
     <div className=" bg-zinc-100 dark:bg-zinc-950">
       <div className="container mx-auto pt-4 pb-10 space-y-6">
@@ -167,12 +191,22 @@ export default function ProjectDetailsPage({
           </div>
         </div>
         {/* Banner */}
-        <ProjectBanner
-          editingId={projectData.id}
-          banner={projectData.bannerImage}
-          name={projectData.name}
-          bg={projectData.gradient}
-        />
+        {isOwner && (
+          <ProjectBanner
+            editingId={projectData.id}
+            banner={projectData.bannerImage}
+            name={projectData.name}
+            bg={projectData.gradient}
+          />
+        )}
+
+        {(isClient || isGuest) && (
+          <PublicProjectBanner
+            banner={projectData.bannerImage}
+            name={projectData.name}
+            bg={projectData.gradient}
+          />
+        )}
         {/* Project Overview */}
         <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
           <div className="md:col-span-4 space-y-4">
@@ -185,10 +219,14 @@ export default function ProjectDetailsPage({
                   variant="ghost"
                   size="icon"
                 >
-                  {!isEditingDesc ? (
-                    <Edit className="h-4 w-4" />
-                  ) : (
-                    <X className="h-4 w-4" />
+                  {isOwner && (
+                    <>
+                      {!isEditingDesc ? (
+                        <Edit className="h-4 w-4" />
+                      ) : (
+                        <X className="h-4 w-4" />
+                      )}
+                    </>
                   )}
                 </Button>
               </CardHeader>
@@ -237,13 +275,15 @@ export default function ProjectDetailsPage({
                   <CardHeader>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
                       <CardTitle className="mb-3 sm:mb-0">
-                        ฟังก์ชั่นโครงการ{" "}
+                        ฟีเจอร์โครงการ{" "}
                       </CardTitle>
-                      <ModuleForm
-                        projectId={projectData.id}
-                        userId={user.id}
-                        userName={user.name}
-                      />
+                      {isOwner && (
+                        <ModuleForm
+                          projectId={projectData.id}
+                          userId={user.id}
+                          userName={user.name}
+                        />
+                      )}
                     </div>
                   </CardHeader>
 
@@ -262,13 +302,15 @@ export default function ProjectDetailsPage({
                                   className="sm:opacity-0 group-hover:sm:opacity-100 transition-all"
                                   onClick={(event) => handleFormClick(event)}
                                 >
-                                  <ModuleForm
-                                    projectId={projectData.id}
-                                    userId={user.id}
-                                    userName={user.name}
-                                    initialModule={module.name}
-                                    editingId={module.id}
-                                  />
+                                  {isOwner && (
+                                    <ModuleForm
+                                      projectId={projectData.id}
+                                      userId={user.id}
+                                      userName={user.name}
+                                      initialModule={module.name}
+                                      editingId={module.id}
+                                    />
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -284,7 +326,7 @@ export default function ProjectDetailsPage({
                             className="h-24 w-24  object-cover "
                           />
                           <p className="text-lg text-muted-foreground mt-4 mb-6">
-                            ไม่พบฟังก์ชั่นโครงการ
+                            ไม่พบฟีเจอร์โครงการ
                           </p>
                         </div>
                       )}
@@ -302,10 +344,14 @@ export default function ProjectDetailsPage({
                       variant="ghost"
                       size="icon"
                     >
-                      {!isEditingNotes ? (
-                        <Edit className="h-4 w-4" />
-                      ) : (
-                        <X className="h-4 w-4" />
+                      {isOwner && (
+                        <>
+                          {!isEditingNotes ? (
+                            <Edit className="h-4 w-4" />
+                          ) : (
+                            <X className="h-4 w-4" />
+                          )}
+                        </>
                       )}
                     </Button>
                   </CardHeader>
@@ -368,40 +414,50 @@ export default function ProjectDetailsPage({
                 <Card className="sm:min-h-96">
                   <CardHeader>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
-                      <CardTitle className="mb-3 sm:mb-0">คอมเมนต์ </CardTitle>
-                      <CommentForm
-                        projectId={projectData.id}
-                        userId={user.id}
-                        userName={user.name}
-                        userRole={user.role}
-                      />
+                      <CardTitle className="mb-3 sm:mb-0">
+                        แสดงความคิดเห็น{" "}
+                      </CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
                     {projectData.comments?.length > 0 ? (
                       projectData.comments?.map((comment, index) => (
                         <div
-                          className="flex flex-col items-start py-2 w-full"
+                          className="flex flex-col items-start py-2 w-full border-b "
                           key={index}
                         >
                           <div className="flex items-center gap-2 w-full">
-                            <Avatar>
+                            <Avatar className="h-10 w-10 ">
+                              <AvatarImage
+                                src={
+                                  existingUsers.find(
+                                    (user) => user.id === comment.userId
+                                  )?.image ?? "./thumbnail.png"
+                                }
+                                alt="Space Corp"
+                              />
                               <AvatarFallback>
                                 {getInitials(comment.userName)}
                               </AvatarFallback>
                             </Avatar>
+
                             <div className="flex justify-between items-center w-full">
                               <p className="font-semibold text-sm sm:text-base">
-                                {comment.userName}
+                                {comment.userName}{" "}
+                                {comment.userId === user.id
+                                  ? "(ฉัน)"
+                                  : comment.userRole}
                               </p>
-                              <CommentForm
-                                projectId={projectData.id}
-                                userId={user.id}
-                                userName={user.name}
-                                userRole={user.role}
-                                editingId={comment.id}
-                                initialContent={comment.content}
-                              />
+                              {comment.userId === user.id && (
+                                <CommentForm
+                                  projectId={projectData.id}
+                                  userId={user.id}
+                                  userName={user.name}
+                                  userRole={userRoleLabel}
+                                  editingId={comment.id}
+                                  initialContent={comment.content}
+                                />
+                              )}
                             </div>
                           </div>
                           <div className="prose dark:prose-invert w-full m-0 sm:ml-12">
@@ -422,11 +478,19 @@ export default function ProjectDetailsPage({
                             className="h-24 w-24 object-cover "
                           />
                           <p className="text-lg text-muted-foreground mt-4 mb-6">
-                            ไม่พบคอมเมนต์
+                            ไม่พบความคิดเห็น
                           </p>
                         </div>
                       </div>
                     )}
+                    <div className="mt-3 w-full">
+                      <CommentForm
+                        projectId={projectData.id}
+                        userId={user.id}
+                        userName={user.name}
+                        userRole={user.role}
+                      />
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -438,7 +502,7 @@ export default function ProjectDetailsPage({
                       <CardTitle className="mb-3 sm:mb-0">
                         การชำระเงินและใบแจ้งหนี้{" "}
                       </CardTitle>
-                      {role === UserRole.USER && (
+                      {isOwner && (
                         <PaymentForm
                           projectId={projectData.id}
                           userId={projectData.userId ?? ""}
@@ -473,12 +537,14 @@ export default function ProjectDetailsPage({
                                   <div className="line-clamp-1">
                                     {payment.title}{" "}
                                   </div>
-                                  <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
+                                  <Badge className="bg-green-200 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
                                     ฿{payment.amount.toLocaleString()}
                                   </Badge>
                                 </div>
                                 {/* Delete Button */}
-                                <PaymentDeleteButton paymentId={payment.id} />
+                                {isOwner && (
+                                  <PaymentDeleteButton paymentId={payment.id} />
+                                )}
                               </Card>
                             </div>
                           ))
@@ -523,7 +589,7 @@ export default function ProjectDetailsPage({
                                   <div className="line-clamp-1 hidden sm:flex">
                                     {invoice.title}{" "}
                                   </div>
-                                  <Badge className="bg-green-400 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
+                                  <Badge className="bg-green-200 dark:bg-green-500 text-zinc-900 hover:bg-green-300 dark:hover:bg-green-400">
                                     ฿{invoice.amount.toLocaleString()}
                                   </Badge>
                                 </div>
@@ -591,7 +657,7 @@ export default function ProjectDetailsPage({
                   </div>
                 </div>
 
-                <div className="space-y-1 border-b pb-4">
+                <div className={`space-y-1 pb-4 ${isClient ? "" : "border-b"}`}>
                   <div className="flex items-center space-x-2">
                     <CalendarDays className="h-5 w-5 text-blue-400" />
                     <span className="font-medium">ช่วงเวลา:</span>
@@ -617,7 +683,8 @@ export default function ProjectDetailsPage({
                     </div>
                   </div>
                 </div>
-                {role === UserRole.USER && (
+
+                {(isOwner || isGuest) && (
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2 mb-2 sm:mb-0">
                       <Users className="h-5 w-5 text-purple-400" />
@@ -629,6 +696,7 @@ export default function ProjectDetailsPage({
                           existingUsers={existingUsers.filter(
                             (member) => member.id !== user.id
                           )}
+                          isGuest={isGuest}
                           projectData={projectData}
                         />
                       </div>
@@ -637,102 +705,40 @@ export default function ProjectDetailsPage({
                 )}
               </CardContent>
             </Card>
+            {/* Owner Details */}
+            {(isGuest || isClient) && (
+              <CardUserDetail
+                title="ผู้ดูแลโครงการ"
+                isInviteClient={false}
+                user={projectData?.user}
+                projectData={projectData}
+              />
+            )}
             {/* Client Details */}
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  รายละเอียด{role === UserRole.CLIENT ? "ผู้ดูแล" : "ลูกค้า"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center space-x-4 mb-2 sm:mb-4  ">
-                  {role === UserRole.USER ? (
-                    <Avatar className="h-10 w-10 ">
-                      <AvatarImage
-                        src={projectData?.client?.image ?? "/placeholder.svg"}
-                        alt="Space Corp"
-                      />
-                      <AvatarFallback>
-                        {projectData?.client?.name
-                          .substring(0, 2)
-                          .toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  ) : (
-                    <Avatar className="h-10 w-10 ">
-                      <AvatarImage
-                        src={projectData?.user?.image ?? "/placeholder.svg"}
-                        alt="Space Corp"
-                      />
-                      <AvatarFallback>
-                        {projectData?.user?.name.substring(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  )}
-                  {role === UserRole.USER ? (
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
-                      <div>
-                        <p className="font-semibold">
-                          {projectData?.client?.name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          บริษัท{" "}
-                          {projectData?.client?.companyName || "ยังไม่ได้ระบุ"}
-                        </p>
-                      </div>
-                      <div className="">
-                        <InviteClient row={projectData} />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full">
-                      <div>
-                        <p className="font-semibold">
-                          {projectData?.user?.name || "ยังไม่ได้ระบุ"}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          บริษัท{" "}
-                          {projectData?.user?.companyName || "ยังไม่ได้ระบุ"}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                {role === UserRole.USER ? (
-                  <div className="space-y-1">
-                    <p>
-                      <strong>อีเมล: </strong>
-                      {projectData?.client?.email}
-                    </p>
-                    <p>
-                      <strong>เบอร์โทร: </strong>
-                      {projectData?.client?.phone}
-                    </p>
-                    <p>
-                      <strong>ที่อยู่: </strong>
-                      {projectData?.client?.location}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-1">
-                    <p>
-                      <strong>อีเมล: </strong>
-                      {projectData?.user?.email}
-                    </p>
-                    <p>
-                      <strong>เบอร์โทร: </strong>
-                      {projectData?.user?.phone}
-                    </p>
-                    <p>
-                      <strong>ที่อยู่: </strong>
-                      {projectData?.user?.location}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+
+            {isGuest && (
+              <CardUserDetail
+                title="รายละเอียดลูกค้า"
+                isInviteClient={false}
+                user={projectData?.client}
+                projectData={projectData}
+              />
+            )}
+
+            {isOwner && (
+              <CardUserDetail
+                title="รายละเอียดลูกค้า"
+                isInviteClient={true}
+                user={projectData?.client}
+                projectData={projectData}
+              />
+            )}
+
             {/* Domains Card */}
-            <ProjectDomainsCard projectData={projectData} />
+            {isOwner && <ProjectDomainsCard projectData={projectData} />}
+            {(isGuest || isClient) && (
+              <PublicProjectDomainsCard projectData={projectData} />
+            )}
           </div>
         </div>
       </div>

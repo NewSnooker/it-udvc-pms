@@ -18,7 +18,7 @@ export default function ProjectDomainsCard({
   return (
     <Card className="w-full mx-auto">
       <CardHeader>
-        <CardTitle className="text-base sm:text-lg">โดเมนโครงการ</CardTitle>
+        <CardTitle>โดเมนโครงการ</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
