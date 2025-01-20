@@ -7,9 +7,6 @@ import React from "react";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/constants";
 import { ExistingUsers } from "@/types/types";
-import ProjectDetailsOwnerPage from "@/components/projects/ProjectDetailsOwnerPage";
-import ProjectDetailsGuestPage from "@/components/projects/ProjectDetailsGuestPage";
-import ProjectDetailsClientPage from "@/components/projects/ProjectDetailsClientPage";
 import ProjectDetailsPage from "@/components/projects/ProjectDetailsPage";
 
 export async function generateMetadata({
