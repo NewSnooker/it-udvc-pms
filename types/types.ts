@@ -154,7 +154,7 @@ export type ProjectComment = {
   content: string;
   projectId: string;
   userName: string;
-  userRole: UserRole;
+  userRole: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;

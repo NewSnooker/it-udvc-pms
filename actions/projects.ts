@@ -4,6 +4,7 @@ import { db } from "@/prisma/db";
 import { ProjectData, ProjectProps, ProjectWithPayments } from "@/types/types";
 import { revalidatePath } from "next/cache";
 import { createProjectFolderAtomatically } from "./fileManager";
+import { UserRole } from "@prisma/client";
 
 export async function createProject(data: ProjectProps) {
   const slug = data.slug;
@@ -258,7 +259,7 @@ export async function getProjectDetailBySlug(
     const client = await db.user.findFirst({
       where: {
         id: project.clientId,
-        role: "CLIENT",
+        role: UserRole.CLIENT,
       },
       select: {
         id: true,
