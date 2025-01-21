@@ -35,10 +35,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TaskStatus } from "@prisma/client";
 import { createTask, deleteTask, updateTaskById } from "@/actions/tasks";
+import TextArea from "../FormInputs/TextAreaInput";
 
 export default function TaskForm({
   moduleId,
   initialTitle,
+  initialDetail,
   initialStatus,
   editingId,
   isDefault,
@@ -46,6 +48,7 @@ export default function TaskForm({
 }: {
   moduleId: string;
   initialTitle?: string;
+  initialDetail?: string;
   initialStatus: TaskStatus;
   editingId?: string;
   isDefault?: boolean;
@@ -59,6 +62,7 @@ export default function TaskForm({
   } = useForm<TasksProps>({
     defaultValues: {
       title: initialTitle || "",
+      detail: initialDetail || "",
     },
   });
   const router = useRouter();
@@ -145,10 +149,17 @@ export default function TaskForm({
             <TextInput
               register={register}
               errors={errors}
-              label=""
+              label="ชื่องาน"
               placeholder="กรอกชื่องาน"
               name="title"
               icon={Package}
+            />
+            <TextArea
+              register={register}
+              errors={errors}
+              label="รายละเอียด"
+              placeholder="กรอกรายละเอียด"
+              name="detail"
             />
           </div>
 

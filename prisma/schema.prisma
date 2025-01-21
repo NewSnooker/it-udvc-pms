@@ -181,6 +181,7 @@ model GuestProject {
 model Module {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
+  detail    String
   userName  String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String   @db.ObjectId
@@ -200,6 +201,7 @@ enum TaskStatus {
 model Task {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   title     String
+  detail    String
   status    TaskStatus @default(TODO)
   module    Module     @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   moduleId  String     @db.ObjectId

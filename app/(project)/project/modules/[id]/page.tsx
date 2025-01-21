@@ -14,7 +14,7 @@ import TaskBoard from "@/components/projects/modules/TaskBoard";
 import { getProjectAndGuestByModuleId } from "@/actions/guestProject";
 import { Card } from "@/components/ui/card";
 export const metadata = {
-  title: "ฟังชั่นโครงการ",
+  title: "ฟีเจอร์โครงการ",
 };
 export default async function Page({
   params: { id },

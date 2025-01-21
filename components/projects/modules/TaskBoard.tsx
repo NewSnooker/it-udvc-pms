@@ -141,19 +141,30 @@ export default function TaskBoard({
 
   return (
     <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="text-xl sm:text-3xl text-center sm:text-left font-bold ">
-        {`${activeModule.name} (${
-          (activeModule.tasks && activeModule.tasks.length) || 0
-        })`}
+      <div className="sm:px-2 sm:gap-2">
+        <div className="text-xl sm:text-3xl text-center sm:text-left font-bold ">
+          {`${activeModule.name} (${
+            (activeModule.tasks && activeModule.tasks.length) || 0
+          })`}
+        </div>
+
+        <div className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
+          {`แสดงสถานะการทำงานของฟีเจอร์นี้`}{" "}
+          {(isOwner || isGuest) && (
+            <span className="hidden sm:inline">
+              {`สามารถลากและวางเพื่อเปลี่ยนสถานะการทำงาน และคลิกเพื่อดูรายละเอียดของงาน`}
+            </span>
+          )}
+        </div>
+        <div className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
+          {(isOwner || isGuest) && (
+            <div className="">
+              <span className="font-bold">รายละเอียดฟีเจอร์ :</span>{" "}
+              <span className="">{activeModule.detail}</span>
+            </div>
+          )}
+        </div>
       </div>
-      <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
-        {`แสดงสถานะการทำงานของ ${activeModule.name}`}{" "}
-        {(isOwner || isGuest) && (
-          <span className="hidden sm:inline">
-            {`สามารถลากและวางเพื่อเปลี่ยนสถานะการทำงาน`}
-          </span>
-        )}
-      </p>
       <div className="w-full flex flex-col sm:flex-row items-center my-1 sm:my2 ">
         <div className="flex items-center w-full">
           <Progress value={percentageCompletion} />

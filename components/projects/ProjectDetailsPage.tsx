@@ -315,7 +315,7 @@ export default function ProjectDetailsPage({
                                       projectId={projectData.id}
                                       userId={user.id}
                                       userName={user.name}
-                                      initialModule={module.name}
+                                      initialModule={module}
                                       editingId={module.id}
                                     />
                                   )}

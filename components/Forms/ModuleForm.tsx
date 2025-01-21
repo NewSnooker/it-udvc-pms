@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { ModuleProps } from "@/types/types";
+import { Module, ModuleProps } from "@/types/types";
 import TextInput from "../FormInputs/TextInput";
 import {
   Dialog,
@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import TextArea from "../FormInputs/TextAreaInput";
 
 export default function ModuleForm({
   projectId,
@@ -39,7 +40,7 @@ export default function ModuleForm({
   projectId: string;
   userId: string;
   userName: string;
-  initialModule?: string;
+  initialModule?: Module;
   editingId?: string;
 }) {
   const {
@@ -49,7 +50,8 @@ export default function ModuleForm({
     formState: { errors },
   } = useForm<ModuleProps>({
     defaultValues: {
-      name: initialModule || "",
+      name: initialModule?.name || "",
+      detail: initialModule?.detail || "",
     },
   });
   const router = useRouter();
@@ -114,7 +116,7 @@ export default function ModuleForm({
         <DialogHeader>
           <DialogTitle>
             {editingId
-              ? `แก้ไขฟังก์ชั่น: ${initialModule}`
+              ? `แก้ไขฟังก์ชั่น: ${initialModule?.name}`
               : "เพิ่มฟีเจอร์โครงการ"}
           </DialogTitle>
         </DialogHeader>
@@ -123,10 +125,17 @@ export default function ModuleForm({
             <TextInput
               register={register}
               errors={errors}
-              label=""
+              label="ชื่อ"
               placeholder="กรอกชื่อฟีเจอร์โครงการ"
               name="name"
               icon={Package}
+            />
+            <TextArea
+              register={register}
+              errors={errors}
+              label="รายละเอียด"
+              placeholder="กรอกรายละเอียดฟีเจอร์โครงการ"
+              name="detail"
             />
           </div>
 

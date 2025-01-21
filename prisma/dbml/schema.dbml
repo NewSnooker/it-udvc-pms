@@ -157,6 +157,7 @@ Table GuestProject {
 Table Module {
   id String [pk]
   name String [not null]
+  detail String [not null]
   userName String [not null]
   project Project [not null]
   projectId String [not null]
@@ -170,6 +171,7 @@ Table Module {
 Table Task {
   id String [pk]
   title String [not null]
+  detail String [not null]
   status TaskStatus [not null, default: 'TODO']
   module Module [not null]
   moduleId String [not null]

@@ -116,6 +116,7 @@ export type ProjectData = {
 export type ModuleData = {
   id: string;
   name: string;
+  detail: string;
   userName: string;
   projectId: string;
   userId: string | undefined | null;
@@ -127,6 +128,7 @@ export type ModuleData = {
 export type Task = {
   id: string;
   title: string;
+  detail: string;
   status: TaskStatus;
   moduleId: string;
   createdAt: Date;
@@ -135,17 +137,20 @@ export type Task = {
 export type Module = {
   id: string;
   name: string;
+  detail: string;
   projectId: string;
   createdAt: Date;
   updatedAt: Date;
 };
 export type TasksProps = {
   title: string;
+  detail: string;
   status: TaskStatus;
   moduleId: string;
 };
 export type ModuleProps = {
   name: string;
+  detail: string;
   userName: string;
   projectId: string;
   userId: string;
