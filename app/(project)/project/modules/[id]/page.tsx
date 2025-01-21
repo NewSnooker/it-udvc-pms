@@ -9,10 +9,12 @@ import { ArrowLeft, Circle, CircleDashed } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { TaskStatus } from "@prisma/client";
+import { Task, TaskStatus } from "@prisma/client";
 import TaskBoard from "@/components/projects/modules/TaskBoard";
 import { getProjectAndGuestByModuleId } from "@/actions/guestProject";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
 export const metadata = {
   title: "ฟีเจอร์โครงการ",
 };
@@ -88,30 +90,66 @@ export default async function Page({
                   ฟีเจอร์โครงการ
                 </div>
                 {modules?.length > 0 ? (
-                  modules.map((module: Module) => (
-                    <div key={module.id} className="ease-in-out mb-1">
-                      <Link
-                        href={`/project/modules/${module.id}?pid=${searchParams.pid}`}
-                      >
-                        <Card
-                          className={`w-full px-2 sm:px-3 flex items-center justify-start sm:h-11 ${
-                            module.id === id
-                              ? "bg-zinc-800 dark:bg-zinc-800 text-white dark:text-zinc-200"
-                              : ""
-                          }`}
+                  modules.map((module: Module) => {
+                    // คำนวณเปอร์เซ็นต์สำหรับแต่ละ module
+                    const modulePercentage = calculatePercentageCompletion(
+                      module.tasks ?? []
+                    );
+
+                    return (
+                      <div key={module.id} className="ease-in-out mb-1">
+                        <Link
+                          href={`/project/modules/${module.id}?pid=${searchParams.pid}`}
                         >
-                          {module.id === id ? (
-                            <Circle className="mr-1.5 sm:mr-2 h-4 w-4" />
-                          ) : (
-                            <CircleDashed className="mr-1.5 sm:mr-2 h-4 w-4" />
-                          )}
-                          <span className="text-sm sm:text-base line-clamp-1">
-                            {module.name}
-                          </span>
-                        </Card>
-                      </Link>
-                    </div>
-                  ))
+                          <Card
+                            className={`w-full flex items-center gap-2 p-2 sm:px-3  ${
+                              module.id === id
+                                ? "bg-zinc-800 dark:bg-zinc-800 text-white dark:text-zinc-200"
+                                : ""
+                            }`}
+                          >
+                            <div className="">
+                              {module.id === id ? (
+                                <Circle className=" h-4 w-4" />
+                              ) : (
+                                <CircleDashed className="h-4 w-4" />
+                              )}
+                            </div>
+                            <div className="flex flex-col w-full">
+                              <span className={`line-clamp-1 text-xs`}>
+                                {module.name}
+                              </span>
+                              {/* <span
+                                className={`line-clamp-1 text-xs
+                                  ${
+                                    module.id === id
+                                      ? "text-sm font-bold my-1.5"
+                                      : ""
+                                  }
+                                `}
+                              >
+                                {module.name}
+                              </span> */}
+                              {/* {module.id !== id && ( */}
+                              <div className="w-full flex flex-col sm:flex-row items-center ">
+                                <div className="flex items-center w-full">
+                                  <Progress value={modulePercentage} />
+                                  <span
+                                    className={`ml-2 text-xs text-muted-foreground ${
+                                      module.id === id
+                                        ? "text-white dark:text-zinc-200"
+                                        : ""
+                                    }`}
+                                  >{`${modulePercentage}%`}</span>
+                                </div>
+                              </div>
+                              {/* )} */}
+                            </div>
+                          </Card>
+                        </Link>
+                      </div>
+                    );
+                  })
                 ) : (
                   <div>ไม่พบฟีเจอร์โครงการ</div>
                 )}

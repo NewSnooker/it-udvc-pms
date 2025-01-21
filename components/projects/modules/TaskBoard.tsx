@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
 import { MailIcon } from "lucide-react";
+import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
 interface TaskBoardProps {
   activeModule: ModuleData;
   status: Array<{ title: string; status: TaskStatus }>;
@@ -34,17 +35,6 @@ export default function TaskBoard({
     null
   );
   const { toast } = useToast();
-  function calculatePercentageCompletion(tasks: Task[]): number {
-    const allTasks = tasks.length;
-    const completedTasks = tasks.filter(
-      (task) => task.status === TaskStatus.COMPLETE
-    ).length;
-    return allTasks === 0 ? 0 : Math.round((completedTasks / allTasks) * 100);
-  }
-
-  const percentageCompletion = calculatePercentageCompletion(
-    module.tasks ?? []
-  );
 
   // เก็บค่าเปอร์เซ็นต์ครั้งแรกที่โหลด
   useEffect(() => {
@@ -97,6 +87,10 @@ export default function TaskBoard({
       }
     }
   };
+
+  const percentageCompletion = calculatePercentageCompletion(
+    activeModule.tasks ?? []
+  );
 
   useEffect(() => {
     setModule(activeModule);

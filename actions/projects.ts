@@ -243,7 +243,11 @@ export async function getProjectDetailBySlug(
     const project = await db.project.findUnique({
       where: { slug },
       include: {
-        modules: true,
+        modules: {
+          include: {
+            tasks: true,
+          },
+        },
         invoices: true,
         comments: true,
         payments: true,

@@ -138,6 +138,7 @@ export type Module = {
   id: string;
   name: string;
   detail: string;
+  tasks: Task[];
   projectId: string;
   createdAt: Date;
   updatedAt: Date;

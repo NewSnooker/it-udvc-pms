@@ -45,6 +45,9 @@ import { notFound, useSearchParams } from "next/navigation";
 import PublicProjectBanner from "./PublicProjectBanner";
 import CardUserDetail from "./CardUserDetail";
 import PublicProjectDomainsCard from "./PublicProjectDomainsCard";
+import { Task, TaskStatus } from "@prisma/client";
+import { Progress } from "../ui/progress";
+import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
 
 export default function ProjectDetailsPage({
   projectData,
@@ -298,49 +301,65 @@ export default function ProjectDetailsPage({
                   <div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-6 pb-6 w-full ">
                       {projectData.modules.length > 0 ? (
-                        projectData.modules.map((module, index) => (
-                          <Link
-                            href={`/project/modules/${module.id}?pid=${module.projectId}`}
-                            key={index}
-                          >
-                            <div className="h-fit group transition-all ease-in-out">
-                              <div className="text-sm w-full flex items-center justify-between shadow-md bg-zinc-100 dark:bg-background dark:border dark:hover:border-none cursor-pointer px-4 pr-2 sm:px-6 sm:pr-4 py-4 rounded-lg hover:shadow-none">
-                                <span>{module.name}</span>
-                                <div
-                                  className="sm:opacity-0 group-hover:sm:opacity-100 transition-all"
-                                  onClick={(event) => handleFormClick(event)}
-                                >
-                                  {isOwner && (
-                                    <ModuleForm
-                                      projectId={projectData.id}
-                                      userId={user.id}
-                                      userName={user.name}
-                                      initialModule={module}
-                                      editingId={module.id}
-                                    />
-                                  )}
-                                  {(isGuest || isClient) && (
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className=" transition-all opacity-0 "
+                        projectData.modules.map((module, index) => {
+                          const percentageCompletion =
+                            calculatePercentageCompletion(module.tasks ?? []);
+                          return (
+                            <Link
+                              href={`/project/modules/${module.id}?pid=${module.projectId}`}
+                              key={index}
+                            >
+                              <div className="h-fit group transition-all ease-in-out">
+                                <div className="text-lg w-full shadow-md bg-zinc-100 dark:bg-background dark:border dark:hover:border-none cursor-pointer px-4 pr-2 sm:px-4.5 sm:pr-4 py-2.5 rounded-lg hover:shadow-none">
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-semibold line-clamp-1">
+                                      {module.name}
+                                    </span>
+                                    <div
+                                      className="sm:opacity-0 group-hover:sm:opacity-100 transition-all"
+                                      onClick={(event) =>
+                                        handleFormClick(event)
+                                      }
                                     >
-                                      <SquarePen className="h-4 w-4" />
-                                    </Button>
-                                  )}
+                                      {isOwner && (
+                                        <ModuleForm
+                                          projectId={projectData.id}
+                                          userId={user.id}
+                                          userName={user.name}
+                                          initialModule={module}
+                                          editingId={module.id}
+                                        />
+                                      )}
+                                      {(isGuest || isClient) && (
+                                        <Button
+                                          variant="ghost"
+                                          size="icon"
+                                          className="transition-all opacity-0"
+                                        >
+                                          <SquarePen className="h-4 w-4" />
+                                        </Button>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="w-full flex flex-col sm:flex-row items-center ">
+                                    <div className="flex items-center w-full">
+                                      <Progress value={percentageCompletion} />
+                                      <span className="ml-4 text-xs text-muted-foreground">{`${percentageCompletion}%`}</span>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        ))
+                            </Link>
+                          );
+                        })
                       ) : (
-                        <div className="w-full col-span-full flex flex-col items-center p-8 ">
+                        <div className="w-full col-span-full flex flex-col items-center p-8">
                           <Image
                             src={emptyFolder}
                             alt="empty"
                             height={224}
                             width={224}
-                            className="h-24 w-24  object-cover "
+                            className="h-24 w-24 object-cover"
                           />
                           <p className="text-lg text-muted-foreground mt-4 mb-6">
                             ไม่พบฟีเจอร์โครงการ
