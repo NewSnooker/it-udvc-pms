@@ -126,7 +126,13 @@ export default async function Page({
             </div>
           </div>
           <div className="lg:col-span-9 py-4 sm:py-8 px-4 sm:px-16 bg-zinc-50 dark:bg-zinc-950  ">
-            <TaskBoard activeModule={activeModule} status={status} />
+            <TaskBoard
+              activeModule={activeModule}
+              status={status}
+              isOwner={isOwner}
+              isGuest={isGuest}
+              isClient={isClient}
+            />
           </div>
         </div>
       </div>

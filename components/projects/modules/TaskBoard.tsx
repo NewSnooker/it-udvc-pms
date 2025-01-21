@@ -12,9 +12,18 @@ import Confetti, { ConfettiRef } from "@/components/ui/confetti";
 interface TaskBoardProps {
   activeModule: ModuleData;
   status: Array<{ title: string; status: TaskStatus }>;
+  isOwner: boolean;
+  isGuest: boolean;
+  isClient: boolean;
 }
 
-export default function TaskBoard({ activeModule, status }: TaskBoardProps) {
+export default function TaskBoard({
+  activeModule,
+  status,
+  isOwner,
+  isGuest,
+  isClient,
+}: TaskBoardProps) {
   const confettiRef = useRef<ConfettiRef>(null);
   const [module, setModule] = useState<ModuleData>(activeModule);
 
@@ -103,9 +112,11 @@ export default function TaskBoard({ activeModule, status }: TaskBoardProps) {
       </div>
       <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
         {`แสดงสถานะการทำงานของ ${activeModule.name}`}{" "}
-        <span className="hidden sm:inline">
-          {`สามารถลากและวางเพื่อเปลี่ยนสถานะการทำงาน`}
-        </span>
+        {(isOwner || isGuest) && (
+          <span className="hidden sm:inline">
+            {`สามารถลากและวางเพื่อเปลี่ยนสถานะการทำงาน`}
+          </span>
+        )}
       </p>
       <div className="w-full flex flex-col sm:flex-row items-center my-1 sm:my2 ">
         <div className="flex items-center w-full">
@@ -121,6 +132,9 @@ export default function TaskBoard({ activeModule, status }: TaskBoardProps) {
                 moduleId={activeModule.id}
                 tasks={module.tasks ?? []}
                 status={s}
+                isOwner={isOwner}
+                isGuest={isGuest}
+                isClient={isClient}
               />
             </div>
           ))}

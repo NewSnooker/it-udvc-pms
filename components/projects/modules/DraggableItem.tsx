@@ -3,20 +3,28 @@ import { Draggable } from "@hello-pangea/dnd";
 import TaskForm from "@/components/Forms/TaskForm";
 import { Task } from "@/types/types";
 import { TaskStatus } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import { EllipsisVertical } from "lucide-react";
 
 interface DraggableItemProps {
   task: Task;
   index: number;
   status: TaskStatus;
+  isOwner: boolean;
+  isGuest: boolean;
+  isClient: boolean;
 }
 
 export default memo(function DraggableItem({
   task,
   index,
   status,
+  isOwner,
+  isGuest,
+  isClient,
 }: DraggableItemProps) {
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable draggableId={task.id} index={index} isDragDisabled={isClient}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -41,12 +49,23 @@ export default memo(function DraggableItem({
             <span className="text-xs sm:text-sm font-medium line-clamp-1">
               {task.title}
             </span>
-            <TaskForm
-              moduleId={task.moduleId}
-              initialStatus={task.status}
-              initialTitle={task.title}
-              editingId={task.id}
-            />
+            {isOwner && (
+              <TaskForm
+                moduleId={task.moduleId}
+                initialStatus={task.status}
+                initialTitle={task.title}
+                editingId={task.id}
+              />
+            )}
+            {(isGuest || isClient) && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className=" transition-all opacity-0 "
+              >
+                <EllipsisVertical className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
       )}

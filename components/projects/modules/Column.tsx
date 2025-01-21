@@ -4,6 +4,8 @@ import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DraggableItem from "./DraggableItem";
+import { Button } from "@/components/ui/button";
+import { EllipsisVertical } from "lucide-react";
 
 interface ColumnProps {
   moduleId: string;
@@ -12,9 +14,19 @@ interface ColumnProps {
     title: string;
     status: TaskStatus;
   };
+  isOwner: boolean;
+  isGuest: boolean;
+  isClient: boolean;
 }
 
-export default function Column({ moduleId, tasks, status }: ColumnProps) {
+export default function Column({
+  moduleId,
+  tasks,
+  status,
+  isOwner,
+  isGuest,
+  isClient,
+}: ColumnProps) {
   return (
     <div
       className={`rounded-lg border shadow-inner  ${
@@ -44,11 +56,22 @@ export default function Column({ moduleId, tasks, status }: ColumnProps) {
             {tasks.filter((task) => task.status === status.status).length}
           </span>
         </div>
-        <TaskForm
-          moduleId={moduleId}
-          initialStatus={status.status}
-          titleStatus={status.title}
-        />
+        {isOwner && (
+          <TaskForm
+            moduleId={moduleId}
+            initialStatus={status.status}
+            titleStatus={status.title}
+          />
+        )}
+        {(isGuest || isClient) && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className=" transition-all opacity-0 "
+          >
+            <EllipsisVertical className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <div className="p-2 sm:p-3">
         <Droppable droppableId={status.status}>
@@ -66,6 +89,9 @@ export default function Column({ moduleId, tasks, status }: ColumnProps) {
                     task={task}
                     index={index}
                     status={status.status}
+                    isOwner={isOwner}
+                    isGuest={isGuest}
+                    isClient={isClient}
                   />
                 ))}
               {provided.placeholder}
