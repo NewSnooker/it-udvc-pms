@@ -15,7 +15,15 @@ import moment from "moment";
 import "moment/locale/th";
 moment.locale("th");
 import parse from "html-react-parser";
-import { CalendarDays, Banknote, Edit, Users, X, Eye } from "lucide-react";
+import {
+  CalendarDays,
+  Banknote,
+  Edit,
+  Users,
+  X,
+  Eye,
+  SquarePen,
+} from "lucide-react";
 import Link from "next/link";
 import { ExistingUsers, ProjectData } from "@/types/types";
 import DescriptionForm from "@/components/Forms/DescriptionForm";
@@ -310,6 +318,15 @@ export default function ProjectDetailsPage({
                                       initialModule={module.name}
                                       editingId={module.id}
                                     />
+                                  )}
+                                  {(isGuest || isClient) && (
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className=" transition-all opacity-0 "
+                                    >
+                                      <SquarePen className="h-4 w-4" />
+                                    </Button>
                                   )}
                                 </div>
                               </div>
