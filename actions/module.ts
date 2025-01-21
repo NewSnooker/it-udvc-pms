@@ -25,6 +25,7 @@ export async function getProjectModules(projectId: string | undefined) {
         },
         include: {
           tasks: true,
+          user: true,
         },
         orderBy: {
           createdAt: "asc",

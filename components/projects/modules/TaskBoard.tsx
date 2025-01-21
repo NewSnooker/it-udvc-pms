@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Howl } from "howler";
 import { ModuleData, Task } from "@/types/types";
@@ -8,7 +9,10 @@ import { Progress } from "@/components/ui/progress";
 import { DragDropContext, DropResult, DragStart } from "@hello-pangea/dnd";
 import { updateTaskStatus } from "@/actions/tasks";
 import Confetti, { ConfettiRef } from "@/components/ui/confetti";
-
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import Link from "next/link";
+import { MailIcon } from "lucide-react";
 interface TaskBoardProps {
   activeModule: ModuleData;
   status: Array<{ title: string; status: TaskStatus }>;
@@ -26,7 +30,10 @@ export default function TaskBoard({
 }: TaskBoardProps) {
   const confettiRef = useRef<ConfettiRef>(null);
   const [module, setModule] = useState<ModuleData>(activeModule);
-
+  const [initialCompletion, setInitialCompletion] = useState<number | null>(
+    null
+  );
+  const { toast } = useToast();
   function calculatePercentageCompletion(tasks: Task[]): number {
     const allTasks = tasks.length;
     const completedTasks = tasks.filter(
@@ -39,6 +46,13 @@ export default function TaskBoard({
     module.tasks ?? []
   );
 
+  // เก็บค่าเปอร์เซ็นต์ครั้งแรกที่โหลด
+  useEffect(() => {
+    if (initialCompletion === null) {
+      setInitialCompletion(percentageCompletion);
+    }
+  }, []);
+
   const handleDragStart = (initial: DragStart) => {
     // Optional: Add any drag start logic here
   };
@@ -46,10 +60,8 @@ export default function TaskBoard({
   const handleDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
-    // Drop outside the list
     if (!destination) return;
 
-    // Drop in the same position
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -91,7 +103,15 @@ export default function TaskBoard({
   }, [activeModule]);
 
   useEffect(() => {
-    if (percentageCompletion === 100) {
+    // เล่นเสียงเฉพาะเมื่อ:
+    // 1. มีค่า initialCompletion แล้ว (ไม่ใช่ null)
+    // 2. initialCompletion ไม่ใช่ 100%
+    // 3. percentageCompletion เพิ่งถึง 100%
+    if (
+      initialCompletion !== null &&
+      initialCompletion < 100 &&
+      percentageCompletion === 100
+    ) {
       const sound = new Howl({
         src: ["/success.mp3"],
         volume: 0.1,
@@ -100,8 +120,24 @@ export default function TaskBoard({
         },
       });
       sound.play();
+      if (isGuest) {
+        toast({
+          title: "งานเสร็จสิ้นหมดแล้ว✨🎊",
+          description: `งานของคุณเสร็จสิ้นหมดแล้วแล้ว\n (${activeModule.name}) \nคุณสามารถติดต่อกับเจ้าของโครงการของคุณได้ที่นี่`,
+          action: (
+            <ToastAction altText="ติดต่อ">
+              <MailIcon className="mr-1.5 h-4 w-4" />
+              <Link
+                href={`/dashboard/emails?mail=${activeModule.user?.email}&role=owner`}
+              >
+                ติดต่อ
+              </Link>{" "}
+            </ToastAction>
+          ),
+        });
+      }
     }
-  }, [percentageCompletion]);
+  }, [percentageCompletion, initialCompletion]);
 
   return (
     <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>

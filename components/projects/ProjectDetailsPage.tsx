@@ -222,12 +222,12 @@ export default function ProjectDetailsPage({
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>รายละเอียดโครงการ</CardTitle>
-                <Button
-                  onClick={() => setIsEditingDesc(!isEditingDesc)}
-                  variant="ghost"
-                  size="icon"
-                >
-                  {isOwner && (
+                {isOwner && (
+                  <Button
+                    onClick={() => setIsEditingDesc(!isEditingDesc)}
+                    variant="ghost"
+                    size="icon"
+                  >
                     <>
                       {!isEditingDesc ? (
                         <Edit className="h-4 w-4" />
@@ -235,8 +235,8 @@ export default function ProjectDetailsPage({
                         <X className="h-4 w-4" />
                       )}
                     </>
-                  )}
-                </Button>
+                  </Button>
+                )}
               </CardHeader>
               <CardContent>
                 {!isEditingDesc ? (
@@ -481,6 +481,9 @@ export default function ProjectDetailsPage({
                             {parse(
                               `<div className="max-w-full break-words my-0">${comment.content}</div>`
                             )}
+                            <p className="text-xs text-muted-foreground">
+                              {moment(comment.updatedAt).fromNow()}
+                            </p>
                           </div>
                         </div>
                       ))

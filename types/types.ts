@@ -119,6 +119,7 @@ export type ModuleData = {
   userName: string;
   projectId: string;
   userId: string | undefined | null;
+  user: User | null;
   tasks: Task[] | undefined | null;
   createdAt: Date;
   updatedAt: Date;
