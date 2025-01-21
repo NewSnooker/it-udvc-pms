@@ -8,18 +8,28 @@ import { ArrowLeft, Loader, Mail, PrinterIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InvoiceDetails } from "@/types/types";
 import { useReactToPrint } from "react-to-print";
-import { UserRole } from "@prisma/client";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { sendInvoiceLink } from "@/actions/emails";
 import toast from "react-hot-toast";
 moment.locale("th");
 export default function Invoice({
   invoiceDetails,
   project,
-  role,
+  isOwner,
 }: {
   invoiceDetails: InvoiceDetails;
   project: string;
-  role: string;
+  isOwner: boolean;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
@@ -48,24 +58,54 @@ export default function Invoice({
           </Button>
         </Link>
         <div className=" flex items-center justify-center sm:justify-end gap-x-2 w-full">
-          {role === UserRole.USER && (
-            <Button
-              disabled={loading}
-              variant="outline"
-              onClick={handleSendInvoice}
-            >
-              {loading ? (
-                <Loader className="w-4 h-4 animate-spin mr-2" />
-              ) : (
-                <Mail className="w-4 h-4 mr-2" />
-              )}
-
-              {loading ? "Sending..." : "Send to Client"}
-            </Button>
+          {isOwner && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                {loading ? (
+                  <Button size="sm" disabled>
+                    <Loader className="h-4 w-4 mr-1.5 animate-spin" />
+                    ส่งใบแจ้งหนี้...
+                  </Button>
+                ) : (
+                  <Button disabled={loading} variant={"outline"} size="sm">
+                    <Mail className="h-4 w-4 mr-1.5" />
+                    ส่งใบแจ้งหนี้
+                  </Button>
+                )}
+              </AlertDialogTrigger>
+              <AlertDialogContent className="py-10">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>คุณแน่ใจแล้วหรือไม่?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    ระบบจะส่งใบแจ้งหนี้ไปอีเมลยังลูกค้า{" "}
+                    {invoiceDetails?.client?.name}
+                    <Link
+                      href={`/dashboard/emails?mail=${invoiceDetails?.client?.email}&role=client`}
+                      className="font-medium underline text-blue-500"
+                    >
+                      {invoiceDetails?.client?.email}
+                    </Link>{" "}
+                    เพื่อให้ลูกค้าสามารถเข้ามาดูใบแจ้งหนี้ได้
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+                  <AlertDialogAction className="px-0">
+                    <Button
+                      className="w-full sm:w-auto"
+                      onClick={handleSendInvoice}
+                      disabled={loading}
+                    >
+                      ส่งใบแจ้งหนี้
+                    </Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
           <Button onClick={() => reactToPrintFn()}>
             <PrinterIcon className="w-4 h-4 mr-2" />
-            Print
+            พิมพ์
           </Button>
         </div>
       </div>

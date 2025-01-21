@@ -87,9 +87,9 @@ export default async function page({
 
   return (
     <Invoice
-      role={session.user.role as string}
       invoiceDetails={invoiceDetails}
       project={project as string}
+      isOwner={isOwner}
     />
   );
 }
