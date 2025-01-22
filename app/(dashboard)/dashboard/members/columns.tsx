@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GuestProjectUserProps } from "@/types/types";
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
-import { Send } from "lucide-react";
+import { Send, Trash } from "lucide-react";
+import AlertDialogMembersDelete from "@/components/dashboard/AlertDialogMembersDelete";
 
 export const columns: ColumnDef<GuestProjectUserProps>[] = [
   {
@@ -55,9 +56,16 @@ export const columns: ColumnDef<GuestProjectUserProps>[] = [
     },
   },
   {
+    accessorKey: "id",
+    header: "ลบสมาชิก",
+    cell: ({ row }) => {
+      const original = row.original;
+      return <AlertDialogMembersDelete id={original.id} />;
+    },
+  },
+  {
     accessorKey: "projectLink",
     header: "เพิ่มเติม",
-
     cell: ({ row }) => {
       const guestProject = row.original;
       return (

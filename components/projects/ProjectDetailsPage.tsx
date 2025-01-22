@@ -45,7 +45,6 @@ import { notFound, useSearchParams } from "next/navigation";
 import PublicProjectBanner from "./PublicProjectBanner";
 import CardUserDetail from "./CardUserDetail";
 import PublicProjectDomainsCard from "./PublicProjectDomainsCard";
-import { Task, TaskStatus } from "@prisma/client";
 import { Progress } from "../ui/progress";
 import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
 

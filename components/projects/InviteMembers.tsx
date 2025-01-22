@@ -120,7 +120,7 @@ export default function InviteMembers({
   };
 
   return (
-    <div className="flex flex-col-reverse sm:flex-row items-center sm:ml-7 gap-4">
+    <div className="flex flex-col-reverse sm:flex-row items-center justify-between sm:ml-7 gap-4">
       <div className="flex items-center">
         {resentMember.slice(0, 4).map((user, index) => (
           <Avatar

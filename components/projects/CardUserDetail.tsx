@@ -21,7 +21,7 @@ export default function CardUserDetail({
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full">
         <div className="flex items-center space-x-4 mb-2 sm:mb-4  ">
           <Avatar className="h-10 w-10 ">
             <AvatarImage
@@ -40,10 +40,13 @@ export default function CardUserDetail({
                 บริษัท {user?.companyName || "ยังไม่ได้ระบุ"}
               </p>
             </div>
-            {isInviteClient && <InviteClient row={projectData} />}
           </div>
+          {isInviteClient && (
+            <div className=" hidden sm:inline-block">
+              <InviteClient row={projectData} />
+            </div>
+          )}
         </div>
-
         <div className="space-y-1">
           <p>
             <strong>อีเมล: </strong>
@@ -58,6 +61,11 @@ export default function CardUserDetail({
             {user?.location}
           </p>
         </div>
+        {isInviteClient && (
+          <div className="w-full mt-2 sm:hidden">
+            <InviteClient row={projectData} />
+          </div>
+        )}
       </CardContent>
     </Card>
   );

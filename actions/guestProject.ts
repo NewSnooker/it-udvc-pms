@@ -246,3 +246,20 @@ export async function getProjectAndGuestByModuleId(id: string) {
     return null;
   }
 }
+export async function deleteGuestProject(id: string) {
+  try {
+    const deletedGuestProject = await db.guestProject.delete({
+      where: {
+        id,
+      },
+    });
+    revalidatePath("/dashboard/members");
+
+    return {
+      ok: true,
+      data: null,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}

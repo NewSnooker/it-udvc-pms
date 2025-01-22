@@ -48,12 +48,17 @@ export default function InviteClient({ row }: { row: any }) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         {isLoading ? (
-          <Button size="sm" disabled>
+          <Button size="sm" disabled className="w-full">
             <Loader className="h-4 w-4 mr-1.5 animate-spin" />
             ส่งคำเชิญ...
           </Button>
         ) : (
-          <Button disabled={isLoading} variant={"outline"} size="sm">
+          <Button
+            disabled={isLoading}
+            variant={"outline"}
+            size="sm"
+            className="w-full"
+          >
             <Mail className="h-4 w-4 mr-1.5" />
             ส่งคำเชิญ
           </Button>
