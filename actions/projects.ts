@@ -224,6 +224,27 @@ export async function updateProjectPublicityById(
     return { data: null, ok: false };
   }
 }
+export async function updateProjectSuccessStatusById(
+  id: string,
+  isSuccessStatus: boolean
+) {
+  try {
+    const updatedProject = await db.project.update({
+      where: {
+        id,
+      },
+      data: {
+        isSuccessStatus,
+      },
+    });
+    revalidatePath("/dashboard/projects");
+    revalidatePath("/portfolio/[slug]", "page");
+    return { data: updatedProject, ok: true };
+  } catch (error) {
+    console.log(error);
+    return { data: null, ok: false };
+  }
+}
 export async function getProjectById(id: string) {
   try {
     const project = await db.project.findUnique({

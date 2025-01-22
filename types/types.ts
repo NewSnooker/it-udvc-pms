@@ -112,6 +112,7 @@ export type ProjectData = {
   client: ClientData | null;
   user: User | null;
   guestProject: GuestProject[] | null;
+  isSuccessStatus: boolean;
 };
 export type ModuleData = {
   id: string;

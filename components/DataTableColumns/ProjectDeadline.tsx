@@ -1,14 +1,22 @@
 "use client";
+
 import { Project } from "@prisma/client";
 import { Row } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
 
 interface ProjectDeadlineProps {
   row: Row<Project>;
+  currentStatus?: boolean; // เพิ่ม prop นี้
 }
-export default function ProjectDeadline({ row }: ProjectDeadlineProps) {
-  const [daysDifference, setDaysDifference] = useState(0);
+
+export default function ProjectDeadline({
+  row,
+  currentStatus,
+}: ProjectDeadlineProps) {
   const projectData: Project = row.original;
+  const [daysDifference, setDaysDifference] = useState(0);
+  // ใช้ currentStatus จาก prop แทนการอ่านจาก projectData โดยตรง
+  const isSuccess = currentStatus ?? projectData.isSuccessStatus;
 
   function calculateDaysDifference(enDate: string | Date): number {
     const end = new Date(enDate);
@@ -24,13 +32,17 @@ export default function ProjectDeadline({ row }: ProjectDeadlineProps) {
     return diffDays;
   }
 
-  function formatDaysDifference(days: number): string {
+  function formatDaysDifference(days: number): JSX.Element {
     if (days > 0) {
-      return `เหลือเวลา ${days} วัน`;
+      return <span className="text-yellow-600">{`เหลือเวลา ${days} วัน`}</span>;
     } else if (days < 0) {
-      return `เกินกำหนด ${Math.abs(days)} วันที่ผ่านมา`;
+      return (
+        <span className="text-red-600">{`เกินกำหนด ${Math.abs(
+          days
+        )} วันที่ผ่านมา`}</span>
+      );
     } else {
-      return "สิ้นสุดโครงการวันนี้!";
+      return <span className="text-red-600">สิ้นสุดโครงการวันนี้!</span>;
     }
   }
 
@@ -38,25 +50,17 @@ export default function ProjectDeadline({ row }: ProjectDeadlineProps) {
     if (projectData.endDate) {
       setDaysDifference(calculateDaysDifference(projectData.endDate));
     }
-    const interval = setInterval(() => {
-      if (projectData.endDate) {
-        setDaysDifference(calculateDaysDifference(projectData.endDate));
-      }
-    }, 24 * 60 * 60 * 1000);
-    return () => clearInterval(interval);
   }, [projectData.endDate]);
 
   return (
-    <div className=" text-sm flex">
-      <div
-        className={` font-medium ${
-          daysDifference <= 0 ? "text-red-600" : "text-green-600"
-        }`}
-      >
-        {projectData?.endDate
-          ? formatDaysDifference(daysDifference)
-          : "กำลังดําเนินการ"}
-      </div>
+    <div>
+      {isSuccess ? (
+        <span className="text-green-600">เสร็จสิ้นโครงการ</span>
+      ) : projectData?.endDate ? (
+        <span>{formatDaysDifference(daysDifference)}</span>
+      ) : (
+        <span>ไม่มีกําหนดส่ง</span>
+      )}
     </div>
   );
 }

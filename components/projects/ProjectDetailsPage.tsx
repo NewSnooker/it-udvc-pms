@@ -23,6 +23,7 @@ import {
   X,
   Eye,
   SquarePen,
+  Check,
 } from "lucide-react";
 import Link from "next/link";
 import { ExistingUsers, ProjectData } from "@/types/types";
@@ -107,12 +108,6 @@ export default function ProjectDetailsPage({
     : isGuest
     ? "isGuest"
     : "ผู้ไม่เกี่ยวข้อง";
-
-  console.log("User Information:", {
-    id: user.id,
-    name: user.name,
-    role: showLogUserRole,
-  });
 
   const getUserRoleLabel = (role: string) => {
     switch (role) {
@@ -600,14 +595,17 @@ export default function ProjectDetailsPage({
                             </p>
                           </div>
                         )}
-                        <div className="mt-6">
-                          {projectData.budget && (
-                            <BudgetProgressBar
-                              budget={projectData.budget ?? 0}
-                              paidAmount={paidAmount ?? 0}
-                            />
+                        {projectData.budget !== null &&
+                          projectData.budget > 0 && (
+                            <div className="mt-6">
+                              {projectData.budget && (
+                                <BudgetProgressBar
+                                  budget={projectData.budget ?? 0}
+                                  paidAmount={paidAmount ?? 0}
+                                />
+                              )}
+                            </div>
                           )}
-                        </div>
                       </TabsContent>
                       <TabsContent value="invoices" className="w-full">
                         {projectData.payments.length > 0 ? (
@@ -708,18 +706,32 @@ export default function ProjectDetailsPage({
                       สิ้นสุด: {moment(projectData?.endDate).format("LL")}
                     </p>
                   </div>
-                  <div className="pl-7 text-sm flex">
-                    สถานะ:{" "}
-                    <div
-                      className={` font-medium ml-2 ${
-                        daysDifference <= 0 ? "text-red-600" : "text-green-600"
-                      }`}
-                    >
-                      {projectData?.endDate
-                        ? formatDaysDifference(daysDifference)
-                        : "กำลังดําเนินการ"}
+                  {projectData.isSuccessStatus ? (
+                    <div className="pl-7 text-sm flex">
+                      สถานะ:{" "}
+                      <div
+                        className={`ml-2 flex font-medium gap-1 text-green-600`}
+                      >
+                        <span>เสร็จสิ้นโครงการ</span>
+                        <Check className="w-4 h-4" />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="pl-7 text-sm flex">
+                      กำหนดส่ง:{" "}
+                      <div
+                        className={` font-medium ml-2 ${
+                          daysDifference <= 0
+                            ? "text-red-600"
+                            : "text-green-600"
+                        }`}
+                      >
+                        {projectData?.endDate
+                          ? formatDaysDifference(daysDifference)
+                          : "กำลังดําเนินการ"}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {(isOwner || isGuest) && (

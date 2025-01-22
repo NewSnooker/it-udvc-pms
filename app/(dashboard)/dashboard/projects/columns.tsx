@@ -11,7 +11,11 @@ import Link from "next/link";
 import NumberColumn from "@/components/DataTableColumns/NumberColumn";
 import ProjectDeadline from "@/components/DataTableColumns/ProjectDeadline";
 import PublicityBtn from "@/components/DataTableComponents/PublicityBtn";
-export const columns: ColumnDef<Project>[] = [
+import SuccessBtn from "@/components/DataTableComponents/SuccessBtn";
+
+export const createColumns = (projectStatuses: {
+  [key: string]: { status: boolean; setStatus: (status: boolean) => void };
+}): ColumnDef<Project>[] => [
   {
     accessorKey: "thumbnail",
     header: "รูปภาพ",
@@ -22,35 +26,52 @@ export const columns: ColumnDef<Project>[] = [
     header: ({ column }) => <TitleColumn column={column} title="ชื่อโครงการ" />,
   },
   {
-    accessorKey: "budget",
-    header: ({ column }) => <TitleColumn column={column} title="งบประมาณ" />,
-    cell: ({ row }) => <NumberColumn row={row} accessorKey="budget" />,
-  },
-  {
-    accessorKey: "deadline",
-    header: ({ column }) => (
-      <TitleColumn column={column} title="กำหนดส่ง (วัน)" />
-    ),
-    cell: ({ row }) => <ProjectDeadline row={row} />,
-  },
-  {
     accessorKey: "startDate",
     header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
     cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
   },
   {
+    accessorKey: "budget",
+    header: ({ column }) => <TitleColumn column={column} title="งบประมาณ" />,
+    cell: ({ row }) => <NumberColumn row={row} accessorKey="budget" />,
+  },
+  {
     accessorKey: "isPublic",
     header: "แฟ้มผลงาน",
-
     cell: ({ row }) => {
       const project = row.original;
       return <PublicityBtn id={project.id} status={project.isPublic} />;
     },
   },
   {
+    accessorKey: "deadline",
+    header: ({ column }) => (
+      <TitleColumn column={column} title="กำหนดส่ง (วัน)" />
+    ),
+    cell: ({ row }) => {
+      const project = row.original;
+      const statusHandler = projectStatuses[project.id];
+      return <ProjectDeadline row={row} currentStatus={statusHandler.status} />;
+    },
+  },
+  {
+    accessorKey: "isSuccessStatus",
+    header: "สถานะ",
+    cell: ({ row }) => {
+      const project = row.original;
+      const statusHandler = projectStatuses[project.id];
+      return (
+        <SuccessBtn
+          id={project.id}
+          status={statusHandler.status}
+          onStatusChange={statusHandler.setStatus}
+        />
+      );
+    },
+  },
+  {
     accessorKey: "startDate",
     header: "เพิ่มเติม",
-
     cell: ({ row }) => {
       const project = row.original;
       return (
@@ -62,11 +83,6 @@ export const columns: ColumnDef<Project>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "createdAt",
-  //   header: ({ column }) => <TitleColumn column={column} title="วันที่สร้าง" />,
-  //   cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
-  // },
   {
     id: "จัดการ",
     cell: ({ row }) => {

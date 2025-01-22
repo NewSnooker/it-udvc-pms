@@ -125,32 +125,33 @@ enum ProjectStatus {
 }
 
 model Project {
-  id           String           @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  slug         String           @unique
-  notes        String?
-  description  String?
-  bannerImage  String?
-  gradient     String?
-  freeDomain   String?
-  customDomain String?
-  thumbnail    String?
-  budget       Int?             @default(0)
-  deadline     Int?
-  startDate    DateTime         @default(now())
-  endDate      DateTime?
-  isPublic     Boolean          @default(false)
-  status       ProjectStatus    @default(ONGOING)
-  clientId     String           @db.ObjectId
-  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String           @db.ObjectId
-  modules      Module[]
-  invoices     Invoice[]
-  payments     Payment[]
-  comments     ProjectComment[]
-  guestProject GuestProject[]
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  slug            String           @unique
+  notes           String?
+  description     String?
+  bannerImage     String?
+  gradient        String?
+  freeDomain      String?
+  customDomain    String?
+  thumbnail       String?
+  budget          Int?             @default(0)
+  deadline        Int?
+  startDate       DateTime         @default(now())
+  endDate         DateTime?
+  isPublic        Boolean          @default(false)
+  status          ProjectStatus    @default(ONGOING)
+  clientId        String           @db.ObjectId
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String           @db.ObjectId
+  modules         Module[]
+  invoices        Invoice[]
+  payments        Payment[]
+  comments        ProjectComment[]
+  guestProject    GuestProject[]
+  isSuccessStatus Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model ProjectComment {
