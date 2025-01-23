@@ -183,7 +183,7 @@ export default function TableHeader({
   }
   return (
     <div className="w-full">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-zinc-200 dark:border-zinc-600 py-3">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 border-b border-zinc-200 dark:border-zinc-600 py-3">
         <h2 className="scroll-m-20 text-center sm:text-left text-2xl font-semibold tracking-tight">
           {title}({data.length})
         </h2>

@@ -24,25 +24,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 import SearchBar from "./SearchBar";
 import { DataTableViewOptions } from "./DataTableViewOptions";
-import { Button } from "../ui/button";
-import { ListFilter } from "lucide-react";
 import DateFilters from "./DateFilters";
 import DateRangeFilter from "./DateRangeFilter";
 import { DataTablePagination } from "./DataTablePagination";
 import ProjectSummary from "../DataTableColumns/ProjectSummary";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -62,7 +51,25 @@ export default function DataTable<TData, TValue>({
   const [filteredData, setFilteredData] = useState(data);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [isSearch, setIsSearch] = useState(true);
-  // console.log(isSearch);
+  // In DataTable component
+  const allDates: Date[] = data.map((item: any) => item.createdAt);
+
+  const minDate = allDates.length
+    ? new Date(Math.min(...allDates.map((date) => date.getTime())))
+    : new Date();
+
+  const initialRange = {
+    from: minDate,
+    to: new Date(),
+  };
+
+  const [dateRange, setDateRange] = useState(() => initialRange);
+
+  const handleDateFilterChange = (filteredData: TData[], range: any) => {
+    setFilteredData(filteredData);
+    setDateRange(range);
+    setIsSearch(false);
+  };
   const table = useReactTable({
     data: isSearch ? searchResults : filteredData,
     columns,
@@ -84,8 +91,6 @@ export default function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
-  // console.log(searchResults);
-  // const finalData = isSearch ? searchResults : filteredData;
   return (
     <div className="w-full space-y-4">
       {model && model === "project" ? (
@@ -104,33 +109,20 @@ export default function DataTable<TData, TValue>({
         <div className="flex flex-wrap items-center justify-center gap-2 sm:ml-auto">
           <DateRangeFilter
             data={data}
-            onFilter={setFilteredData}
-            setIsSearch={setIsSearch}
+            onFilter={(filteredData: TData[]) =>
+              handleDateFilterChange(filteredData, dateRange)
+            }
+            initialRange={dateRange} // เพิ่มค่าเริ่มต้น
+            onRangeChange={(newRange: any) => setDateRange(newRange)} // รับช่วงวันที่ใหม่
           />
           <DateFilters
             data={data}
-            onFilter={setFilteredData}
-            setIsSearch={setIsSearch}
+            onFilter={(filteredData: TData[], range: any) =>
+              handleDateFilterChange(filteredData, range)
+            }
+            initialRange={initialRange}
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 gap-1">
-                <ListFilter className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline-block whitespace-nowrap">
-                  การกรอง
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>การกรอง</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem checked>
-                Active
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+
           <DataTableViewOptions table={table} />
         </div>
       </div>

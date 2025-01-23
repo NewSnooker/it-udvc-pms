@@ -39,10 +39,10 @@ export default function ProjectDeadline({
       return (
         <span className="text-red-600">{`เกินกำหนด ${Math.abs(
           days
-        )} วันที่ผ่านมา`}</span>
+        )} วัน`}</span>
       );
     } else {
-      return <span className="text-red-600">สิ้นสุดโครงการวันนี้!</span>;
+      return <span className="text-red-600">กำหนดส่งวันนี้!</span>;
     }
   }
 

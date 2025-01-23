@@ -26,10 +26,10 @@ export default function SearchBar({
     onSearch(filteredData);
   };
   return (
-    <div className="max-w-fit">
+    <div className="w-full sm:max-w-fit">
       <div className="relative clear-start">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <Search className="text-zinc-300 w-4 h-4" />
+          <Search className="w-4 h-4" />
         </div>
         <Input
           id="search"

@@ -22,51 +22,81 @@ import { useState } from "react";
 export default function DateFilters({
   data,
   onFilter,
-  setIsSearch,
+  initialRange,
 }: {
   data: any[];
   onFilter: any;
-  setIsSearch: any;
+  initialRange: any;
 }) {
   const options = [
-    { value: "life", label: "Life time" },
-    { value: "today", label: "Today" },
-    { value: "last-7-days", label: "Last 7 days" },
-    { value: "month", label: "This Month" },
-    { value: "year", label: "This year" },
+    { value: "life", label: "ทั้งหมด" },
+    { value: "today", label: "วันนี้" },
+    { value: "last-7-days", label: "7 วันที่ผ่านมา" },
+    { value: "month", label: "เดือนนี้" },
+    { value: "year", label: "ปีนี้" },
   ];
 
   const [selectedFilter, setSelectedFilter] = useState(options[0].value);
 
   const handleChange = (value: string) => {
     setSelectedFilter(value);
-    setIsSearch(false);
 
     let filteredData = data;
+    let newRange;
 
-    if (value === "today") {
-      filteredData = filterByToday(data);
-    } else if (value === "yesterday") {
-      filteredData = filterByYesterday(data);
-    } else if (value === "last-7-days") {
-      filteredData = filterByLast7Days(data);
-    } else if (value === "month") {
-      filteredData = filterByThisMonth(data);
-    } else if (value === "year") {
-      filteredData = filterByThisYear(data);
+    switch (value) {
+      case "today":
+        filteredData = filterByToday(data);
+        newRange = { from: new Date(), to: new Date() };
+        break;
+      case "last-7-days":
+        filteredData = filterByLast7Days(data);
+        newRange = {
+          from: new Date(new Date().setDate(new Date().getDate() - 7)),
+          to: new Date(),
+        };
+        break;
+      case "month":
+        filteredData = filterByThisMonth(data);
+        newRange = {
+          from: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          to: new Date(),
+        };
+        break;
+      case "year":
+        filteredData = filterByThisYear(data);
+        newRange = {
+          from: new Date(new Date().getFullYear(), 0, 1),
+          to: new Date(),
+        };
+        break;
+      case "life":
+        filteredData = data;
+        newRange = {
+          from: initialRange.from,
+          to: initialRange.to,
+        };
+        break;
+      default:
+        filteredData = data;
+        newRange = {
+          from: initialRange.from,
+          to: initialRange.to,
+        };
+        break;
     }
 
-    onFilter(filteredData);
+    onFilter(filteredData, newRange);
   };
 
   return (
     <Select onValueChange={handleChange}>
-      <SelectTrigger className="w-[205px] sm:w-[180px]">
-        <SelectValue placeholder="Select a filter" />
+      <SelectTrigger className="w-full sm:w-[150px]">
+        <SelectValue placeholder="ทั้้งหมด" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>กรอกตัวเลือก</SelectLabel>
+          <SelectLabel>เลือก</SelectLabel>
           {options.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}
