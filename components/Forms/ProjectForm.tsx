@@ -27,6 +27,7 @@ import { createProject, updateProjectById } from "@/actions/projects";
 import { convertDateToIso } from "@/lib/convertDateToIso";
 import { CalendarClock, Coins, UserIcon } from "lucide-react";
 import { convertIsoDateToNormal } from "@/lib/convertIsoDateToNormal";
+import FormDate from "../FormInputs/FormDate";
 
 export type SelectOptionProps = {
   label: string;
@@ -70,28 +71,65 @@ export default function ProjectForm({
   const initialClientId = initialData?.clientId || "";
   const initialClient = clients?.find((user) => user.value === initialClientId);
   const [selectedClient, setSelectedClient] = useState<any>(initialClient);
+  const [formData, setFormData] = useState({
+    startDate: undefined,
+    endDate: undefined,
+  });
+  const [dateErrors, setDateErrors] = useState({
+    startDate: false,
+    endDate: false,
+  });
+
+  // formData convert to ISO #Wed Jan 15 2025 00:00:00 GMT+0700 (Indochina Time)
+
+  const handleDateChange = (name: string, date: string | undefined) => {
+    setFormData((prev) => ({ ...prev, [name]: date }));
+    setDateErrors((prev) => ({ ...prev, [name]: !date }));
+  };
 
   async function saveProject(data: ProjectProps) {
     try {
       setLoading(true);
       const differenceInTime =
-        new Date(data.endDate).getTime() - new Date(data.startDate).getTime();
+        new Date(formData.endDate ?? "").getTime() -
+        new Date(formData.startDate ?? "").getTime();
       if (differenceInTime < 0) {
-        toast.error("วันที่สิ้นสุดต้องมากกว่าวันที่เริ่มต้น");
+        toast.error(
+          "วันที่เริ่มต้นโครงการ\nต้องเป็นวันก่อนที่วันสิ้นสุดโครงการ"
+        );
         setLoading(false);
         return;
       }
       const deadline = differenceInTime / (1000 * 60 * 60 * 24);
-
+      console.log(formData.startDate, formData.endDate);
       data.deadline = deadline;
       data.slug = generateSlug(data.name);
       data.thumbnail = imageUrl;
       data.userId = userId;
       data.clientId = selectedClient?.value || "";
-      data.startDate = convertDateToIso(data.startDate);
-      data.endDate = convertDateToIso(data.endDate);
+      data.startDate = formData.startDate
+        ? convertDateToIso(formData.startDate)
+        : "";
+      data.endDate = formData.endDate ? convertDateToIso(formData.endDate) : "";
       data.budget = Number(data.budget);
       data.notes = "";
+      if (!data.clientId) {
+        setLoading(false);
+        toast.error("กรุณาเลือกลูกค้าโครงการ");
+        return;
+      }
+
+      if (!data.startDate || !data.endDate) {
+        setDateErrors((prev) => ({
+          ...prev,
+          startDate: !data.startDate,
+          endDate: !data.endDate,
+        }));
+        setLoading(false);
+        return;
+      }
+
+      console.log(data);
 
       if (editingId) {
         await updateProjectById(editingId, data);
@@ -141,7 +179,7 @@ export default function ProjectForm({
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
-                <div className="grid grid-cols-12 gap-4">
+                <div className="grid grid-cols-12 gap-4 w-full">
                   <div className="col-span-full lg:col-span-8">
                     <TextInput
                       register={register}
@@ -165,22 +203,21 @@ export default function ProjectForm({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <TextInput
-                    register={register}
-                    errors={errors}
-                    label="วันที่เริ่ม"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                  <FormDate
+                    label="วันที่เริ่มต้น"
                     name="startDate"
-                    type="date"
-                    placeholder="กรอกวันที่เริ่ม"
+                    initialDate={formData.startDate}
+                    error={dateErrors.startDate}
+                    onDateChange={handleDateChange}
                   />
-                  <TextInput
-                    register={register}
-                    errors={errors}
-                    label="วันที่เริ่มสิ้นสุด"
+                  <FormDate
+                    label="วันที่สิ้นสุด"
                     name="endDate"
-                    type="date"
-                    placeholder="กรอกวันที่สิ้นสุด"
+                    initialDate={formData.endDate}
+                    error={dateErrors.endDate}
+                    onDateChange={handleDateChange}
+                    className="w-full"
                   />
                 </div>
 

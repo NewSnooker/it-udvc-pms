@@ -7,12 +7,12 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { CalendarFormSearch } from "../ui/calendarFormSearch";
 
 export default function DateRangeFilter({
   data,
@@ -36,8 +36,7 @@ export default function DateRangeFilter({
   }, [initialRange]);
 
   const handleChange = (selectedDate: DateRange | undefined) => {
-    // อัปเดต state
-    setDate(selectedDate);
+    setDate(selectedDate); // อัปเดต state
     onRangeChange(selectedDate);
 
     // กรองข้อมูลตามวันที่
@@ -48,18 +47,19 @@ export default function DateRangeFilter({
     );
     onFilter(filteredData);
   };
+
   const initialFromDate = new Date(initialRange.from);
   initialFromDate.setHours(0, 0, 0, 0);
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("grid gap-2 w-full sm:w-auto", className)}>
       <Popover>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild className="w-full">
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full sm:w-[300px] justify-start text-left font-normal px-2 sm:px-3",
+              "flex w-full sm:w-[300px] justify-start text-left font-normal px-2 sm:px-3",
               !date && "text-muted-foreground"
             )}
           >
@@ -79,14 +79,16 @@ export default function DateRangeFilter({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
+          <CalendarFormSearch
             initialFocus
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={(value) => handleChange(value)}
+            onSelect={(value: DateRange | undefined) => handleChange(value)}
             numberOfMonths={2}
-            disabled={(date) => date > new Date() || date < initialFromDate}
+            disabled={(date: Date) =>
+              date > new Date() || date < initialFromDate
+            }
           />
         </PopoverContent>
       </Popover>
