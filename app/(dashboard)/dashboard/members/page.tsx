@@ -16,7 +16,7 @@ export default async function page() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="w-full">
         <TableHeader
-          title="1234"
+          title="สมาชิกโครงการ"
           data={memberProjects}
           model=""
           userId={user?.id ?? ""}
