@@ -7,7 +7,7 @@ const ProjectRecentTableRow = ({ project }: { project: Project }) => {
   return (
     <TableRow key={project.id} className="">
       <TableCell className="w-[80px] sm:w-[100px]">
-        <Link href={`/project/${project.slug}`}>
+        <Link target="_blank" href={`/project/${project.slug}`}>
           <div className="shrink-0">
             <Image
               alt={project.name}
