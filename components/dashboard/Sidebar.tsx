@@ -13,6 +13,7 @@ import {
   Home,
   LayoutGrid,
   Lock,
+  LogOut,
   Mail,
   User2,
   Users,
@@ -256,6 +257,7 @@ export default function Sidebar() {
         <div className="mt-auto p-4">
           <Card>
             <Button onClick={handleLogout} size="sm" className="w-full">
+              <LogOut className="h-4 w-4 mr-2" />
               ออกจากระบบ
             </Button>
           </Card>

@@ -19,6 +19,7 @@ import {
   Mail,
   User2,
   Users,
+  LogOut,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
@@ -243,6 +244,7 @@ export default function MobileNavigation() {
                 <div className="mt-auto p-4">
                   <Card>
                     <Button onClick={handleLogout} size="sm" className="w-full">
+                      <LogOut className="h-4 w-4 mr-2" />
                       ออกจากระบบ
                     </Button>
                   </Card>
