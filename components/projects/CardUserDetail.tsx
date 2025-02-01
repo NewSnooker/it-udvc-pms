@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import InviteClient from "../DataTableColumns/InviteClient";
 import { ClientData, ProjectData } from "@/types/types";
 import { User } from "@prisma/client";
+import Link from "next/link";
 
 export default function CardUserDetail({
   title,
@@ -50,7 +51,13 @@ export default function CardUserDetail({
         <div className="space-y-1">
           <p>
             <strong>อีเมล: </strong>
-            {user?.email}
+            <Link
+              target="_blank"
+              href={`mailto:${user?.email}`}
+              className="underline text-blue-600 hover:text-blue-800"
+            >
+              {user?.email}
+            </Link>
           </p>
           <p>
             <strong>เบอร์โทร: </strong>
