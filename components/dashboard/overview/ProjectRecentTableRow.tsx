@@ -19,10 +19,10 @@ const ProjectRecentTableRow = ({ project }: { project: Project }) => {
           </div>
         </Link>
       </TableCell>
-      <TableCell className="">
-        <Link href={`/project/${project.slug}`}>
+      <TableCell className="w-full">
+        <Link target="_blank" href={`/project/${project.slug}`}>
           <div className="font-medium">{project.name}</div>
-          <div className="hidden text-sm text-muted-foreground md:inline line-clamp-1">
+          <div className="hidden text-sm text-muted-foreground md:inline line-clamp-3">
             {project.description}
           </div>
         </Link>

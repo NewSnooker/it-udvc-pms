@@ -46,7 +46,9 @@ export default function RecentClients({
                 </p>
                 <p className="text-sm text-muted-foreground">{client.email}</p>
               </div>
-              <div className="text-sm ml-auto font-medium">{client.phone}</div>
+              <div className="hidden sm:block text-sm ml-auto font-medium">
+                {client.phone}
+              </div>
             </div>
           ))
         ) : (

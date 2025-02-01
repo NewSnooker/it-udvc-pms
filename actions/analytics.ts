@@ -1,7 +1,14 @@
 "use server";
 
 import { db } from "@/prisma/db";
-import { Banknote, LayoutGrid, LucideProps, UsersRound } from "lucide-react";
+import { UserRole } from "@prisma/client";
+import {
+  Banknote,
+  LayoutGrid,
+  LucideProps,
+  User2,
+  UsersRound,
+} from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 export type AnalyticsProps = {
   title: string;
@@ -23,12 +30,17 @@ export async function getDashboardOverview(userId: string | undefined) {
       const clientCount = await db.user.count({
         where: {
           userId,
-          role: "CLIENT",
+          role: UserRole.CLIENT,
         },
       });
       const projectCount = await db.project.count({
         where: {
           userId,
+        },
+      });
+      const guestProjectCount = await db.guestProject.count({
+        where: {
+          ownerId: userId,
         },
       });
       const totalRevenue =
@@ -46,7 +58,7 @@ export async function getDashboardOverview(userId: string | undefined) {
           icon: LayoutGrid,
         },
         {
-          title: "รายได้ทั้งหมด",
+          title: "งบประมานทั้งหมด",
           total: totalRevenue.toLocaleString().padStart(2, "0"),
           href: "/dashboard/projects",
           icon: Banknote,
@@ -57,12 +69,12 @@ export async function getDashboardOverview(userId: string | undefined) {
           href: "/dashboard/clients",
           icon: UsersRound,
         },
-        // {
-        //   title: "รายได้ทั้งหมด",
-        //   total: totalRevenue.toLocaleString(),
-        //   href: "/dashboard/projects",
-        //   icon: Banknote,
-        // },
+        {
+          title: "สมาชิกทั้งหมด",
+          total: guestProjectCount.toLocaleString(),
+          href: "/dashboard/members",
+          icon: User2,
+        },
       ];
 
       return analytics;

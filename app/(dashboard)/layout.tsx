@@ -1,6 +1,6 @@
 import Navbar from "@/components/dashboard/Navbar";
 import Sidebar from "@/components/dashboard/Sidebar";
-import SidebarV2 from "@/components/pages/SidebarV2";
+import SidebarV2 from "@/components/pages/MobileNavigation";
 import { authOptions } from "@/config/auth";
 import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
