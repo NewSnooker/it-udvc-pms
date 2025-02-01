@@ -31,8 +31,8 @@ import {
 import { MdTextSnippet } from "react-icons/md";
 import { formatFileSize } from "@/lib/formatFileSize";
 interface ContentAreaProps {
-  totalSpace: number;
-  usedSpace: number;
+  totalBytes: number;
+  limitBytes: number;
   viewMode: "grid" | "list";
   onViewModeChange: (mode: "grid" | "list") => void;
   onSelectFile: (file: File) => void;
@@ -43,8 +43,8 @@ interface ContentAreaProps {
 }
 
 export function ContentArea({
-  usedSpace,
-  totalSpace,
+  totalBytes,
+  limitBytes,
   viewMode,
   onViewModeChange,
   onSelectFile,
@@ -53,7 +53,7 @@ export function ContentArea({
   folders,
   files,
 }: ContentAreaProps) {
-  const percentage = Number((usedSpace / totalSpace) * 100).toFixed(2);
+  const percentage = Number((totalBytes / limitBytes) * 100).toFixed(2);
 
   const getColor = (percent: number) => {
     if (percent >= 90) return "bg-red-500";
@@ -129,7 +129,7 @@ export function ContentArea({
             </span>
           </div>
           <div className=" flex text-xs font-bold text-muted-foreground">
-            {formatFileSize(usedSpace)} / {formatFileSize(totalSpace)}
+            {formatFileSize(totalBytes)} / {formatFileSize(limitBytes)}
           </div>
         </div>
         {/* end progress */}

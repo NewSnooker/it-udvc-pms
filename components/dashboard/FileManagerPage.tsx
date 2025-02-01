@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useState } from "react";
@@ -19,9 +20,16 @@ export interface FolderWithRelations extends Folder {
 interface FileManagerProps {
   userFolders: FolderWithRelations[];
   userId: string;
+  totalBytes: number;
+  limitBytes: number;
 }
 
-export function FileManagerPage({ userFolders, userId }: FileManagerProps) {
+export function FileManagerPage({
+  userFolders,
+  userId,
+  totalBytes,
+  limitBytes,
+}: FileManagerProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -30,6 +38,7 @@ export function FileManagerPage({ userFolders, userId }: FileManagerProps) {
     folders: FolderWithRelations[];
     files: File[];
   } | null>(null);
+
   const getAllFiles = (folders: FolderWithRelations[]): File[] => {
     const allFiles: File[] = [];
     const collectFiles = (folders: FolderWithRelations[]) => {
@@ -41,12 +50,6 @@ export function FileManagerPage({ userFolders, userId }: FileManagerProps) {
     collectFiles(folders);
     return allFiles;
   };
-
-  const totalSpace = Number(((2 * 1073741824) / userFolders.length).toFixed(2));
-  const usedSpace = getAllFiles(userFolders).reduce(
-    (acc, file) => acc + file.size,
-    0
-  );
 
   const findCurrentFolder = (
     folderId: string | null
@@ -170,7 +173,9 @@ export function FileManagerPage({ userFolders, userId }: FileManagerProps) {
 
               {currentFolderId && (
                 <div className="flex items-center space-x-1">
-                  <FileUploadForm folderId={currentFolderId} />
+                  {limitBytes - totalBytes > 0 && (
+                    <FileUploadForm folderId={currentFolderId} />
+                  )}
                   <FolderForm
                     userId={userId}
                     currentFolderId={currentFolderId}
@@ -182,8 +187,8 @@ export function FileManagerPage({ userFolders, userId }: FileManagerProps) {
         </div>
 
         <ContentArea
-          totalSpace={totalSpace}
-          usedSpace={usedSpace}
+          totalBytes={totalBytes}
+          limitBytes={limitBytes}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
           onSelectFile={handleSelectFile}
