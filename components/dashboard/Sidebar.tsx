@@ -207,15 +207,6 @@ export default function Sidebar() {
   const navigationSection = useMemo(
     () => (
       <nav className="grid items-start px-2 text-sm space-y-2 font-medium lg:px-4">
-        <div className="flex items-center border-b pb-2">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 font-semibold"
-          >
-            <AlignHorizontalJustifyEnd className="h-6 w-6" />
-            <span className="">{WEBSITE_NAME}</span>
-          </Link>
-        </div>
         {sidebarLinks.map((item, i) => (
           <div key={i}>
             <h2 className="pb-1 font-semibold">{item.title}</h2>
@@ -249,6 +240,15 @@ export default function Sidebar() {
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex-1">
+          <div className="flex items-center border-b p-4 pt-5">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 font-semibold"
+            >
+              <AlignHorizontalJustifyEnd className="h-6 w-6" />
+              <span className="">{WEBSITE_NAME}</span>
+            </Link>
+          </div>
           <ScrollArea className="h-auto sm:h-[calc(100vh-10rem)] w-full p-4">
             {navigationSection}
           </ScrollArea>
