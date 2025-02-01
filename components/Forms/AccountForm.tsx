@@ -24,23 +24,14 @@ import {
   Pencil,
   User as UserIcon,
 } from "lucide-react";
-import { User, UserRole } from "@prisma/client";
+import { User } from "@prisma/client";
 import TextArea from "../FormInputs/TextAreaInput";
 
-export type SelectOptionProps = {
-  label: string;
-  value: string;
-};
-type ClientFormProps = {
-  editingId?: string | undefined;
-  userId?: string;
+type AccountFormProps = {
+  id: string;
   initialData?: User | undefined | null;
 };
-export default function ClientForm({
-  editingId,
-  initialData,
-  userId,
-}: ClientFormProps) {
+export default function AccountForm({ initialData, id }: AccountFormProps) {
   const {
     register,
     handleSubmit,
@@ -58,7 +49,6 @@ export default function ClientForm({
     },
   });
 
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const initialImage =
     initialData?.image ||
@@ -69,40 +59,22 @@ export default function ClientForm({
     setLoading(true);
     data.name = `${data.firstName} ${data.lastName}`;
     data.image = imageUrl;
-    data.role = UserRole.CLIENT;
-    data.userId = userId;
     try {
-      if (editingId) {
-        const res = await updateUserById(editingId, data);
-        if (res?.status === 409) {
-          setLoading(false);
-          setEmailErr("อีเมลนี้ถูกใช้ไปแล้ว");
-          return;
-        }
-        if (res?.status === 404) {
-          setLoading(false);
-          setEmailErr("ไม่พบไอดีผู้ใช้");
-          return;
-        }
-        setEmailErr(null);
+      const res = await updateUserById(id, data);
+      if (res?.status === 409) {
         setLoading(false);
-        toast.success("อัปเดตลูกค้าสําเร็จ!");
-        reset();
-        router.push("/dashboard/clients");
-      } else {
-        const res = await createUser(data);
-        if (res.status === 409) {
-          setLoading(false);
-          setEmailErr(res.error);
-        } else if (res.status === 200) {
-          setLoading(false);
-          toast.success("เพิ่มลูกค้าสําเร็จ!");
-          router.push("/dashboard/clients");
-        } else {
-          setLoading(false);
-          toast.error("เกิดข้อผิดพลาดในการเพิ่มลูกค้า!");
-        }
+        setEmailErr("อีเมลนี้ถูกใช้ไปแล้ว");
+        return;
       }
+      if (res?.status === 404) {
+        setLoading(false);
+        setEmailErr("ไม่พบไอดีผู้ใช้");
+        return;
+      }
+      setEmailErr(null);
+      setLoading(false);
+      toast.success("อัปเดตบัญชีสำเร็จ!");
+      reset();
     } catch (error) {
       setLoading(false);
       console.error("Network Error:", error);
@@ -111,13 +83,13 @@ export default function ClientForm({
   }
   return (
     <form className="" onSubmit={handleSubmit(onSubmit)}>
-      <FormHeader title="ลูกค้า" editingId={editingId} />
+      <FormHeader title="บัญชี" editingId={id} />
 
       <div className="grid grid-cols-12 gap-6 py-8">
         <div className="lg:col-span-8 col-span-full space-y-3">
           <Card>
             <CardHeader>
-              <CardTitle>ลูกค้า</CardTitle>
+              <CardTitle>บัญชี</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,18 +143,6 @@ export default function ClientForm({
                 />
               </div>
 
-              {!editingId && (
-                <PasswordInput
-                  register={register}
-                  errors={errors}
-                  label="รหัสผ่าน"
-                  name="password"
-                  icon={Lock}
-                  placeholder="กรอกรหัสผ่าน"
-                  type="password"
-                />
-              )}
-
               <TextInput
                 register={register}
                 errors={errors}
@@ -205,7 +165,7 @@ export default function ClientForm({
         <div className="lg:col-span-4 col-span-full ">
           <div className="grid auto-rows-max items-start gap-4 ">
             <ImageInput
-              title="รูปภาพโปรไฟล์ ลูกค้า"
+              title="รูปภาพโปรไฟล์"
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
               endpoint="clientProfileImage"
@@ -214,10 +174,10 @@ export default function ClientForm({
         </div>
       </div>
       <FormFooter
-        href="/clients"
-        editingId={editingId}
+        href="/"
+        editingId={id}
         loading={loading}
-        title="ลูกค้า"
+        title="บัญชี"
         parent=""
       />
     </form>

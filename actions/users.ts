@@ -109,6 +109,28 @@ export async function getExistingUsers() {
 }
 export async function updateUserById(id: string, data: UserProps) {
   try {
+    const existingUser = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!existingUser) {
+      return {
+        error: "ไม่พบผู้ใช้งาน",
+        status: 404,
+      };
+    }
+    const existingEmail = await db.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+    if (existingEmail && existingEmail.id !== id) {
+      return {
+        error: "มีอีเมลนี้ในระบบแล้ว",
+        status: 409,
+      };
+    }
     const updatedUser = await db.user.update({
       where: {
         id,

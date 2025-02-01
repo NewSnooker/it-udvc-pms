@@ -56,6 +56,14 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
     try {
       if (editingId) {
         const res = await updateUserById(editingId, data);
+        if (res?.status === 409) {
+          setLoading(false);
+          return;
+        }
+        if (res?.status === 404) {
+          setLoading(false);
+          return;
+        }
         setLoading(false);
         toast.success("อัปเดตบริษัทสําเร็จ!");
         reset();
