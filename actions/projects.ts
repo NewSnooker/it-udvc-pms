@@ -80,6 +80,27 @@ export async function getUserProjects(userId: string | undefined) {
     return null;
   }
 }
+export async function getMyProjectsClient(userId: string | undefined) {
+  try {
+    if (userId) {
+      const projects = await db.project.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: {
+          clientId: userId,
+        },
+      });
+
+      return projects;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
 export async function getUserProjectsCount(userId: string | undefined) {
   try {
     if (userId) {

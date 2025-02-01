@@ -3,6 +3,9 @@ import AccountForm from "@/components/Forms/AccountForm";
 import { getAuthUser } from "@/config/getAuthUser";
 import { notFound } from "next/navigation";
 import React from "react";
+export const metadata = {
+  title: "บัญชีผู้ใช้",
+};
 
 export default async function page() {
   const user = await getAuthUser();

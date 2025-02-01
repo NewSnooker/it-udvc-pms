@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -7,128 +7,17 @@ import { Card } from "@/components/ui/card";
 import {
   AlignHorizontalJustifyEnd,
   Menu,
-  Building2,
-  Combine,
   ExternalLink,
-  FolderOpen,
-  Folders,
-  Handshake,
-  Home,
-  LayoutGrid,
-  Lock,
-  Mail,
-  User2,
-  Users,
   LogOut,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { WEBSITE_NAME } from "@/constants";
+import { Session } from "next-auth";
+import { UserRole } from "@prisma/client";
+import { getSidebarLinkByRole } from "@/lib/getSidebarLinkByRole";
 
-// นำ sidebarLinks มาใช้จาก Sidebar component
-const sidebarLinks = [
-  {
-    title: "แดชบอร์ด",
-    link: [
-      {
-        title: "ภาพรวม",
-        href: "/dashboard",
-        icon: Home,
-      },
-    ],
-  },
-  {
-    title: "ลูกค้าและโครงการ",
-    link: [
-      {
-        title: "ลูกค้า",
-        href: "/dashboard/clients",
-        icon: Users,
-      },
-      {
-        title: "โครงการ",
-        href: "/dashboard/projects",
-        icon: LayoutGrid,
-      },
-    ],
-  },
-  {
-    title: "ทีมงาน",
-    link: [
-      {
-        title: "สมาชิกโครงการ",
-        href: "/dashboard/members",
-        icon: User2,
-      },
-      {
-        title: "โครงการที่ได้เข้าร่วม",
-        href: "/dashboard/guest-projects",
-        icon: Combine,
-      },
-    ],
-  },
-  {
-    title: "การเงิน",
-    link: [
-      {
-        title: "การชำระเงิน",
-        href: "/dashboard/payments",
-        icon: Handshake,
-      },
-    ],
-  },
-  {
-    title: "การติดต่อ",
-    link: [
-      {
-        title: "อีเมล",
-        href: "/dashboard/emails",
-        icon: Mail,
-      },
-      {
-        title: "ผู้ติดตาม",
-        href: "/dashboard/subscribers",
-        icon: Mail,
-      },
-    ],
-  },
-  {
-    title: "แฟ้มสะสมผลงาน",
-    link: [
-      {
-        title: "Portfolio",
-        href: "/dashboard/portfolio",
-        icon: FolderOpen,
-      },
-    ],
-  },
-  {
-    title: "บริษัท",
-    link: [
-      {
-        title: "ตั้งค่าบริษัท",
-        href: "/dashboard/brand-settings",
-        icon: Building2,
-      },
-      {
-        title: "จัดการไฟล์",
-        href: "/dashboard/file-manager",
-        icon: Folders,
-      },
-    ],
-  },
-  {
-    title: "ตั้งค่า",
-    link: [
-      {
-        title: "เปลี่ยนรหัสผ่าน",
-        href: "/dashboard/change-password",
-        icon: Lock,
-      },
-    ],
-  },
-];
 interface MobileNavButtonProps {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title: string;
@@ -162,12 +51,12 @@ const MobileNavButton = React.memo(
 
 MobileNavButton.displayName = "MobileNavButton";
 
-export default function MobileNavigation() {
+export default function MobileNavigation({ session }: { session: Session }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-
+  const sidebarLinks = getSidebarLinkByRole(session?.user?.role);
   const handleLogout = useCallback(async () => {
     try {
       await signOut();

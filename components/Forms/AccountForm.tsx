@@ -73,7 +73,7 @@ export default function AccountForm({ initialData, id }: AccountFormProps) {
       }
       setEmailErr(null);
       setLoading(false);
-      toast.success("อัปเดตบัญชีสำเร็จ!");
+      toast.success("อัปเดตบัญชีผู้ใช้สำเร็จ!");
       reset();
     } catch (error) {
       setLoading(false);
@@ -83,7 +83,7 @@ export default function AccountForm({ initialData, id }: AccountFormProps) {
   }
   return (
     <form className="" onSubmit={handleSubmit(onSubmit)}>
-      <FormHeader title="บัญชี" editingId={id} />
+      <FormHeader title="บัญชีผู้ใช้" editingId={id} />
 
       <div className="grid grid-cols-12 gap-6 py-8">
         <div className="lg:col-span-8 col-span-full space-y-3">
@@ -177,7 +177,7 @@ export default function AccountForm({ initialData, id }: AccountFormProps) {
         href="/"
         editingId={id}
         loading={loading}
-        title="บัญชี"
+        title="บัญชีผู้ใช้"
         parent=""
       />
     </form>

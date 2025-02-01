@@ -26,12 +26,12 @@ export default async function DashboardLayout({
   if (!session) {
     redirect("/login");
   }
-  // if (role !== UserRole.USER) {
-  //   return notFound();
-  // }
+  if (role === UserRole.CLIENT) {
+    redirect("/my-projects");
+  }
   return (
     <div className="grid min-h-screen w-full grid-cols-1 md:grid-cols-[280px_1fr]">
-      <Sidebar />
+      <Sidebar session={session} />
       {/* <SidebarV2 /> */}
       <div className="flex flex-col">
         <Navbar session={session} />

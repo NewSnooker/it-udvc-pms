@@ -1,133 +1,15 @@
 "use client";
 import React, { useMemo, useCallback, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  AlignHorizontalJustifyEnd,
-  Bell,
-  Building2,
-  Combine,
-  ExternalLink,
-  FolderOpen,
-  Folders,
-  Handshake,
-  Home,
-  LayoutGrid,
-  Lock,
-  LogOut,
-  Mail,
-  User2,
-  Users,
-} from "lucide-react";
+import { AlignHorizontalJustifyEnd, ExternalLink, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRouter, usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import { WEBSITE_NAME } from "@/constants";
 import Link from "next/link";
-
-const sidebarLinks = [
-  {
-    title: "แดชบอร์ด",
-    link: [
-      {
-        title: "ภาพรวม",
-        href: "/dashboard",
-        icon: Home,
-      },
-    ],
-  },
-  {
-    title: "ลูกค้าและโครงการ",
-    link: [
-      {
-        title: "ลูกค้า",
-        href: "/dashboard/clients",
-        icon: Users,
-      },
-      {
-        title: "โครงการ",
-        href: "/dashboard/projects",
-        icon: LayoutGrid,
-      },
-    ],
-  },
-  {
-    title: "ทีมงาน",
-    link: [
-      {
-        title: "สมาชิกโครงการ",
-        href: "/dashboard/members",
-        icon: User2,
-      },
-      {
-        title: "โครงการที่ได้เข้าร่วม",
-        href: "/dashboard/guest-projects",
-        icon: Combine,
-      },
-    ],
-  },
-  {
-    title: "การเงิน",
-    link: [
-      {
-        title: "การชำระเงิน",
-        href: "/dashboard/payments",
-        icon: Handshake,
-      },
-    ],
-  },
-  {
-    title: "การติดต่อ",
-    link: [
-      {
-        title: "อีเมล",
-        href: "/dashboard/emails",
-        icon: Mail,
-      },
-      {
-        title: "ผู้ติดตาม",
-        href: "/dashboard/subscribers",
-        icon: Mail,
-      },
-    ],
-  },
-  {
-    title: "แฟ้มสะสมผลงาน",
-    link: [
-      {
-        title: "Portfolio",
-        href: "/dashboard/portfolio",
-        icon: FolderOpen,
-      },
-    ],
-  },
-  {
-    title: "บริษัท",
-    link: [
-      {
-        title: "ตั้งค่าบริษัท",
-        href: "/dashboard/brand-settings",
-        icon: Building2,
-      },
-      {
-        title: "จัดการไฟล์",
-        href: "/dashboard/file-manager",
-        icon: Folders,
-      },
-    ],
-  },
-  {
-    title: "ตั้งค่า",
-    link: [
-      {
-        title: "เปลี่ยนรหัสผ่าน",
-        href: "/dashboard/change-password",
-        icon: Lock,
-      },
-    ],
-  },
-];
+import { Session } from "next-auth";
+import { getSidebarLinkByRole } from "@/lib/getSidebarLinkByRole";
 
 // แยก NavButton ออกมาเป็น component แยกเพื่อลดการ re-render
 interface NavButtonProps {
@@ -164,10 +46,12 @@ const NavButton = React.memo(
 // Assign the displayName to the component explicitly
 NavButton.displayName = "NavButton";
 
-export default function Sidebar() {
+export default function Sidebar({ session }: { session: Session }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  const sidebarLinks = getSidebarLinkByRole(session?.user?.role);
 
   // Prefetch all routes when component mounts
   React.useEffect(() => {
@@ -177,7 +61,7 @@ export default function Sidebar() {
       });
     });
     router.prefetch("/"); // Prefetch homepage as well
-  }, [router]);
+  }, [router, sidebarLinks]);
 
   // Memoize handleLogout to prevent recreating on every render
   const handleLogout = useCallback(async () => {
@@ -234,7 +118,7 @@ export default function Sidebar() {
         />
       </nav>
     ),
-    [pathname, handleNavigation, isLoading]
+    [sidebarLinks, isLoading, pathname, handleNavigation]
   );
 
   return (

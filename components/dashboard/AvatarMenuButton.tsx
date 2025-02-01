@@ -72,7 +72,7 @@ export function AvatarMenuButton({ session }: { session: Session }) {
         </SheetHeader>
         <SheetClose className="w-full mt-2" asChild>
           <Button asChild variant={"outline"} className="w-full">
-            <Link href="/dashboard/account">
+            <Link href="/account">
               <User className="h-4 w-4 mr-2" />
               <span>แก้ไขบัญชีผู้ใช้</span>
             </Link>
