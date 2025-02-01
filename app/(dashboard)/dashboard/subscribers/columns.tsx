@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Send } from "lucide-react";
 import AlertDialogSubscribersDelete from "@/components/dashboard/Tables/AlertDialogSubscribersDelete";
+import SendEmailPrefetch from "@/components/DataTableColumns/SendEmailPrefetch";
 export const columns: ColumnDef<Subscriber>[] = [
   {
     accessorKey: "email",
@@ -33,16 +34,9 @@ export const columns: ColumnDef<Subscriber>[] = [
   {
     accessorKey: "email",
     header: "ส่งอีเมล",
-
     cell: ({ row }) => {
       const original = row.original;
-      return (
-        <Link href={`/dashboard/emails?mail=${original.email}&role=subscriber`}>
-          <Button size="sm">
-            <Send className="h-4 w-4" />
-          </Button>
-        </Link>
-      );
+      return <SendEmailPrefetch email={original.email} role="subscriber" />;
     },
   },
 ];

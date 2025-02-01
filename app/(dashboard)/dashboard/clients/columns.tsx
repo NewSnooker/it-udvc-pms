@@ -9,6 +9,7 @@ import DateColumn from "@/components/DataTableColumns/DateColumn";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import SendEmailPrefetch from "@/components/DataTableColumns/SendEmailPrefetch";
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "image",
@@ -44,16 +45,9 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "email",
     header: "ส่งอีเมล",
-
     cell: ({ row }) => {
       const original = row.original;
-      return (
-        <Link href={`/dashboard/emails?mail=${original.email}&role=client`}>
-          <Button size="sm">
-            <Send className="h-4 w-4" />
-          </Button>
-        </Link>
-      );
+      return <SendEmailPrefetch email={original.email} role="client" />;
     },
   },
   {
