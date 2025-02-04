@@ -72,8 +72,8 @@ export default function ProjectForm({
   const initialClient = clients?.find((user) => user.value === initialClientId);
   const [selectedClient, setSelectedClient] = useState<any>(initialClient);
   const [formData, setFormData] = useState({
-    startDate: undefined,
-    endDate: undefined,
+    startDate: initialData?.startDate || undefined,
+    endDate: initialData?.endDate || undefined,
   });
   const [dateErrors, setDateErrors] = useState({
     startDate: false,
@@ -101,16 +101,13 @@ export default function ProjectForm({
         return;
       }
       const deadline = differenceInTime / (1000 * 60 * 60 * 24);
-      console.log(formData.startDate, formData.endDate);
       data.deadline = deadline;
       data.slug = generateSlug(data.name);
       data.thumbnail = imageUrl;
       data.userId = userId;
       data.clientId = selectedClient?.value || "";
-      data.startDate = formData.startDate
-        ? convertDateToIso(formData.startDate)
-        : "";
-      data.endDate = formData.endDate ? convertDateToIso(formData.endDate) : "";
+      data.startDate = formData.startDate;
+      data.endDate = formData.endDate;
       data.budget = Number(data.budget);
       data.notes = "";
       if (!data.clientId) {
@@ -128,8 +125,6 @@ export default function ProjectForm({
         setLoading(false);
         return;
       }
-
-      console.log(data);
 
       if (editingId) {
         await updateProjectById(editingId, data);

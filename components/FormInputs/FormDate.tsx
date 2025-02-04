@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { convertDateToIso } from "@/lib/convertDateToIso";
 
 export default function FormDate({
   label,
@@ -31,7 +32,8 @@ export default function FormDate({
 
   const handleDateChange = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      const newSelectedDate = selectedDate.toISOString().split("T")[0]; // ตัดเวลาออกและแสดงเฉพาะวันที่;
+      const formattedDate = selectedDate.toLocaleDateString("en-CA");
+      const newSelectedDate = convertDateToIso(formattedDate);
       setDate(selectedDate);
       onDateChange(name, newSelectedDate);
     } else {
