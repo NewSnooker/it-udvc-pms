@@ -82,7 +82,7 @@ export default function DateRangeFilter({
           <CalendarFormSearch
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
+            defaultMonth={date?.to}
             selected={date}
             onSelect={(value: DateRange | undefined) => handleChange(value)}
             numberOfMonths={2}
