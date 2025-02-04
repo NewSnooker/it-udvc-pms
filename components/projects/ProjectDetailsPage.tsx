@@ -743,9 +743,7 @@ export default function ProjectDetailsPage({
                     <div className=" flex -space-x-2">
                       <div className="w-full">
                         <InviteMembers
-                          existingUsers={existingUsers.filter(
-                            (member) => member.id !== user.id
-                          )}
+                          existingUsers={existingUsers}
                           isGuest={isGuest}
                           projectData={projectData}
                         />
