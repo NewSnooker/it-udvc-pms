@@ -48,6 +48,7 @@ import CardUserDetail from "./CardUserDetail";
 import PublicProjectDomainsCard from "./PublicProjectDomainsCard";
 import { Progress } from "../ui/progress";
 import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
+import { getUserById } from "@/actions/users";
 
 export default function ProjectDetailsPage({
   projectData,

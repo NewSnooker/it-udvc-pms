@@ -107,6 +107,32 @@ export async function getExistingUsers() {
     console.log(error);
   }
 }
+export async function getUsersKit() {
+  try {
+    const users = await db.user.findMany({
+      where: {
+        role: UserRole.USER,
+      },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+      },
+      take: 5,
+    });
+    const count = await db.user.count({
+      where: {
+        role: UserRole.USER,
+      },
+    });
+    return {
+      users,
+      count,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function updateUserById(id: string, data: UserProps) {
   try {
     const existingUser = await db.user.findUnique({
@@ -247,19 +273,5 @@ export async function deleteUser(id: string) {
     };
   } catch (error) {
     console.log(error);
-  }
-}
-export async function getKitUsers() {
-  const endpoint = process.env.KIT_API_ENDPOINT as string;
-  try {
-    const res = await fetch(endpoint, {
-      next: { revalidate: 0 }, // Revalidate immediately
-    });
-    const response = await res.json();
-    const count = response.count;
-    return count;
-  } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการดึงจํานวนผู้ใช้:", error);
-    return 0;
   }
 }

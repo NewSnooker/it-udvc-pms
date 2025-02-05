@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo, useCallback, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AlignHorizontalJustifyEnd, ExternalLink, LogOut } from "lucide-react";
+import { ExternalLink, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRouter, usePathname } from "next/navigation";
@@ -10,6 +10,7 @@ import { WEBSITE_NAME } from "@/constants";
 import Link from "next/link";
 import { Session } from "next-auth";
 import { getSidebarLinkByRole } from "@/lib/getSidebarLinkByRole";
+import Logo from "@/components/global/Logo";
 
 // แยก NavButton ออกมาเป็น component แยกเพื่อลดการ re-render
 interface NavButtonProps {
@@ -125,14 +126,8 @@ export default function Sidebar({ session }: { session: Session }) {
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex-1">
-          <div className="flex items-center border-b p-4 pt-5">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 font-semibold"
-            >
-              <AlignHorizontalJustifyEnd className="h-6 w-6" />
-              <span className="">{WEBSITE_NAME}</span>
-            </Link>
+          <div className="flex items-center border-b p-4 px-6 pb-2.5">
+            <Logo title={WEBSITE_NAME} href="/dashboard" />
           </div>
           <ScrollArea className="h-auto sm:h-[calc(100vh-10rem)] w-full p-4">
             {navigationSection}

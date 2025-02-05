@@ -55,7 +55,7 @@ export function AvatarMenuButton({ session }: { session: Session }) {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <div className="flex items-center justify-between sm:justify-start space-x-3 pb-3 border-b">
+          <div className="flex items-center justify-start space-x-3 pb-3 border-b">
             <Avatar>
               <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
               <AvatarFallback>{initials}</AvatarFallback>

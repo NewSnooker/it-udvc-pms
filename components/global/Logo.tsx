@@ -1,8 +1,4 @@
-import {
-  AirVent,
-  AlignHorizontalJustifyEnd,
-  AlignStartHorizontal,
-} from "lucide-react";
+import { AlignHorizontalJustifyEnd } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 type LogoProps = {
@@ -12,10 +8,7 @@ type LogoProps = {
 };
 export default function Logo({ title, href, labelShown = true }: LogoProps) {
   return (
-    <Link
-      href={href}
-      className="-m-1.5 p-1.5 flex items-center space-x-2 dark:text-zinc-900"
-    >
+    <Link href={href} className="-m-1.5 p-1.5 flex items-center space-x-2">
       <span className="sr-only">{title}</span>
       {/* <img
         alt=""

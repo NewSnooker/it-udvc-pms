@@ -12,7 +12,7 @@ import {
   UserIcon,
   Users,
 } from "lucide-react";
-export const WEBSITE_NAME = "IT UDVC PMS";
+export const WEBSITE_NAME = "IT PMS";
 export const maxDepthFolder = 5;
 export const sidebarLinksAdmin = [
   {

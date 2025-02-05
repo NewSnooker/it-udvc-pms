@@ -4,19 +4,14 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
-import {
-  AlignHorizontalJustifyEnd,
-  Menu,
-  ExternalLink,
-  LogOut,
-} from "lucide-react";
+import { Menu, ExternalLink, LogOut } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { WEBSITE_NAME } from "@/constants";
 import { Session } from "next-auth";
-import { UserRole } from "@prisma/client";
 import { getSidebarLinkByRole } from "@/lib/getSidebarLinkByRole";
+import Logo from "@/components/global/Logo";
 
 interface MobileNavButtonProps {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -92,14 +87,7 @@ export default function MobileNavigation({ session }: { session: Session }) {
         </SheetTrigger>
         <SheetContent side="left" className="w-72 p-0">
           <div className="flex items-center border-b p-4">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 font-semibold"
-              onClick={() => handleNavigation("/dashboard")}
-            >
-              <AlignHorizontalJustifyEnd className="h-6 w-6" />
-              <span>{WEBSITE_NAME}</span>
-            </Link>
+            <Logo title={WEBSITE_NAME} href="/dashboard" />
           </div>
           <ScrollArea className="h-[calc(100vh-4rem)]">
             <div className="flex flex-col h-full p-4">

@@ -12,7 +12,9 @@ import { getInitials } from "@/lib/generateInitials";
 import { Session } from "next-auth";
 import Link from "next/link";
 import LogoutBtn from "@/components/global/LogoutBtn";
-import { UserRole } from "@prisma/client";
+import { User, UserRole } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { getUserById } from "@/actions/users";
 
 export default function AuthenticatedAvatar({
   session,
@@ -20,23 +22,28 @@ export default function AuthenticatedAvatar({
   session: Session | null;
 }) {
   const role = session?.user?.role;
+  const [user, setMe] = useState(session?.user || null);
+  useEffect(() => {
+    if (session?.user?.id) {
+      const handleUser = async () => {
+        const me = await getUserById(session.user.id);
+        setMe(me);
+      };
+      handleUser();
+    }
+  }, [session?.user?.id]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
         <Avatar>
-          <AvatarImage
-            src={session?.user.image ?? ""}
-            alt={session?.user.name ?? ""}
-          />
-          <AvatarFallback>{getInitials(session?.user?.name)}</AvatarFallback>
+          <AvatarImage src={user?.image ?? ""} alt={user?.name ?? ""} />
+          <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>
-          <p>{session?.user?.name}</p>
-          <p className=" text-xs text-muted-foreground">
-            {session?.user?.email}
-          </p>
+          <p>{user?.name}</p>
+          <p className=" text-xs text-muted-foreground">{user?.email}</p>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />

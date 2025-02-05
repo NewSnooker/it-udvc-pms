@@ -61,7 +61,6 @@ export default function HowItWorks() {
         <div className="pr-8 space-y-4 flex flex-col">
           {buttons.map((btn, i) => {
             const isLast = i === buttons.length - 1;
-            console.log(i, buttons.length);
             const isActive = activeBtn.step === btn.step;
             const Component = btn.content;
             return (

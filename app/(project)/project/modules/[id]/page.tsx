@@ -49,6 +49,7 @@ export default async function Page({
   if (!projectData) {
     return notFound();
   }
+
   const isGuest = projectData.guestProject
     ?.map((gp) => gp.guestId)
     .includes(session.user.id);

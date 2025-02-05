@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { AlignHorizontalJustifyEnd } from "lucide-react";
 
 import { WEBSITE_NAME } from "@/constants";
 import { ModeToggle } from "./mode-toggle";
+import Logo from "@/components/global/Logo";
 export default function PublicNavbar() {
   return (
     <header className="flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-4 lg:px-6">
@@ -80,10 +80,7 @@ export default function PublicNavbar() {
           </div>
         </SheetContent>
       </Sheet> */}
-      <Link href="/" className="flex items-center gap-2 font-semibold">
-        <AlignHorizontalJustifyEnd className="h-6 w-6" />
-        <span className="">{WEBSITE_NAME}</span>
-      </Link>
+      <Logo title={WEBSITE_NAME} href="/" />
       <ModeToggle />
     </header>
   );

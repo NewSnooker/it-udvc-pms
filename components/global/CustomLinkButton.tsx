@@ -9,12 +9,14 @@ type CustomLinkButton = {
 export function CustomLinkButton({ href, title }: CustomLinkButton) {
   return (
     <div>
-      <Button
-        borderRadius="1.75rem"
-        className="bg-white dark:bg-zinc-900 text-black dark:text-white border-neutral-200 dark:border-slate-800 px-6"
-      >
-        <Link href={href}>{title}</Link>
-      </Button>
+      <Link href={href}>
+        <Button
+          borderRadius="1.75rem"
+          className="bg-white dark:bg-zinc-900 text-black dark:text-white px-6"
+        >
+          {title}
+        </Button>
+      </Link>
     </div>
   );
 }
