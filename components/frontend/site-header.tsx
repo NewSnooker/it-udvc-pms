@@ -16,10 +16,9 @@ import { getUserById } from "@/actions/users";
 
 export default function SiteHeader({ session }: { session: Session | null }) {
   const navigation = [
-    { name: "หน้าหลัก", href: "/" },
-    { name: "เกี่ยวกับ", href: "/#about" },
-    { name: "วิธีใช้งาน", href: "/#docs" },
-    { name: "ติดต่อ", href: "/#contact" },
+    { name: "หน้าหลัก", href: "#" },
+    { name: "เกี่ยวกับ", href: "/#เกี่ยวกับ" },
+    { name: "ติดต่อ", href: "/#ติดต่อ" },
   ];
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (

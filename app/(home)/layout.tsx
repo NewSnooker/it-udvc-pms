@@ -10,8 +10,9 @@ export default async function HomeLayout({
   children: ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  const email = process.env.NODEMAILER_USER;
   return (
-    <div className="">
+    <div className="dark:bg-zinc-800">
       <SiteHeader session={session} />
       <div className="relative isolate px-6 lg:px-8">
         <div
@@ -27,7 +28,7 @@ export default async function HomeLayout({
           />
         </div>
         {children}
-        <Footer />
+        <Footer email={email as string} />
       </div>
     </div>
   );

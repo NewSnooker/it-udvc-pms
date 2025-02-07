@@ -1,9 +1,7 @@
 import ComparisonFeatures from "@/components/ComparisonFeatures";
-import { Testimonials } from "@/components/frontend/testimonials";
 import { AnimatedAvatars } from "@/components/global/avatar-circles";
 import { CustomLinkButton } from "@/components/global/CustomLinkButton";
 import StarRating from "@/components/global/StarRating";
-import HowItWorks from "@/components/HowItWorks";
 import { getUsersKit } from "@/actions/users";
 import { WEBSITE_NAME } from "@/constants";
 import { BorderBeam } from "@/components/magicui/border-beam";
@@ -20,7 +18,7 @@ export default async function Home() {
       <div className="mx-auto max-w-4xl py-5 sm:py-36 ">
         <div className=" text-center ">
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl pb-6 leading-normal">
-            จัดการโครงการ
+            จัดการโครงการ{" "}
             <span className="text-pink-600 dark:text-pink-500">ของคุณ</span>
             <br />
             ให้มีประสิทธิภาพยิ่งขึ้น
@@ -56,7 +54,7 @@ export default async function Home() {
       </div>
       <div
         className="mx-auto max-w-6xl py-8 sm:py-16 scroll-mt-10 sm:scroll-mt-20"
-        id="about"
+        id="เกี่ยวกับ"
       >
         <div className="">
           <ComparisonFeatures />
@@ -71,13 +69,6 @@ export default async function Home() {
               height={1109}
               className="w-full h-full rounded-lg object-cover  border"
             />
-          </div>
-        </div>
-
-        <div className="py-8 sm:py-16 scroll-mt-10 sm:scroll-mt-20" id="docs">
-          <HowItWorks />
-          <div className="pb-8">
-            <Testimonials />
           </div>
         </div>
       </div>
