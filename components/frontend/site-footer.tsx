@@ -6,6 +6,7 @@ import Logo from "../global/Logo";
 import { WEBSITE_NAME } from "@/constants";
 
 const Footer = ({ email }: { email: string }) => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   return (
     <footer className="bg-zinc-50 dark:bg-zinc-800 pt-16 pb-12" id="ติดต่อ">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +27,7 @@ const Footer = ({ email }: { email: string }) => {
               {["หน้าหลัก", "เกี่ยวกับ", "ติดต่อ"].map((item) => (
                 <li key={item}>
                   <a
-                    href={`#${item === "หน้าหลัก" ? "" : item}`}
+                    href={`${baseUrl}#${item === "หน้าหลัก" ? "" : item}`}
                     className=" text-zinc-600 hover:text-blue-600 transition-colors dark:text-zinc-400 dark:hover:text-blue-400"
                   >
                     {item}
