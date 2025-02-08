@@ -26,11 +26,6 @@ export const createColumns = (projectStatuses: {
     header: ({ column }) => <TitleColumn column={column} title="ชื่อโครงการ" />,
   },
   {
-    accessorKey: "budget",
-    header: ({ column }) => <TitleColumn column={column} title="งบประมาณ" />,
-    cell: ({ row }) => <NumberColumn row={row} accessorKey="budget" />,
-  },
-  {
     accessorKey: "startDate",
     header: ({ column }) => <TitleColumn column={column} title="วันที่เริ่ม" />,
     cell: ({ row }) => <DateColumn row={row} accessorKey="startDate" />,
@@ -42,7 +37,11 @@ export const createColumns = (projectStatuses: {
     ),
     cell: ({ row }) => <DateColumn row={row} accessorKey="endDate" />,
   },
-
+  {
+    accessorKey: "budget",
+    header: ({ column }) => <TitleColumn column={column} title="งบประมาณ" />,
+    cell: ({ row }) => <NumberColumn row={row} accessorKey="budget" />,
+  },
   {
     accessorKey: "isPublic",
     header: "แฟ้มผลงาน",
