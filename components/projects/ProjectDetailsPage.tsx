@@ -48,16 +48,17 @@ import CardUserDetail from "./CardUserDetail";
 import PublicProjectDomainsCard from "./PublicProjectDomainsCard";
 import { Progress } from "../ui/progress";
 import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
-import { getUserById } from "@/actions/users";
 
 export default function ProjectDetailsPage({
   projectData,
   existingUsers,
   session,
+  percentageCompletionProject,
 }: {
   projectData: ProjectData;
   existingUsers: ExistingUsers[];
   session: Session | null;
+  percentageCompletionProject: number;
 }) {
   const searchParams = useSearchParams();
   const user = session?.user;
@@ -280,9 +281,7 @@ export default function ProjectDetailsPage({
                 <Card className="sm:min-h-96">
                   <CardHeader>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
-                      <CardTitle className="mb-3 sm:mb-0">
-                        ฟีเจอร์โครงการ{" "}
-                      </CardTitle>
+                      <CardTitle className="mb-3 ">ฟีเจอร์โครงการ </CardTitle>
                       {isOwner && (
                         <ModuleForm
                           projectId={projectData.id}
@@ -290,6 +289,12 @@ export default function ProjectDetailsPage({
                           userName={user.name}
                         />
                       )}
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 sm:mt-0">
+                      <div className="flex items-center w-full col-span-full sm:col-span-2">
+                        <Progress value={percentageCompletionProject} />
+                        <span className="ml-4 text-xs text-muted-foreground">{`${percentageCompletionProject}%`}</span>
+                      </div>
                     </div>
                   </CardHeader>
 

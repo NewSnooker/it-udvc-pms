@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/constants";
 import { ExistingUsers } from "@/types/types";
 import ProjectDetailsPage from "@/components/projects/ProjectDetailsPage";
+import { getPercentageCompletionByProjectId } from "@/actions/module";
 
 export async function generateMetadata({
   params,
@@ -70,12 +71,15 @@ export default async function page({ params }: { params: { slug: string } }) {
   if (!session) {
     redirect(`/login?returnUrl=${returnUrl}`);
   }
+  const percentageCompletionProject: number =
+    (await getPercentageCompletionByProjectId(projectData.id)) ?? 0;
 
   return (
     <ProjectDetailsPage
       projectData={projectData}
       existingUsers={existingUsers as ExistingUsers[]}
       session={session}
+      percentageCompletionProject={percentageCompletionProject}
     />
   );
 }
