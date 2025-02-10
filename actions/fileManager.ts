@@ -16,7 +16,6 @@ export async function createDefaultFolderForUser(userId: string) {
       },
     });
     if (existingFolder) {
-      console.log("Root folder already exists for user:", userId);
       return;
     }
 
@@ -26,7 +25,6 @@ export async function createDefaultFolderForUser(userId: string) {
         userId: userId,
       },
     });
-    console.log("Root folder created for user:", userId);
 
     const documentsFolder = await db.folder.create({
       data: {
@@ -35,7 +33,6 @@ export async function createDefaultFolderForUser(userId: string) {
         parentFolderId: rootFolder.id,
       },
     });
-    console.log("Documents folder created under Root folder");
 
     const ProjectsFolder = await db.folder.create({
       data: {
