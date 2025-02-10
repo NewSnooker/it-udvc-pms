@@ -9,12 +9,25 @@ import { UTApi } from "uploadthing/server";
 // Create default folder
 export async function createDefaultFolderForUser(userId: string) {
   try {
+    const existingFolder = await db.folder.findFirst({
+      where: {
+        name: "Root",
+        userId: userId,
+      },
+    });
+    if (existingFolder) {
+      console.log("Root folder already exists for user:", userId);
+      return;
+    }
+
     const rootFolder = await db.folder.create({
       data: {
         name: "Root",
         userId: userId,
       },
     });
+    console.log("Root folder created for user:", userId);
+
     const documentsFolder = await db.folder.create({
       data: {
         name: "Documents",
@@ -22,6 +35,8 @@ export async function createDefaultFolderForUser(userId: string) {
         parentFolderId: rootFolder.id,
       },
     });
+    console.log("Documents folder created under Root folder");
+
     const ProjectsFolder = await db.folder.create({
       data: {
         name: "Projects",
@@ -29,7 +44,10 @@ export async function createDefaultFolderForUser(userId: string) {
         parentFolderId: rootFolder.id,
       },
     });
+
+    console.log("Projects folder created under Root folder");
     revalidatePath("/dashboard/file-manager");
+
     return;
   } catch (error) {
     console.log(error);

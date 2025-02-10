@@ -31,7 +31,7 @@ export function AvatarMenuButton({ session }: { session: Session }) {
     };
     handleUser();
   }, [session.user.id]);
-  const initials = getInitials(user.name);
+  const initials = getInitials(user?.name ?? "");
   const router = useRouter();
   const { theme } = useTheme();
   async function handleLogout() {
@@ -48,7 +48,7 @@ export function AvatarMenuButton({ session }: { session: Session }) {
       <SheetTrigger asChild>
         <div className="cursor-pointer">
           <Avatar>
-            <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
+            <AvatarImage src={user?.image ?? ""} alt={user?.name ?? ""} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
         </div>
@@ -57,15 +57,15 @@ export function AvatarMenuButton({ session }: { session: Session }) {
         <SheetHeader>
           <div className="flex items-center justify-start space-x-3 pb-3 border-b">
             <Avatar>
-              <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
+              <AvatarImage src={user?.image ?? ""} alt={user?.name ?? ""} />
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div className="text-left">
               <h2 className="scroll-m-20 text-sm sm:text-xl font-semibold ">
-                {user.name}
+                {user?.name}
               </h2>
               <p className=" text-muted-foreground text-xs sm:text-sm">
-                {user.email}
+                {user?.email}
               </p>
             </div>
           </div>

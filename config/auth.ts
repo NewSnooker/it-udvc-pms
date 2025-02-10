@@ -6,6 +6,8 @@ import type { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import { db } from "@/prisma/db";
+import { createDefaultFolderForUser } from "@/actions/fileManager";
+import { UserRole } from "@prisma/client";
 // more providers at https://next-auth.js.org/providers
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
@@ -126,6 +128,11 @@ export const authOptions: NextAuthOptions = {
         token.firstName = user.firstName;
         token.lastName = user.lastName;
         token.phone = user.phone;
+      }
+      // ถ้ายังไม่ได้สร้างโฟลเดอร์สำหรับ user, ทำการสร้างโฟลเดอร์
+      // เช็คว่า folder ถูกสร้างไปแล้วหรือยัง
+      if (token.role === UserRole.USER) {
+        await createDefaultFolderForUser(token.id);
       }
       return token;
     },

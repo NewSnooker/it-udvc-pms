@@ -25,7 +25,7 @@ export async function createUser(data: UserProps) {
     companyDescription,
   } = data;
   try {
-    // Hash the PAASWORD
+    // Hash the PASSWORD
     const hashedPassword = await bcrypt.hash(password, 10);
     const existingUser = await db.user.findUnique({
       where: {
@@ -56,9 +56,6 @@ export async function createUser(data: UserProps) {
         companyDescription,
       },
     });
-
-    // Create default folder
-    await createDefaultFolderForUser(newUser.id);
 
     revalidatePath("/dashboard/clients");
     revalidatePath("/dashboard/users");
