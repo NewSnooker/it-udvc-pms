@@ -80,7 +80,8 @@ export default function InviteMembers({
   const availableMembers = filteredMembers.filter(
     (member) =>
       !selectedMembers.some((selected) => selected.id === member.id) &&
-      !(membersProjectsId ?? []).includes(member.id)
+      !(membersProjectsId ?? []).includes(member.id) &&
+      member.id !== projectData.userId // กรองสมาชิกที่มี userId ตรงกับ projectData.userId
   );
   const resentMember = existingUsers.filter((user) =>
     membersProjectsId?.includes(user.id)
@@ -214,34 +215,38 @@ export default function InviteMembers({
                 </ScrollArea>
               )}
               <ScrollArea className="h-[200px] overflow-y-auto">
-                {availableMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-md cursor-pointer"
-                    onClick={() => toggleMemberSelection(member)}
-                  >
-                    <div className="flex items-center space-x-4">
-                      <Avatar>
-                        <AvatarImage
-                          src={member?.image ?? "/placeholder.svg"}
-                          alt={member.name}
-                        />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-sm font-medium leading-none">
-                          {member.name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {member.email}
-                        </p>
+                {availableMembers.map((member) => {
+                  return (
+                    <div
+                      key={member.id}
+                      className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-md cursor-pointer"
+                      onClick={() => toggleMemberSelection(member)}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <Avatar>
+                          <AvatarImage
+                            src={member?.image ?? "/placeholder.svg"}
+                            alt={member.name}
+                          />
+                          <AvatarFallback>
+                            {member.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-medium leading-none">
+                            {member.name}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {member.email}
+                          </p>
+                        </div>
                       </div>
+                      {selectedMembers.some((m) => m.id === member.id) && (
+                        <CheckCircle2 className="h-5 w-5 text-primary" />
+                      )}
                     </div>
-                    {selectedMembers.some((m) => m.id === member.id) && (
-                      <CheckCircle2 className="h-5 w-5 text-primary" />
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </ScrollArea>
             </div>
             <Button
