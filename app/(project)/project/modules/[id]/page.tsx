@@ -15,6 +15,7 @@ import { getProjectAndGuestByModuleId } from "@/actions/guestProject";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { calculatePercentageCompletion } from "@/lib/calculatePercentageCompletionTask";
+import { getEmailById } from "@/actions/users";
 export const metadata = {
   title: "ฟีเจอร์โครงการ",
 };
@@ -49,6 +50,7 @@ export default async function Page({
   if (!projectData) {
     return notFound();
   }
+  const emailClient = await getEmailById(projectData.clientId);
 
   const isGuest = projectData.guestProject
     ?.map((gp) => gp.guestId)
@@ -171,6 +173,7 @@ export default async function Page({
               isOwner={isOwner}
               isGuest={isGuest}
               isClient={isClient}
+              emailClient={emailClient as string}
             />
           </div>
         </div>

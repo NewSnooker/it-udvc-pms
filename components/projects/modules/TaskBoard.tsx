@@ -20,6 +20,7 @@ interface TaskBoardProps {
   isOwner: boolean;
   isGuest: boolean;
   isClient: boolean;
+  emailClient: string;
 }
 
 export default function TaskBoard({
@@ -28,6 +29,7 @@ export default function TaskBoard({
   isOwner,
   isGuest,
   isClient,
+  emailClient,
 }: TaskBoardProps) {
   const confettiRef = useRef<ConfettiRef>(null);
   const [module, setModule] = useState<ModuleData>(activeModule);
@@ -124,6 +126,20 @@ export default function TaskBoard({
               <Link
                 href={`/dashboard/emails?mail=${activeModule.user?.email}&role=owner`}
               >
+                ติดต่อ
+              </Link>{" "}
+            </ToastAction>
+          ),
+        });
+      }
+      if (isOwner) {
+        toast({
+          title: "งานเสร็จสิ้นหมดแล้ว✨🎊",
+          description: `งานของคุณเสร็จสิ้นหมดแล้วแล้ว\n (${activeModule.name}) \nคุณสามารถติดต่อกับลูกค้าของคุณได้ที่นี่`,
+          action: (
+            <ToastAction altText="ติดต่อ">
+              <MailIcon className="mr-1.5 h-4 w-4" />
+              <Link href={`/dashboard/emails?mail=${emailClient}&role=client`}>
                 ติดต่อ
               </Link>{" "}
             </ToastAction>

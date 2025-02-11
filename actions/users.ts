@@ -130,6 +130,22 @@ export async function getUsersKit() {
     console.log(error);
   }
 }
+export async function getEmailById(id: string) {
+  try {
+    const email = await db.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        email: true,
+      },
+    });
+
+    return email?.email;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function updateUserById(id: string, data: UserProps) {
   try {
     const existingUser = await db.user.findUnique({

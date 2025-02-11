@@ -482,7 +482,11 @@ export default function ProjectDetailsPage({
                                 {comment.userName}{" "}
                                 {comment.userId === user.id
                                   ? "(ฉัน)"
-                                  : comment.userRole}
+                                  : projectData.user?.id === comment.userId
+                                  ? "(เจ้าของโครงการ)"
+                                  : projectData.clientId === comment.userId
+                                  ? "(ลูกค้า)"
+                                  : "(สมาชิก)"}
                               </p>
                               {comment.userId === user.id && (
                                 <CommentForm

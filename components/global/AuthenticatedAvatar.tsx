@@ -47,11 +47,9 @@ export default function AuthenticatedAvatar({
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
-        {role === UserRole.USER && (
-          <DropdownMenuItem>
-            <Link href="/dashboard">แดชบอร์ด</Link>
-          </DropdownMenuItem>
-        )}
+        <DropdownMenuItem>
+          <Link href="/dashboard">แดชบอร์ด</Link>
+        </DropdownMenuItem>
 
         <DropdownMenuItem>
           <LogoutBtn />
