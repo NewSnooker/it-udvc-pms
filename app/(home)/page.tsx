@@ -17,11 +17,20 @@ export default async function Home() {
     <main className="min-h-screen">
       <div className="mx-auto max-w-4xl py-5 sm:py-36 ">
         <div className=" text-center ">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl pb-6 leading-normal">
+          <h1 className="hidden sm:block text-4xl font-bold tracking-tight sm:text-6xl pb-6 leading-normal">
             จัดการโครงการ{" "}
             <span className="text-pink-600 dark:text-pink-500">ของคุณ</span>
             <br />
             ให้มีประสิทธิภาพยิ่งขึ้น
+          </h1>
+          <h1 className="sm:hidden text-4xl font-bold tracking-tight sm:text-6xl pb-6 leading-normal">
+            จัดการโครงการ
+            <br />
+            <span className="text-pink-600 dark:text-pink-500">ของคุณ</span>
+            <br />
+            ให้มีประสิทธิภาพ
+            <br />
+            ยิ่งขึ้น
           </h1>
           <p className="text-sm sm:text-lg text-muted-foreground pb-6">
             ระบบ {WEBSITE_NAME} สำหรับผู้จัดการโครงการที่ช่วยให้คุณติดตามงาน
