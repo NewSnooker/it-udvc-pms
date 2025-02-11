@@ -61,6 +61,7 @@ model User {
   emailVerified        DateTime?
   image                String?
   userLogo             String?
+  qrCodeUrl            String?
   role                 UserRole          @default(USER)
   location             String?
   password             String?
@@ -229,6 +230,7 @@ model Payment {
   title         String
   amount        Float
   tax           Float
+  qrCodeUrl     String?
   date          DateTime @default(now())
   invoiceNumber String   @unique
   method        String

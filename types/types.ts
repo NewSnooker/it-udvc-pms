@@ -28,6 +28,7 @@ export type UserProps = {
   location: string;
   companyName: string;
   companyDescription: string;
+  qrCodeUrl: string | undefined;
 };
 export type ProjectProps = {
   name: string;
@@ -204,6 +205,7 @@ export type Invoice = {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  qrCodeUrl?: string;
 };
 export type Payment = {
   title: string;
@@ -227,6 +229,7 @@ export type PaymentProps = {
   projectId: string;
   userId: string;
   clientId: string;
+  qrCodeUrl: string;
 };
 export type CommentProps = {
   content: string;

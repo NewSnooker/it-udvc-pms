@@ -1,5 +1,5 @@
 import { getProjectDetailBySlug } from "@/actions/projects";
-import { getExistingUsers } from "@/actions/users";
+import { getExistingUsers, getInitialQrCode } from "@/actions/users";
 import { authOptions } from "@/config/auth";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
@@ -58,7 +58,6 @@ export async function generateMetadata({
 export default async function page({ params }: { params: { slug: string } }) {
   const projectData = await getProjectDetailBySlug(params.slug);
   const existingUsers = await getExistingUsers();
-
   if (!existingUsers) {
     return notFound();
   }
@@ -73,13 +72,14 @@ export default async function page({ params }: { params: { slug: string } }) {
   }
   const percentageCompletionProject: number =
     (await getPercentageCompletionByProjectId(projectData.id)) ?? 0;
-
+  const initialQrCode: string = (await getInitialQrCode(session.user.id)) ?? "";
   return (
     <ProjectDetailsPage
       projectData={projectData}
       existingUsers={existingUsers as ExistingUsers[]}
       session={session}
       percentageCompletionProject={percentageCompletionProject}
+      initialQrCode={initialQrCode}
     />
   );
 }

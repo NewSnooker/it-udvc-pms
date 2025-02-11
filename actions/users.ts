@@ -9,6 +9,7 @@ import { compare } from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { createDefaultFolderForUser } from "./fileManager";
 import { ResetPasswordProps } from "@/components/ResetPasswordForm";
+import { MdOutlineSignalCellularNull } from "react-icons/md";
 export async function createUser(data: UserProps) {
   const {
     email,
@@ -142,6 +143,27 @@ export async function getEmailById(id: string) {
     });
 
     return email?.email;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getInitialQrCode(id: string) {
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        qrCodeUrl: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const qrCode = user.qrCodeUrl ?? null;
+    return qrCode;
   } catch (error) {
     console.log(error);
   }

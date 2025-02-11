@@ -11,6 +11,7 @@ export async function createComment(data: CommentProps) {
     });
     // console.log(newCategory);
     revalidatePath("/dashboard/projects");
+    revalidatePath("/projects/[slug]", "page");
     return newComment;
   } catch (error) {
     console.log(error);
@@ -26,6 +27,8 @@ export async function updateCommentById(id: string, data: CommentProps) {
       data,
     });
     revalidatePath("/dashboard/projects");
+    revalidatePath("/projects/[slug]", "page");
+
     return updatedComment;
   } catch (error) {
     console.log(error);

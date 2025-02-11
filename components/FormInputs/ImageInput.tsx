@@ -3,25 +3,43 @@ import { UploadButton } from "@/lib/uploadthing";
 // import { UploadButton } from "@/lib/uploadthing";
 import Image, { StaticImageData } from "next/image";
 import React from "react";
+import { Button } from "../ui/button";
+import { Trash } from "lucide-react";
 type ImageInputProps = {
   title: string;
   imageUrl: string;
   setImageUrl: any;
   endpoint: any;
+  removeImage?: boolean;
 };
 export default function ImageInput({
   title,
   imageUrl,
   setImageUrl,
   endpoint,
+  removeImage,
 }: ImageInputProps) {
   return (
     <Card className="overflow-hidden">
-      <CardHeader>
+      <CardHeader
+        className={`flex flex-row items-center justify-between ${
+          removeImage ? " py-2 px-6" : ""
+        }`}
+      >
         <CardTitle>{title}</CardTitle>
+        {removeImage && (
+          <Button
+            variant="destructive"
+            size={"icon"}
+            type="button"
+            onClick={() => setImageUrl("")}
+          >
+            <Trash className="h-4 w-4 " />
+          </Button>
+        )}
       </CardHeader>
       <CardContent>
-        <div className="grid gap-2">
+        <div className="grid gap-3 p-0">
           <div className="border border-zinc-300 p-1 rounded-md">
             <Image
               alt={title}

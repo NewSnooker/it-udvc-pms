@@ -24,9 +24,7 @@ export async function generateMetadata({
     return notFound();
   }
 
-  const title = `ใบเเจ้งหนี้ ${
-    invoiceDetails?.client?.name.split(" ")[0]
-  } | ${WEBSITE_NAME}`;
+  const title = `ใบเเจ้งหนี้ #${invoiceDetails?.invoice.invoiceNumber} | ${WEBSITE_NAME}`;
   const description = `แสดงรายละเอียดใบเเจ้งหนี้ของคุณ ${
     invoiceDetails?.client?.name
   } ในวันที่ ${invoiceDetails.invoice.date

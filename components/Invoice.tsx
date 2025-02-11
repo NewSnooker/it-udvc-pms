@@ -252,6 +252,16 @@ export default function Invoice({
                   </div>
                 </li>
               </ul>
+              {invoiceDetails?.invoice?.qrCodeUrl && (
+                <div className="border border-t mt-3 flex items-center justify-center rounded-md">
+                  <Image
+                    width={350}
+                    height={350}
+                    src={invoiceDetails?.invoice?.qrCodeUrl}
+                    alt="qrCode"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="mt-5 sm:mt-10">

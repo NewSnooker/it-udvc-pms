@@ -49,10 +49,13 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
 
   const [loading, setLoading] = useState(false);
   const initialImage = initialData?.userLogo || "/thumbnail.png";
+  const initialQrCode = initialData?.qrCodeUrl || "/thumbnail.png";
   const [imageUrl, setImageUrl] = useState(initialImage);
+  const [qrCodeUrl, setQrCodeUrl] = useState(initialQrCode);
   async function onSubmit(data: UserProps) {
     setLoading(true);
     data.userLogo = imageUrl;
+    data.qrCodeUrl = qrCodeUrl;
     try {
       if (editingId) {
         const res = await updateUserById(editingId, data);
@@ -139,6 +142,12 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
               endpoint="userLogo"
+            />
+            <ImageInput
+              title="คิวอาร์โค้ด"
+              imageUrl={qrCodeUrl}
+              setImageUrl={setQrCodeUrl}
+              endpoint="QrCode"
             />
           </div>
         </div>

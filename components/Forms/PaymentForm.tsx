@@ -29,17 +29,20 @@ import { convertIsoDateToNormal } from "@/lib/convertIsoDateToNormal";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { convertDateToIso } from "@/lib/convertDateToIso";
+import ImageInput from "../FormInputs/ImageInput";
 
 export default function PaymentForm({
   projectId,
   userId,
   clientId,
   remainingAmount,
+  initialQrCode,
 }: {
   projectId: string;
   userId: string;
   clientId: string;
   remainingAmount: number;
+  initialQrCode: string;
 }) {
   const {
     register,
@@ -54,10 +57,12 @@ export default function PaymentForm({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState(initialQrCode);
 
   async function savePayment(data: PaymentProps) {
     data.invoiceNumber = generateInvoiceNumber();
     data.userId = userId;
+    data.qrCodeUrl = qrCodeUrl;
     data.clientId = clientId;
     data.projectId = projectId;
     const subTotal = Number(data.amount);
@@ -90,37 +95,37 @@ export default function PaymentForm({
         <DialogHeader>
           <DialogTitle>เพิ่มการชำระเงิน</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          <span className="flex items-center ">
-            {remainingAmount < 0 ? (
-              <div className="">
-                <span>จำนวนงบประมาน เกินงบประมาน:</span>
-                <span className="ml-2 ">
-                  <span className="font-bold text-red-500">
-                    {Math.abs(remainingAmount).toLocaleString()}
-                  </span>{" "}
-                  บาท
-                </span>
-              </div>
-            ) : (
-              <div className="">
-                <span>จำนวนงบประมาน คงเหลือ:</span>
-                <span className="ml-2 ">
-                  <span className="font-bold text-yellow-500">
-                    {remainingAmount.toLocaleString()}
-                  </span>{" "}
-                  บาท
-                </span>
-              </div>
-            )}
-          </span>
-        </DialogDescription>
+        {/* <DialogDescription> */}
+        <span className="flex items-center ">
+          {remainingAmount < 0 ? (
+            <div className="">
+              <span>จำนวนงบประมาน เกินงบประมาน:</span>
+              <span className="ml-2 ">
+                <span className="font-bold text-red-500">
+                  {Math.abs(remainingAmount).toLocaleString()}
+                </span>{" "}
+                บาท
+              </span>
+            </div>
+          ) : (
+            <div className="">
+              <span>จำนวนงบประมาน คงเหลือ:</span>
+              <span className="ml-2 ">
+                <span className="font-bold text-yellow-600">
+                  {remainingAmount.toLocaleString()}
+                </span>{" "}
+                บาท
+              </span>
+            </div>
+          )}
+        </span>
+        {/* </DialogDescription> */}
         <form onSubmit={handleSubmit(savePayment)}>
           <div className="grid gap-2">
             <Card className="py-2 border-none">
               <CardContent>
                 <div className="grid gap-6">
-                  <div className="grid gap-3">
+                  <div className="grid gap-1">
                     <TextInput
                       register={register}
                       errors={errors}
@@ -167,6 +172,13 @@ export default function PaymentForm({
                         placeholder="กรอกช่องทางการชำระเงิน"
                       />
                     </div>
+                    <ImageInput
+                      title="คิวอาร์โค้ด"
+                      imageUrl={qrCodeUrl}
+                      setImageUrl={setQrCodeUrl}
+                      endpoint="QrCode"
+                      removeImage={true}
+                    />
                     <SubmitButton
                       title="เพิ่มการชำระเงิน"
                       loading={loading}

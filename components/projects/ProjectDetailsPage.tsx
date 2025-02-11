@@ -54,11 +54,13 @@ export default function ProjectDetailsPage({
   existingUsers,
   session,
   percentageCompletionProject,
+  initialQrCode,
 }: {
   projectData: ProjectData;
   existingUsers: ExistingUsers[];
   session: Session | null;
   percentageCompletionProject: number;
+  initialQrCode: string;
 }) {
   const searchParams = useSearchParams();
   const user = session?.user;
@@ -551,6 +553,7 @@ export default function ProjectDetailsPage({
                           userId={projectData.userId ?? ""}
                           clientId={projectData.clientId ?? ""}
                           remainingAmount={remainingAmount}
+                          initialQrCode={initialQrCode}
                         />
                       )}
                     </div>

@@ -40,6 +40,7 @@ Table User {
   emailVerified DateTime
   image String
   userLogo String
+  qrCodeUrl String
   role UserRole [not null, default: 'USER']
   location String
   password String
@@ -199,6 +200,7 @@ Table Payment {
   title String [not null]
   amount Float [not null]
   tax Float [not null]
+  qrCodeUrl String
   date DateTime [default: `now()`, not null]
   invoiceNumber String [unique, not null]
   method String [not null]
