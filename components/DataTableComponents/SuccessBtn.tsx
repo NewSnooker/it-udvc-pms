@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { updateProjectSuccessStatusById } from "@/actions/projects";
-import React, { useState, useCallback } from "react";
-import toast from "react-hot-toast";
+import React, { useState, useCallback, useEffect } from "react";
+import toasts from "react-hot-toast";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
-import { Check, Loader } from "lucide-react";
+import { Check, Loader, MailIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   AlertDialog,
@@ -17,15 +18,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "../ui/toast";
+import Link from "next/link";
+import { getEmailById } from "@/actions/users";
+import { Project } from "@prisma/client";
 
 interface SuccessBtnProps {
-  id: string;
+  project: Project;
   status: boolean;
   onStatusChange: (newStatus: boolean) => void; // เพิ่ม prop นี้
 }
 
 export default function SuccessBtn({
-  id,
+  project,
   status,
   onStatusChange,
 }: SuccessBtnProps) {
@@ -33,6 +39,19 @@ export default function SuccessBtn({
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingStatus, setPendingStatus] = useState(status);
+  const [emailClient, setEmailClient] = useState("");
+  const { toast } = useToast();
+
+  const id = project.id;
+
+  const getEmail = async () => {
+    const email = (await getEmailById(project.clientId)) || "";
+    setEmailClient(email);
+  };
+
+  useEffect(() => {
+    getEmail();
+  }, []);
 
   const handleToggle = useCallback(async () => {
     const newStatus = !isSuccess;
@@ -49,20 +68,46 @@ export default function SuccessBtn({
 
       if (res.ok) {
         setIsSuccess(pendingStatus);
-        onStatusChange(pendingStatus); // อัปเดตผ่าน callback
-        toast.success("โครงการอัปเดตสถานะสำเร็จ!");
+        onStatusChange(pendingStatus);
+        toasts.success("โครงการอัปเดตสถานะสำเร็จ!");
+        {
+          !isSuccess &&
+            toast({
+              title: "โครงการเสร็จสิ้นแล้ว✨🎊",
+              description: `โครงการของคุณเสร็จสิ้นแล้ว\n (${project.name}) \nคุณสามารถติดต่อกับลูกค้าของคุณได้ที่นี่`,
+              action: (
+                <ToastAction altText="ติดต่อ">
+                  <MailIcon className="mr-1.5 h-4 w-4" />
+                  <Link
+                    href={`/dashboard/emails?mail=${emailClient}&role=client`}
+                  >
+                    ติดต่อ
+                  </Link>{" "}
+                </ToastAction>
+              ),
+            });
+        }
       } else {
         throw new Error("Update failed");
       }
     } catch (error) {
       console.error("Error updating project success status:", error);
       setPendingStatus(isSuccess);
-      toast.error("ไม่สามารถอัปเดตสถานะโครงการได้");
+      toasts.error("ไม่สามารถอัปเดตสถานะโครงการได้");
     } finally {
       setIsLoading(false);
       setIsDialogOpen(false);
     }
-  }, [isLoading, id, pendingStatus, isSuccess, onStatusChange]);
+  }, [
+    isLoading,
+    id,
+    pendingStatus,
+    onStatusChange,
+    isSuccess,
+    toast,
+    project.name,
+    emailClient,
+  ]);
 
   return (
     <div className="flex items-center space-x-2">

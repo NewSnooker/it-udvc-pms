@@ -69,7 +69,7 @@ export const createColumns = (projectStatuses: {
       const statusHandler = projectStatuses[project.id];
       return (
         <SuccessBtn
-          id={project.id}
+          project={project}
           status={statusHandler.status}
           onStatusChange={statusHandler.setStatus}
         />
