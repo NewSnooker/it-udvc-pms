@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ProjectData } from "@/types/types";
+import Link from "next/link";
 
 export default function PublicProjectDomainsCard({
   projectData,
@@ -20,9 +21,12 @@ export default function PublicProjectDomainsCard({
               <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                 Free Domain
               </p>
-              <p className="text-sm sm:text-lg font-semibold truncate max-w-[250px]">
+              <Link
+                href={projectData.freeDomain ?? ""}
+                className="text-sm font-semibold truncate max-w-[250px]"
+              >
                 {projectData.freeDomain} {projectData.freeDomain ? "✅" : "❌"}
-              </p>
+              </Link>
             </div>
           </div>
 
@@ -32,10 +36,13 @@ export default function PublicProjectDomainsCard({
               <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                 Custom Domain
               </p>
-              <p className="text-sm sm:text-lg font-semibold truncate max-w-[250px]">
+              <Link
+                href={projectData.customDomain ?? ""}
+                className="text-sm font-semibold truncate max-w-[250px]"
+              >
                 {projectData.customDomain}
                 {projectData.customDomain ? "✅" : "❌"}
-              </p>
+              </Link>
             </div>
           </div>
         </div>

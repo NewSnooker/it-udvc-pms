@@ -7,6 +7,7 @@ import { Edit2, X } from "lucide-react";
 import { ProjectData } from "@/types/types";
 import FreeDomainForm from "../Forms/FreeDomainForm";
 import CustomDomainForm from "../Forms/CustomDomainForm";
+import Link from "next/link";
 
 export default function ProjectDomainsCard({
   projectData,
@@ -37,9 +38,12 @@ export default function ProjectDomainsCard({
                 <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                   Free Domain
                 </p>
-                <p className="text-sm sm:text-lg font-semibold truncate max-w-[250px]">
+                <Link
+                  href={projectData.freeDomain ?? ""}
+                  className="text-sm font-semibold truncate max-w-[250px]"
+                >
                   {projectData.freeDomain}
-                </p>
+                </Link>
               </div>
             )}
             <Button
@@ -72,9 +76,12 @@ export default function ProjectDomainsCard({
                 <p className="text-xs sm:text-sm font-medium text-muted-foreground">
                   Custom Domain
                 </p>
-                <p className="text-sm sm:text-lg font-semibold truncate max-w-[250px]">
+                <Link
+                  href={projectData.customDomain ?? ""}
+                  className="text-sm font-semibold truncate max-w-[250px]"
+                >
                   {projectData.customDomain}
-                </p>
+                </Link>
               </div>
             )}
             <Button
