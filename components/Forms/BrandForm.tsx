@@ -86,26 +86,6 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
               <CardTitle>ตั้งค่าบริษัท</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <TextInput
-                  type="email"
-                  register={register}
-                  errors={errors}
-                  label="อีเมล"
-                  name="email"
-                  icon={Mail}
-                  placeholder="กรอกอีเมล"
-                />
-
-                <TextInput
-                  register={register}
-                  errors={errors}
-                  label="เบอร์โทรศัพท์"
-                  name="phone"
-                  icon={Headset}
-                  placeholder="กรอกเบอร์โทร"
-                />
-              </div>
               <div className="space-y-4">
                 <TextInput
                   register={register}
