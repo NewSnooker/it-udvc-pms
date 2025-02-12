@@ -39,8 +39,6 @@ export default function BrandForm({ editingId, initialData }: BrandFormProps) {
     formState: { errors },
   } = useForm<UserProps>({
     defaultValues: {
-      phone: initialData?.phone || "",
-      email: initialData?.email || "",
       location: initialData?.location || "",
       companyName: initialData?.companyName || "",
       companyDescription: initialData?.companyDescription || "",
