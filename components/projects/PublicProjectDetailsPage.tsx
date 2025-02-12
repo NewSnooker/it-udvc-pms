@@ -35,7 +35,6 @@ export default function PublicProjectDetailsPage({
   const tabs = [
     { value: "modules", label: "ฟังค์ชั่นโครงการ" },
     { value: "notes", label: "โน๊ต" },
-    { value: "comments", label: "คอมเมนต์" },
   ];
   useEffect(() => {
     // ตรวจสอบค่าจาก URL หรือพารามิเตอร์ query
@@ -202,59 +201,6 @@ export default function PublicProjectDetailsPage({
                         <p className="text-lg text-muted-foreground mt-4 mb-6">
                           ไม่พบโน๊ต
                         </p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </TabsContent>
-              <TabsContent value="comments">
-                {/* Comments */}
-                <Card className="sm:min-h-96">
-                  <CardHeader>
-                    <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
-                      <CardTitle className="mb-3 sm:mb-0">คอมเมนต์ </CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {projectData.comments?.length > 0 ? (
-                      projectData.comments?.map((comment, index) => (
-                        <div
-                          className="flex flex-col items-start py-2 w-full"
-                          key={index}
-                        >
-                          <div className="flex items-center gap-2 w-full">
-                            <Avatar>
-                              <AvatarFallback>
-                                {getInitials(comment.userName)}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex justify-between items-center w-full">
-                              <p className="font-semibold text-sm sm:text-base">
-                                {comment.userName}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="prose dark:prose-invert w-full m-0 sm:ml-12">
-                            {parse(
-                              `<div className="max-w-full break-words my-0">${comment.content}</div>`
-                            )}
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="h-48">
-                        <div className="w-full col-span-full flex flex-col items-center ">
-                          <Image
-                            src={noSpeak}
-                            alt="empty"
-                            height={224}
-                            width={224}
-                            className="h-24 w-24 object-cover "
-                          />
-                          <p className="text-lg text-muted-foreground mt-4 mb-6">
-                            ไม่พบคอมเมนต์
-                          </p>
-                        </div>
                       </div>
                     )}
                   </CardContent>
