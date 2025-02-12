@@ -56,16 +56,6 @@ export const sidebarLinksAdmin = [
     ],
   },
   {
-    title: "การเงิน",
-    link: [
-      {
-        title: "การชำระเงิน",
-        href: "/dashboard/payments",
-        icon: Handshake,
-      },
-    ],
-  },
-  {
     title: "การติดต่อ",
     link: [
       {
@@ -87,6 +77,16 @@ export const sidebarLinksAdmin = [
         title: "Portfolio",
         href: "/dashboard/portfolio",
         icon: FolderOpen,
+      },
+    ],
+  },
+  {
+    title: "การเงิน",
+    link: [
+      {
+        title: "การชำระเงิน",
+        href: "/dashboard/payments",
+        icon: Handshake,
       },
     ],
   },
