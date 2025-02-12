@@ -23,7 +23,7 @@ export default function PublicProjectDomainsCard({
               </p>
               <Link
                 href={projectData.freeDomain ?? ""}
-                className="text-sm font-semibold truncate max-w-[250px]"
+                className="text-sm text-blue-500 underline hover:text-blue-600 font-semibold truncate max-w-[250px]"
               >
                 {projectData.freeDomain} {projectData.freeDomain ? "✅" : "❌"}
               </Link>
@@ -38,7 +38,7 @@ export default function PublicProjectDomainsCard({
               </p>
               <Link
                 href={projectData.customDomain ?? ""}
-                className="text-sm font-semibold truncate max-w-[250px]"
+                className="text-sm text-blue-500 underline hover:text-blue-600 font-semibold truncate max-w-[250px]"
               >
                 {projectData.customDomain}
                 {projectData.customDomain ? "✅" : "❌"}
