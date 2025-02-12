@@ -169,7 +169,7 @@ export default function ProjectDetailsPage({
 
   return (
     <div className=" bg-zinc-100 dark:bg-zinc-950">
-      <div className="container mx-auto pt-4 pb-10 space-y-6">
+      <div className="container px-4 mx-auto pt-4 pb-10 space-y-6">
         <div className="mb-4 flex items-center justify-between w-full">
           <div className="flex items-center w-full justify-between sm:justify-start">
             <Avatar>
