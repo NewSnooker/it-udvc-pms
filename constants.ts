@@ -91,13 +91,8 @@ export const sidebarLinksAdmin = [
     ],
   },
   {
-    title: "บริษัท",
+    title: "ไฟล์",
     link: [
-      {
-        title: "ตั้งค่าบริษัท",
-        href: "/dashboard/brand-settings",
-        icon: Building2,
-      },
       {
         title: "จัดการไฟล์",
         href: "/dashboard/file-manager",
@@ -109,14 +104,19 @@ export const sidebarLinksAdmin = [
     title: "ตั้งค่า",
     link: [
       {
-        title: "เปลี่ยนรหัสผ่าน",
-        href: "/change-password",
-        icon: Lock,
-      },
-      {
         title: "บัญชีผู้ใช้",
         href: "/account",
         icon: UserIcon,
+      },
+      {
+        title: "ตั้งค่าบริษัท",
+        href: "/dashboard/brand-settings",
+        icon: Building2,
+      },
+      {
+        title: "เปลี่ยนรหัสผ่าน",
+        href: "/change-password",
+        icon: Lock,
       },
     ],
   },
